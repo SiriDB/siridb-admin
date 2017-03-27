@@ -1,0 +1,29 @@
+{
+  "name": "SiriDB-Admin",
+  "version": "1.0.0",
+  "description": "SiriDB Admin",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jeroen van der Heijden",
+  "dependencies": {
+    "babel-core": ">=6.23.1",
+    "babel-loader": ">=6.4.0",
+    "babel-preset-es2015": ">=6.22.0",
+    "babel-preset-react": ">=6.23.0",
+    "es6-mixins": ">=1.0.2",
+    "history": ">=4.6.0",
+    "react": ">=15.4.2",
+    "react-bootstrap": ">=0.30.8",
+    "react-dom": ">=15.4.2",
+    "react-router": ">=3.0.2",
+    "react-addons-css-transition-group": ">=15.4.2",
+    "reflux-edge": ">=0.5.0",
+    "webpack": ">=2.2.0"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-class-properties": ">=6.23.0"
+  }
+}
