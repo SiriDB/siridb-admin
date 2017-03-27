@@ -9,7 +9,7 @@ import (
 )
 
 func handlerMain(w http.ResponseWriter, r *http.Request) {
-	handleFileRequest(w, "./build/index.html")
+	handleFileRequest(w, "./src/index.html")
 }
 
 func handlerJsBundle(w http.ResponseWriter, r *http.Request) {
@@ -17,7 +17,7 @@ func handlerJsBundle(w http.ResponseWriter, r *http.Request) {
 }
 
 func handlerFaviconIco(w http.ResponseWriter, r *http.Request) {
-	handleFileRequest(w, "./build/favicon.ico")
+	handleFileRequest(w, "./src/favicon.ico")
 }
 
 func handleFileRequest(w http.ResponseWriter, fn string) {

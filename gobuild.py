@@ -27,9 +27,5 @@ def compile(fn, variable):
         ))
 
 if __name__ == '__main__':
-
-    # copy favicon.ico
-    shutil.copyfile('src/favicon.ico', 'build/favicon.ico')
-
     for bf in binfiles:
         compile(*bf)
