@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 
@@ -21,6 +23,7 @@ var (
 	xAccount  = xApp.Flag("user", "Account name for connecting to the SiriDB server.").Short('u').Required().String()
 	xPassword = xApp.Flag("password", "Password for your account.").Short('p').String()
 	xServer   = xApp.Flag("server", "Server address[:port] for the SiriDB server.").Short('s').Default("localhost:9000").String()
+	xHTTP     = xApp.Flag("http", "Start a webserver running a website for managing SiriDB.").Bool()
 	xVerbose  = xApp.Flag("verbose", "Enable verbose logging.").Bool()
 	xVersion  = xApp.Flag("version", "Print version information and exit.").Bool()
 
@@ -54,6 +57,7 @@ var (
 	xNpDatabase = xNewPool.Flag("dbname", "Database name where you want to add the new pool to.").Short('d').Required().String()
 	xNpUser     = xNewPool.Flag("database-user", "User with full privileges to the database.").Short('U').Required().String()
 	xNpPassword = xNewPool.Flag("database-password", "Password for the database user.").Short('P').Required().String()
+	xNpForce    = xNewPool.Flag("force", "Suppress warning message.").Short('f').Bool()
 
 	xNewReplica = xApp.Command("new-replica", "Expand a SiriDB database with a new pool.")
 	xNrServer   = xNewReplica.Flag("address", "SiriDB server address[:port]. Can be any server from the database you want to add a new replica to.").Short('a').Required().String()
@@ -61,9 +65,31 @@ var (
 	xNrUser     = xNewReplica.Flag("database-user", "User with full privileges to the database.").Short('U').Required().String()
 	xNrPassword = xNewReplica.Flag("database-password", "Password for the database user.").Short('P').Required().String()
 	xNrPool     = xNewReplica.Flag("pool", "Pool number which you want to create the replica for.").Short('o').Required().Int()
+	xNrForce    = xNewReplica.Flag("force", "Suppress warning message.").Short('f').Bool()
 )
 
 const invalidServerAddress = "invalid server address: %s (valid examples: myserver.local, myserver.local:9000, ::1, [::1]:9000, etc...)\n"
+
+func askForConfirmation(s string) bool {
+	reader := bufio.NewReader(os.Stdin)
+
+	for {
+		fmt.Printf("%s [y/n]: ", s)
+
+		response, err := reader.ReadString('\n')
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		response = strings.ToLower(strings.TrimSpace(response))
+
+		if response == "y" || response == "yes" {
+			return true
+		} else if response == "n" || response == "no" {
+			return false
+		}
+	}
+}
 
 func getpass() string {
 	var pass []byte
@@ -121,10 +147,16 @@ func newDatabase(conn *siridb.Connection) error {
 }
 
 func newPool(conn *siridb.Connection) error {
-
 	server, port, err := getHostAndPort(*xNpServer)
 	if err != nil {
 		return fmt.Errorf(invalidServerAddress, *xNpServer)
+	}
+
+	if !*xNpForce {
+		c := askForConfirmation("WARNING: It is not possible to undo this action!\nAre you sure you want to continue?")
+		if !c {
+			return fmt.Errorf("cancelled by user")
+		}
 	}
 
 	options := make(map[string]interface{})
@@ -144,10 +176,16 @@ func newPool(conn *siridb.Connection) error {
 }
 
 func newReplica(conn *siridb.Connection) error {
-
 	server, port, err := getHostAndPort(*xNrServer)
 	if err != nil {
 		return fmt.Errorf(invalidServerAddress, *xNrServer)
+	}
+
+	if !*xNpForce {
+		c := askForConfirmation("WARNING: It is not possible to undo this action!\nAre you sure you want to continue?")
+		if !c {
+			return fmt.Errorf("cancelled by user")
+		}
 	}
 
 	options := make(map[string]interface{})
