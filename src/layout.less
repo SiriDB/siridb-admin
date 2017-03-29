@@ -1,0 +1,354 @@
+body {
+    font-size: 12px;
+    font-family: 'Lucida Console', Monaco, monospace;
+    background-color: #32444d;
+    color: #fff;
+}
+
+input {
+    font-family: 'Lucida Console', Monaco, monospace;
+    font-size: 10px;
+}
+
+input[type="password"] {
+    background-color: #d4d8da;
+}
+
+/**** Links ****/
+
+a {
+    cursor: pointer;
+    color: #7996a2;
+    &:hover, &:focus {
+        color: #a1b2bc;
+    }
+
+}
+
+/**** Navbar ****/
+.navbar-default {
+    background-color: inherit;
+    border: none;
+    margin: 0 -15px 20px -15px;
+    .navbar-nav > li > a {
+        text-transform: uppercase;
+    }
+    .navbar-nav {
+
+        >li {
+            >a {
+                &.active {
+                    color: #fff;
+                    background-color: #7996a2;
+                }
+                color: #fff;
+            }
+            > a:hover, a:focus {
+                &.active {
+                    color: #fff;
+                    background-color: #7996a2;
+                }
+                color: #fff;
+                background-color: #425760;
+            }
+        }
+    }
+}
+
+/**** Forms ****/
+
+.form-control {
+    font-size: 12px;
+    border-radius: 0;
+    border: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    -webkit-transition: none;
+    transition: none;
+    background-color: #f7f7f7;
+    &:focus {
+        outline: 0;
+        -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,.055), 0 0 0 rgba(202, 202, 202, .6);
+                box-shadow: inset 0 0 3px rgba(0,0,0,.055), 0 0 0 rgba(202, 202, 202, .6);
+    }
+}
+
+.input-group-sm {
+    >.form-control,
+    >.input-group-addon,
+    >.input-group-btn > .btn {
+        border-radius: 0;
+    }
+}
+
+.btn-default.disabled,
+.btn-default[disabled],
+fieldset[disabled] .btn-default,
+.btn-default.disabled:hover,
+.btn-default[disabled]:hover,
+fieldset[disabled] .btn-default:hover,
+.btn-default.disabled:focus,
+.btn-default[disabled]:focus,
+fieldset[disabled] .btn-default:focus,
+.btn-default.disabled.focus,
+.btn-default.focus[disabled],
+fieldset[disabled] .btn-default.focus,
+.btn-default.disabled:active,
+.btn-default[disabled]:active,
+fieldset[disabled] .btn-default:active,
+.btn-default.disabled.active,
+.btn-default.active[disabled],
+fieldset[disabled] .btn-default.active {
+    background-color: #425760;
+    color: #777;
+}
+
+.btn-group {
+    margin-bottom: 10px;
+}
+.btn-group > .btn-default {
+    background-color: rgba(113, 133, 142, 0.27);
+    font-size: 12px;
+}
+.btn-group > label.active {
+    background-color: #7996A2;
+}
+
+.btn-default {
+    color: #fff;
+    background-color: #7996a2;
+    border: none;
+    border-radius: 0;
+    >i {
+        font-size: 16px;
+    }
+}
+
+.btn-default:hover,
+.btn-default:focus,
+.btn-default.focus,
+.btn-default:active,
+.btn-default.active,
+.open > .dropdown-toggle.btn-default {
+    color: #fff;
+    background-color: #88A4B1;
+    border: none;
+}
+
+.alert {
+    border: none;
+    border-radius: 0;
+    opacity: 0.9;
+
+    &.alert-animation-enter {
+      opacity: 0.01;
+    }
+
+    &.alert-animation-enter.alert-animation-enter-active {
+      opacity: 0.9;
+      transition: opacity 300ms ease-in;
+    }
+
+    &.alert-animation-leave {
+      opacity: 0.9;
+    }
+
+    &.alert-animation-leave.alert-animation-leave-active {
+      opacity: 0.01;
+      transition: opacity 500ms ease-in;
+    }
+
+    &.alert-warning {
+        color: #785313;
+        background-color: #FEF1B0;
+    }
+
+    &.alert-info {
+        color: #334B57;
+        background-color: #B2BBC5;
+    }
+}
+
+.modal-content {
+    background-color: #253842;
+    border-radius: 0px;
+}
+
+.modal-header {
+    border-bottom: 0px;
+    .close {
+        color: #fff;
+    }
+}
+
+.modal-body {
+    >img {
+        width: 100%;
+        padding: 0 60px;
+    }
+    >dl {
+        margin-top: 25px;
+    }
+}
+
+.center {
+    text-align: center;
+}
+
+.container-start {
+    max-width: 450px;
+    border: 1px solid #465156;
+    background-color: #253842;
+    margin-top: 50px;
+    padding-bottom: 20px;
+    >.logo >img {
+        padding: 30px;
+        width: 100%;
+    }
+    .input-group {
+        padding: 0 60px;
+        width: 100%;
+    }
+    .alert-wrapper {
+        padding: 0 15px;
+        height: 0;
+    }
+}
+
+/**** Auto Completion Popup ****/
+
+.autocomplete-popup {
+    z-index: 1000;
+    position: absolute;
+    left: 200px;
+    top: 24px;
+    background-color: rgba(80, 99, 107, 0.86);
+    padding: 4px 0;
+    border: none;
+    color: #fff;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    >li {
+        cursor: pointer;
+        padding: 2px 10px;
+        &.selected {
+            background-color: rgba(100, 119, 127, 1.0);
+        }
+        .grey {
+            color: #aec8d2;
+        }
+        &:hover {
+            background-color: rgba(120, 139, 147, 1.0);
+        }
+    }
+}
+
+/**** Parse Error ****/
+
+.parse-error {
+    z-index: 1000;
+    position: absolute;
+    left: 200px;
+    top: 38px;
+    color: #785313;
+    background-color: #FEF1B0;
+    opacity: 0.8;
+    padding: 4px;
+}
+
+/* creates triangle */
+.parse-error:after {
+    content: "";
+    position: absolute;
+    top: -6px; /* value = - border-top-width - border-bottom-width */
+    left: 5px; /* controls horizontal position */
+    border-width: 0 6px 6px; /* vary these values to change the angle of the vertex */
+    border-style: solid;
+    border-color: #FEF1B0 transparent;
+    display: block;
+    width: 0;
+}
+
+/**** Table Result ****/
+.table-result {
+    font-size: 12px;
+    >thead >tr >th,
+    >tbody >tr >th,
+    >tfoot >tr >th,
+    >thead >tr >td,
+    >tbody >tr >td,
+    >tfoot >tr >td {
+        border-top: none;
+        color: #d4dee1;
+        white-space: pre;
+    }
+    >tbody >tr:nth-of-type(2n+1) {
+        background-color: #425760;
+    }
+    >thead >tr >th {
+        border-bottom: 2px solid #77888D;
+    }
+}
+
+/**** Chart ****/
+@series_color: #a1b2bc;
+@text_color: #ddd;
+@axis_color: #bbb;
+
+.chart {
+    margin-bottom: 20px;
+    fill: @text_color;
+    .axis {
+        text {
+            fill: @text_color;
+            font-family: "Lucida Console", Monaco, monospace;
+            font-size: 12px;
+        }
+        path {
+            fill: none;
+            stroke: @axis_color;
+            stroke-width: 2px;
+            stroke-opacity: .5;
+        }
+        line {
+            stroke: none;
+        }
+    }
+    .series {
+        .line {
+            fill: none;
+        }
+        .ttdot {
+            opacity: 0.4;
+        }
+        .ttline {
+            opacity: 0.3;
+        }
+        fill: @series_color;
+        stroke: @series_color;
+    }
+    .serieshdr {
+        rect {
+            fill: @series_color;
+        }
+    }
+    .xbrush {
+        stroke-width: 0px;
+        > .overlay {
+            opacity: 0.6;
+        }
+    }
+    .tt {
+        .ttbg {
+            opacity: 0.4;
+        }
+    }
+    .seriesmsg {
+        text-anchor: 'middle';
+    }
+}
+
+
+

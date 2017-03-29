@@ -1,6 +1,6 @@
 // Production:
 //
-//      NODE_ENV='production' webpack -p
+//      NODE_ENV='production' ./node_modules/.bin/webpack -p
 //
 var webpack = require('webpack');
 var path = require('path');

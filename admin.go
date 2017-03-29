@@ -2,11 +2,14 @@ package main
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"strconv"
 
+	"github.com/astaxie/beego/session"
 	"github.com/howeyc/gopass"
 	siridb "github.com/transceptor-technology/go-siridb-connector"
 
@@ -15,15 +18,16 @@ import (
 	kingpin "gopkg.in/alecthomas/kingpin.v2"
 )
 
-// Version information.
-const Version = "1.0.0"
+// AppVersion exposes version information
+const AppVersion = "1.0.0"
 
 var (
 	xApp      = kingpin.New("siridb-admin", "Tool for creating and expanding SiriDB databases.")
-	xAccount  = xApp.Flag("user", "Account name for connecting to the SiriDB server.").Short('u').Required().String()
+	xAccount  = xApp.Flag("user", "Account name for connecting to the SiriDB server. (ignored with the --http flag)").Short('u').Required().String()
 	xPassword = xApp.Flag("password", "Password for your account.").Short('p').String()
 	xServer   = xApp.Flag("server", "Server address[:port] for the SiriDB server.").Short('s').Default("localhost:9000").String()
-	xHTTP     = xApp.Flag("http", "Start a webserver running a website for managing SiriDB.").Bool()
+	xHTTP     = xApp.Flag("http", "Start a webserver for a graphical user interface. (only --port flag is parsed, other arguments/flags are ignored)").Bool()
+	xHTTPPort = xApp.Flag("port", "Specific port for the http webserver.").Short('O').Default("8080").Int()
 	xVerbose  = xApp.Flag("verbose", "Enable verbose logging.").Bool()
 	xVersion  = xApp.Flag("version", "Print version information and exit.").Bool()
 
@@ -67,6 +71,8 @@ var (
 	xNrPool     = xNewReplica.Flag("pool", "Pool number which you want to create the replica for.").Short('o').Required().Int()
 	xNrForce    = xNewReplica.Flag("force", "Suppress warning message.").Short('f').Bool()
 )
+
+var globalSessions *session.Manager
 
 const invalidServerAddress = "invalid server address: %s (valid examples: myserver.local, myserver.local:9000, ::1, [::1]:9000, etc...)\n"
 
@@ -273,6 +279,39 @@ func logHandle(logCh chan string) {
 	}
 }
 
+func initHTTP() error {
+	var err error
+	cf := new(session.ManagerConfig)
+	cf.EnableSetCookie = true
+	s := `{"cookieName":"siridbadminsessionid","gclifetime":3600}`
+
+	if err = json.Unmarshal([]byte(s), cf); err != nil {
+		return err
+	}
+
+	if globalSessions, err = session.NewManager("memory", cf); err != nil {
+		return err
+	}
+
+	go globalSessions.GC()
+
+	http.HandleFunc("/", handlerMain)
+	http.HandleFunc("/js/bundle", handlerJsBundle)
+	http.HandleFunc("/css/bootstrap", handlerBootstrapCSS)
+	http.HandleFunc("/css/layout", handlerLayout)
+	http.HandleFunc("/favicon.ico", handlerFaviconIco)
+	http.HandleFunc("/img/siridb-large.png", handlerSiriDBLargePNG)
+	http.HandleFunc("/css/font-awesome.min.css", handlerFontAwesomeMinCSS)
+	http.HandleFunc("/fonts/FontAwesome.otf", handlerFontsFaOTF)
+	http.HandleFunc("/fonts/fontawesome-webfont.eot", handlerFontsFaEOT)
+	http.HandleFunc("/fonts/fontawesome-webfont.svg", handlerFontsFaSVG)
+	http.HandleFunc("/fonts/fontawesome-webfont.ttf", handlerFontsFaTTF)
+	http.HandleFunc("/fonts/fontawesome-webfont.woff", handlerFontsFaWOFF)
+	http.HandleFunc("/fonts/fontawesome-webfont.woff2", handlerFontsFaWOFF2)
+	http.HandleFunc("/auth/fetch", handlerAuthFetch)
+	return nil
+}
+
 func main() {
 	var server, args string
 	var err error
@@ -282,62 +321,74 @@ func main() {
 	args, err = xApp.Parse(os.Args[1:])
 
 	if *xVersion {
-		fmt.Printf("Version: %s\n", Version)
+		fmt.Printf("Version: %s\n", AppVersion)
 		os.Exit(0)
 	}
 
-	if err != nil {
-		fmt.Printf("%s\n", err)
-		os.Exit(1)
-	}
+	if *xHTTP {
+		if err != nil && strings.Compare(err.Error(), "required flag --user not provided") != 0 {
+			fmt.Printf("%s\n", err)
+			os.Exit(1)
+		}
 
-	server, port, err = getHostAndPort(*xServer)
-	if err != nil {
-		fmt.Printf(invalidServerAddress, *xServer)
-		os.Exit(1)
-	}
+		initHTTP()
 
-	// ask password if not supplied
-	if len(*xPassword) == 0 {
-		pass := getpass()
-		xPassword = &pass
-	}
+		fmt.Printf("Serving a graphical user interface on: http://0.0.0.0:%d\nPress CTRL+C to quit\n", *xHTTPPort)
+		http.ListenAndServe(fmt.Sprintf(":%d", *xHTTPPort), nil)
+	} else {
+		if err != nil {
+			fmt.Printf("%s\n", err)
+			os.Exit(1)
+		}
 
-	conn := siridb.NewConnection(server, port)
-	if !*xVerbose {
-		// suppress logging if not in verbose mode
-		logCh := make(chan string)
-		go logHandle(logCh)
-		conn.LogCh = logCh
-	}
+		server, port, err = getHostAndPort(*xServer)
+		if err != nil {
+			fmt.Printf(invalidServerAddress, *xServer)
+			os.Exit(1)
+		}
 
-	switch kingpin.MustParse(args, err) {
-	case xGetVersion.FullCommand():
-		err = getVersion(conn)
-	case xGetAccounts.FullCommand():
-		err = getAccounts(conn)
-	case xGetDatabases.FullCommand():
-		err = getDatabases(conn)
-	case xNewReplica.FullCommand():
-		err = newReplica(conn)
-	case xNewAccount.FullCommand():
-		err = newAccount(conn)
-	case xDropAccount.FullCommand():
-		err = dropAccount(conn)
-	case xChangeAccount.FullCommand():
-		err = changePassword(conn)
-	case xNewDatabase.FullCommand():
-		err = newDatabase(conn)
-	case xNewReplica.FullCommand():
-		err = newReplica(conn)
-	case xNewPool.FullCommand():
-		err = newPool(conn)
-	}
+		// ask password if not supplied
+		if len(*xPassword) == 0 {
+			pass := getpass()
+			xPassword = &pass
+		}
 
-	conn.Close()
+		conn := siridb.NewConnection(server, port)
+		if !*xVerbose {
+			// suppress logging if not in verbose mode
+			logCh := make(chan string)
+			go logHandle(logCh)
+			conn.LogCh = logCh
+		}
 
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		switch kingpin.MustParse(args, err) {
+		case xGetVersion.FullCommand():
+			err = getVersion(conn)
+		case xGetAccounts.FullCommand():
+			err = getAccounts(conn)
+		case xGetDatabases.FullCommand():
+			err = getDatabases(conn)
+		case xNewReplica.FullCommand():
+			err = newReplica(conn)
+		case xNewAccount.FullCommand():
+			err = newAccount(conn)
+		case xDropAccount.FullCommand():
+			err = dropAccount(conn)
+		case xChangeAccount.FullCommand():
+			err = changePassword(conn)
+		case xNewDatabase.FullCommand():
+			err = newDatabase(conn)
+		case xNewReplica.FullCommand():
+			err = newReplica(conn)
+		case xNewPool.FullCommand():
+			err = newPool(conn)
+		}
+
+		conn.Close()
+
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
 	}
 }

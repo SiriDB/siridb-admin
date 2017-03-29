@@ -17,7 +17,47 @@ func handlerJsBundle(w http.ResponseWriter, r *http.Request) {
 }
 
 func handlerFaviconIco(w http.ResponseWriter, r *http.Request) {
-	handleFileRequest(w, "./src/favicon.ico")
+	handleFileRequest(w, "./static/favicon.ico")
+}
+
+func handlerBootstrapCSS(w http.ResponseWriter, r *http.Request) {
+	handleFileRequest(w, "./static/css/bootstrap.css")
+}
+
+func handlerLayout(w http.ResponseWriter, r *http.Request) {
+	handleFileRequest(w, "./build/layout.css")
+}
+
+func handlerFontAwesomeMinCSS(w http.ResponseWriter, r *http.Request) {
+	handleFileRequest(w, "./static/css/font-awesome.min.css")
+}
+
+func handlerFontsFaOTF(w http.ResponseWriter, r *http.Request) {
+	handleFileRequest(w, "./static/fonts/FontAwesome.otf")
+}
+
+func handlerFontsFaEOT(w http.ResponseWriter, r *http.Request) {
+	handleFileRequest(w, "./static/fonts/fontawesome-webfont.eot")
+}
+
+func handlerFontsFaSVG(w http.ResponseWriter, r *http.Request) {
+	handleFileRequest(w, "./static/fonts/fontawesome-webfont.svg")
+}
+
+func handlerFontsFaTTF(w http.ResponseWriter, r *http.Request) {
+	handleFileRequest(w, "./static/fonts/fontawesome-webfont.ttf")
+}
+
+func handlerFontsFaWOFF(w http.ResponseWriter, r *http.Request) {
+	handleFileRequest(w, "./static/fonts/fontawesome-webfont.woff")
+}
+
+func handlerFontsFaWOFF2(w http.ResponseWriter, r *http.Request) {
+	handleFileRequest(w, "./static/fonts/fontawesome-webfont.woff2")
+}
+
+func handlerSiriDBLargePNG(w http.ResponseWriter, r *http.Request) {
+	handleFileRequest(w, "./static/img/siridb-large.png")
 }
 
 func handleFileRequest(w http.ResponseWriter, fn string) {
