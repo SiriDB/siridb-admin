@@ -64,7 +64,7 @@ func handlerVersionFetch(w http.ResponseWriter, r *http.Request) {
 	fetch(w, r, getVersion)
 }
 
-func handlerUsersFetch(w http.ResponseWriter, r *http.Request) {
+func handlerAccountsFetch(w http.ResponseWriter, r *http.Request) {
 	fetch(w, r, getAccounts)
 }
 

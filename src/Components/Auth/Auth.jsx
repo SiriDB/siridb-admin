@@ -1,16 +1,13 @@
 import React from 'react';
-import Reflux from 'reflux-edge';
 import { render } from 'react-dom';
-import AuthStore from '../../Stores/AuthStore.jsx';
 import AuthActions from '../../Actions/AuthActions.jsx';
 import AlertActions from '../../Actions/AlertActions.jsx';
 
 
-class Auth extends Reflux.Component {
+class Auth extends React.Component {
 
     constructor(props) {
         super(props);
-        this.store = AuthStore;
         this.state = {
             server: 'localhost',
             username: 'sa',
@@ -54,8 +51,6 @@ class Auth extends Reflux.Component {
     }
 
     render() {
-
-
         return (
             <div className="row">
                 <div className="form">
@@ -65,7 +60,7 @@ class Auth extends Reflux.Component {
                                 autoFocus
                                 type="text"
                                 className="form-control"
-                                placeholder="your server... e.g. localhost:9000"
+                                placeholder="server... e.g. localhost:9000"
                                 value={this.state.server}
                                 onKeyPress={this.onKeyPress.bind(this)}
                                 onChange={this.onServerChange.bind(this)} />
@@ -76,7 +71,7 @@ class Auth extends Reflux.Component {
                             <input
                                 type="text"
                                 className="form-control"
-                                placeholder="your username..."
+                                placeholder="account name..."
                                 value={this.state.username}
                                 onKeyPress={this.onKeyPress.bind(this)}
                                 onChange={this.onUsernameChange.bind(this)} />
@@ -87,7 +82,7 @@ class Auth extends Reflux.Component {
                             <input
                                 type="password"
                                 className="form-control"
-                                placeholder="your password..."
+                                placeholder="password..."
                                 value={this.state.password}
                                 onKeyPress={this.onKeyPress.bind(this)}
                                 onChange={this.onPasswordChange.bind(this)} />

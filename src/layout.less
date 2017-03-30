@@ -103,6 +103,28 @@ fieldset[disabled] .btn-default.active {
     color: #777;
 }
 
+.btn-cancel.disabled,
+.btn-cancel[disabled],
+fieldset[disabled] .btn-cancel,
+.btn-cancel.disabled:hover,
+.btn-cancel[disabled]:hover,
+fieldset[disabled] .btn-cancel:hover,
+.btn-cancel.disabled:focus,
+.btn-cancel[disabled]:focus,
+fieldset[disabled] .btn-cancel:focus,
+.btn-cancel.disabled.focus,
+.btn-cancel.focus[disabled],
+fieldset[disabled] .btn-cancel.focus,
+.btn-cancel.disabled:active,
+.btn-cancel[disabled]:active,
+fieldset[disabled] .btn-cancel:active,
+.btn-cancel.disabled.active,
+.btn-cancel.active[disabled],
+fieldset[disabled] .btn-cancel.active {
+    background-color: #825760;
+    color: #777;
+}
+
 .btn-group {
     margin-bottom: 10px;
 }
@@ -124,6 +146,16 @@ fieldset[disabled] .btn-default.active {
     }
 }
 
+.btn-cancel {
+    color: #fff;
+    background-color: #94654a;
+    border: none;
+    border-radius: 0;
+    >i {
+        font-size: 16px;
+    }
+}
+
 .btn-default:hover,
 .btn-default:focus,
 .btn-default.focus,
@@ -135,6 +167,16 @@ fieldset[disabled] .btn-default.active {
     border: none;
 }
 
+.btn-cancel:hover,
+.btn-cancel:focus,
+.btn-cancel.focus,
+.btn-cancel:active,
+.btn-cancel.active,
+.open > .dropdown-toggle.btn-cancel {
+    color: #fff;
+    background-color: #a57960;
+    border: none;
+}
 .alert {
     border: none;
     border-radius: 0;
@@ -223,6 +265,22 @@ fieldset[disabled] .btn-default.active {
     .alert-wrapper {
         padding: 0 15px;
         height: 0;
+    }
+    hr {
+        margin-left: 60px;
+        margin-right: 60px;
+        border-top: 1px solid #465156;
+    }
+    ul {
+        list-style: none;
+        padding: 0 60px;
+        font-size: 18px;
+        .fa-fw {
+            margin-right: 5px;
+        }
+        li {
+            padding: 3px 0;
+        }
     }
 }
 

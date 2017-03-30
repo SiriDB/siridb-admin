@@ -3,6 +3,7 @@ import Reflux from 'reflux-edge';
 import { render } from 'react-dom';
 import AuthStore from '../../Stores/AuthStore.jsx';
 import AlertStore from '../../Stores/AlertStore.jsx';
+import AlertActions from '../../Actions/AlertActions.jsx';
 import Auth from '../Auth/Auth.jsx';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
@@ -16,7 +17,7 @@ class App extends Reflux.Component {
 
     render() {
         let error = (this.state.alert !== null) ? (
-            <div className={`alert alert-${this.state.alert.severity}`}><a className="close">&times;</a>{this.state.alert.msg}</div>
+            <div className={`alert alert-${this.state.alert.severity}`}><a onClick={AlertActions.clearAlert} className="close">&times;</a>{this.state.alert.msg}</div>
         ) : null;
         return (
             <div className="container container-start">

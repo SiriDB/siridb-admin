@@ -307,7 +307,7 @@ func initHTTP() error {
 	http.HandleFunc("/fonts/fontawesome-webfont.woff", handlerFontsFaWOFF)
 	http.HandleFunc("/fonts/fontawesome-webfont.woff2", handlerFontsFaWOFF2)
 	http.HandleFunc("/version/fetch", handlerVersionFetch)
-	http.HandleFunc("/users/fetch", handlerUsersFetch)
+	http.HandleFunc("/accounts/fetch", handlerAccountsFetch)
 	http.HandleFunc("/databases/fetch", handlerDatabasesFetch)
 	http.HandleFunc("/auth/fetch", handlerAuthFetch)
 	http.HandleFunc("/auth/login", handlerAuthLogin)
