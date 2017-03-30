@@ -55,3 +55,7 @@ func handlerFontsFaWOFF2(w http.ResponseWriter, r *http.Request) {
 func handlerSiriDBLargePNG(w http.ResponseWriter, r *http.Request) {
 	w.Write(FileSiriDBLargePNG)
 }
+
+func handlerSiriDBSmallPNG(w http.ResponseWriter, r *http.Request) {
+	w.Write(FileSiriDBSmallPNG)
+}

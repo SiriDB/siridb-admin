@@ -1,6 +1,8 @@
 import React from 'react';
 import BaseStore from './BaseStore.jsx';
 import AuthActions from '../Actions/AuthActions.jsx';
+import AlertActions from '../Actions/AlertActions.jsx';
+
 
 class AuthStore extends BaseStore {
 
@@ -8,18 +10,9 @@ class AuthStore extends BaseStore {
         super();
         this.listenables = AuthActions;
         this.state = {
-            user: null,
-            authError: null
+            user: null
         };
         AuthActions.fetch();
-    }
-
-    onSetAuthError(errorMsg) {
-        this.setState({authError: errorMsg});
-    }
-
-    onClearAuthError() {
-        this.setState({authError: null});
     }
 
     onFetch() {
@@ -30,21 +23,21 @@ class AuthStore extends BaseStore {
     }
 
     onLogoff() {
-        localStorage.clear();
-        QueryActions.clearAll();
         this.fetch('/auth/logoff')
         .done((data) => {
-            this.setState({user: null});
+            this.setState({
+                user: null
+            });
         })
     }
 
     onLogin(username, password, server) {
         if (!username) {
-            AuthActions.setAuthError('Username is required');
+            AlertActions.setAlert('Username is required');
         } else if (!password) {
-            AuthActions.setAuthError('Password is required');
+            AlertActions.setAlert('Password is required');
         } else if (!server) {
-            AuthActions.setAuthError('Server is required');
+            AlertActions.setAlert('Server is required');
         } else {
             this.post('/auth/login', {
                 username: username,
@@ -55,9 +48,27 @@ class AuthStore extends BaseStore {
                 this.setState(data);
             })
             .fail((error, data) => {
-                AuthActions.setAuthError(data.error_msg || 'Unknown error occurred');
+                AlertActions.setAlert(data || 'Unknown error occurred');
             });
         }
+    }
+
+    onChangePassword(current, password, validate) {
+        if (password != validate) {
+            AlertActions.setAlert('password is not equal to validate password');
+        } else {
+            this.post('/auth/change-password', {
+                current: current,
+                password: password
+            })
+            .done((data) => {
+                AlertActions.setAlert(data, 'success');
+            })
+            .fail((error, data) => {
+                AlertActions.setAlert(data || 'Unknown error occurred');
+            });
+        }
+
     }
 }
 

@@ -23,8 +23,8 @@ const AppVersion = "1.0.0"
 
 var (
 	xApp      = kingpin.New("siridb-admin", "Tool for creating and expanding SiriDB databases.")
-	xAccount  = xApp.Flag("user", "Account name for connecting to the SiriDB server. (ignored with the --http flag)").Short('u').Required().String()
-	xPassword = xApp.Flag("password", "Password for your account.").Short('p').String()
+	xAccount  = xApp.Flag("user", "Service account name for connecting to the SiriDB server. (ignored with the --http flag)").Short('u').Required().String()
+	xPassword = xApp.Flag("password", "Password for your service account.").Short('p').String()
 	xServer   = xApp.Flag("server", "Server address[:port] for the SiriDB server.").Short('s').Default("localhost:9000").String()
 	xHTTP     = xApp.Flag("http", "Start a webserver for a graphical user interface. (only --port flag is parsed, other arguments/flags are ignored)").Bool()
 	xHTTPPort = xApp.Flag("port", "Specific port for the http webserver.").Short('O').Default("8080").Int()
@@ -32,17 +32,17 @@ var (
 	xVersion  = xApp.Flag("version", "Print version information and exit.").Bool()
 
 	xGetVersion   = xApp.Command("get-version", "Returns SiriDB server version information.")
-	xGetAccounts  = xApp.Command("get-accounts", "Returns all server account names.")
+	xGetAccounts  = xApp.Command("get-accounts", "Returns all service accounts.")
 	xGetDatabases = xApp.Command("get-databases", "Returns all databases on the SiriDB server.")
 
-	xNewAccount = xApp.Command("new-account", "Create a new server account.")
-	xNaAccount  = xNewAccount.Arg("name", "Name for the new account.").Required().String()
-	xNaPassword = xNewAccount.Arg("password", "Password for the new account.").Required().String()
+	xNewAccount = xApp.Command("new-account", "Create a new service account.")
+	xNaAccount  = xNewAccount.Arg("name", "Name for the new service account.").Required().String()
+	xNaPassword = xNewAccount.Arg("password", "Password for the new service account.").Required().String()
 
-	xDropAccount = xApp.Command("drop-account", "Remove a server account.")
+	xDropAccount = xApp.Command("drop-account", "Remove a service account.")
 	xDaAccount   = xDropAccount.Arg("name", "Account name which you want to drop.").Required().String()
 
-	xChangeAccount = xApp.Command("change-password", "Change password for your server account.")
+	xChangeAccount = xApp.Command("change-password", "Change password for your service account.")
 	xCaPassword    = xChangeAccount.Arg("password", "New password.").Required().String()
 
 	xNewDatabase = xApp.Command("new-database", "Create a new SiriDB database.")
@@ -135,7 +135,8 @@ func getHostAndPort(addr string) (string, uint16, error) {
 	return addr[1 : len(addr)-1], uint16(u), err
 }
 
-func newDatabase(conn *siridb.Connection) error {
+func newDatabase(conn *siridb.Connection) (interface{}, error) {
+	var msg string
 	options := make(map[string]interface{})
 
 	options["dbname"] = *xNdDatabase
@@ -147,21 +148,22 @@ func newDatabase(conn *siridb.Connection) error {
 	_, err := conn.Manage(*xAccount, *xPassword, siridb.AdminNewDatabase, options)
 
 	if err == nil {
-		fmt.Printf("successfully created database: %s\n", *xNdDatabase)
+		msg = fmt.Sprintf("successfully created database: %s\n", *xNdDatabase)
 	}
-	return err
+	return msg, err
 }
 
-func newPool(conn *siridb.Connection) error {
+func newPool(conn *siridb.Connection) (interface{}, error) {
+	var msg string
 	server, port, err := getHostAndPort(*xNpServer)
 	if err != nil {
-		return fmt.Errorf(invalidServerAddress, *xNpServer)
+		return msg, fmt.Errorf(invalidServerAddress, *xNpServer)
 	}
 
 	if !*xNpForce {
 		c := askForConfirmation("WARNING: It is not possible to undo this action!\nAre you sure you want to continue?")
 		if !c {
-			return fmt.Errorf("cancelled by user")
+			return msg, fmt.Errorf("cancelled by user")
 		}
 	}
 
@@ -176,21 +178,22 @@ func newPool(conn *siridb.Connection) error {
 	_, err = conn.Manage(*xAccount, *xPassword, siridb.AdminNewPool, options)
 
 	if err == nil {
-		fmt.Printf("successfully created a pool for database: %s\n", *xNpDatabase)
+		msg = fmt.Sprintf("successfully created a pool for database: %s\n", *xNpDatabase)
 	}
-	return err
+	return msg, err
 }
 
-func newReplica(conn *siridb.Connection) error {
+func newReplica(conn *siridb.Connection) (interface{}, error) {
+	var msg string
 	server, port, err := getHostAndPort(*xNrServer)
 	if err != nil {
-		return fmt.Errorf(invalidServerAddress, *xNrServer)
+		return msg, fmt.Errorf(invalidServerAddress, *xNrServer)
 	}
 
 	if !*xNpForce {
 		c := askForConfirmation("WARNING: It is not possible to undo this action!\nAre you sure you want to continue?")
 		if !c {
-			return fmt.Errorf("cancelled by user")
+			return msg, fmt.Errorf("cancelled by user")
 		}
 	}
 
@@ -206,36 +209,28 @@ func newReplica(conn *siridb.Connection) error {
 	_, err = conn.Manage(*xAccount, *xPassword, siridb.AdminNewReplica, options)
 
 	if err == nil {
-		fmt.Printf("successfully created a replica for database: %s\n", *xNrDatabase)
+		msg = fmt.Sprintf("successfully created a replica for database: %s\n", *xNrDatabase)
 	}
-	return err
+	return msg, err
 }
 
-func getAccounts(conn *siridb.Connection) error {
-	res, err := conn.Manage(*xAccount, *xPassword, siridb.AdminGetAccounts, nil)
-	if err == nil {
-		fmt.Println(res)
-	}
-	return err
+func getAccounts(conn *siridb.Connection, account, password string) (interface{}, error) {
+	res, err := conn.Manage(account, password, siridb.AdminGetAccounts, nil)
+	return res, err
 }
 
-func getDatabases(conn *siridb.Connection) error {
-	res, err := conn.Manage(*xAccount, *xPassword, siridb.AdminGetDatabases, nil)
-	if err == nil {
-		fmt.Println(res)
-	}
-	return err
+func getDatabases(conn *siridb.Connection, account, password string) (interface{}, error) {
+	res, err := conn.Manage(account, password, siridb.AdminGetDatabases, nil)
+	return res, err
 }
 
-func getVersion(conn *siridb.Connection) error {
-	res, err := conn.Manage(*xAccount, *xPassword, siridb.AdminGetVersion, nil)
-	if err == nil {
-		fmt.Println(res)
-	}
-	return err
+func getVersion(conn *siridb.Connection, account, password string) (interface{}, error) {
+	res, err := conn.Manage(account, password, siridb.AdminGetVersion, nil)
+	return res, err
 }
 
-func newAccount(conn *siridb.Connection) error {
+func newAccount(conn *siridb.Connection) (interface{}, error) {
+	var msg string
 	options := make(map[string]interface{})
 
 	options["account"] = *xNaAccount
@@ -243,34 +238,36 @@ func newAccount(conn *siridb.Connection) error {
 
 	_, err := conn.Manage(*xAccount, *xPassword, siridb.AdminNewAccount, options)
 	if err == nil {
-		fmt.Printf("successfully created server account: %s\n", *xNaAccount)
+		msg = fmt.Sprintf("successfully created service account: %s", *xNaAccount)
 	}
-	return err
+	return msg, err
 }
 
-func dropAccount(conn *siridb.Connection) error {
+func dropAccount(conn *siridb.Connection) (interface{}, error) {
+	var msg string
 	options := make(map[string]interface{})
 
 	options["account"] = *xDaAccount
 
 	_, err := conn.Manage(*xAccount, *xPassword, siridb.AdminDropAccount, options)
 	if err == nil {
-		fmt.Printf("successfully dropped server account: %s\n", *xDaAccount)
+		msg = fmt.Sprintf("successfully dropped service account: %s", *xDaAccount)
 	}
-	return err
+	return msg, err
 }
 
-func changePassword(conn *siridb.Connection) error {
+func changePassword(conn *siridb.Connection, account, password, changeAccount, newPassword string) (interface{}, error) {
+	var msg string
 	options := make(map[string]interface{})
 
-	options["account"] = *xAccount
-	options["password"] = *xCaPassword
+	options["account"] = changeAccount
+	options["password"] = newPassword
 
-	_, err := conn.Manage(*xAccount, *xPassword, siridb.AdminChangePassword, options)
+	_, err := conn.Manage(account, password, siridb.AdminChangePassword, options)
 	if err == nil {
-		fmt.Printf("successfully changed password for server account: %s", *xAccount)
+		msg = fmt.Sprintf("successfully changed password for service account: %s", changeAccount)
 	}
-	return err
+	return msg, err
 }
 
 func logHandle(logCh chan string) {
@@ -301,6 +298,7 @@ func initHTTP() error {
 	http.HandleFunc("/css/layout", handlerLayout)
 	http.HandleFunc("/favicon.ico", handlerFaviconIco)
 	http.HandleFunc("/img/siridb-large.png", handlerSiriDBLargePNG)
+	http.HandleFunc("/img/siridb-small.png", handlerSiriDBSmallPNG)
 	http.HandleFunc("/css/font-awesome.min.css", handlerFontAwesomeMinCSS)
 	http.HandleFunc("/fonts/FontAwesome.otf", handlerFontsFaOTF)
 	http.HandleFunc("/fonts/fontawesome-webfont.eot", handlerFontsFaEOT)
@@ -308,7 +306,13 @@ func initHTTP() error {
 	http.HandleFunc("/fonts/fontawesome-webfont.ttf", handlerFontsFaTTF)
 	http.HandleFunc("/fonts/fontawesome-webfont.woff", handlerFontsFaWOFF)
 	http.HandleFunc("/fonts/fontawesome-webfont.woff2", handlerFontsFaWOFF2)
+	http.HandleFunc("/version/fetch", handlerVersionFetch)
+	http.HandleFunc("/users/fetch", handlerUsersFetch)
+	http.HandleFunc("/databases/fetch", handlerDatabasesFetch)
 	http.HandleFunc("/auth/fetch", handlerAuthFetch)
+	http.HandleFunc("/auth/login", handlerAuthLogin)
+	http.HandleFunc("/auth/logoff", handlerAuthLogoff)
+	http.HandleFunc("/auth/change-password", handlerAuthChangePassword)
 	return nil
 }
 
@@ -361,27 +365,29 @@ func main() {
 			conn.LogCh = logCh
 		}
 
+		var msg interface{}
+
 		switch kingpin.MustParse(args, err) {
 		case xGetVersion.FullCommand():
-			err = getVersion(conn)
+			msg, err = getVersion(conn, *xAccount, *xPassword)
 		case xGetAccounts.FullCommand():
-			err = getAccounts(conn)
+			msg, err = getAccounts(conn, *xAccount, *xPassword)
 		case xGetDatabases.FullCommand():
-			err = getDatabases(conn)
+			msg, err = getDatabases(conn, *xAccount, *xPassword)
 		case xNewReplica.FullCommand():
-			err = newReplica(conn)
+			msg, err = newReplica(conn)
 		case xNewAccount.FullCommand():
-			err = newAccount(conn)
+			msg, err = newAccount(conn)
 		case xDropAccount.FullCommand():
-			err = dropAccount(conn)
+			msg, err = dropAccount(conn)
 		case xChangeAccount.FullCommand():
-			err = changePassword(conn)
+			msg, err = changePassword(conn, *xAccount, *xPassword, *xAccount, *xCaPassword)
 		case xNewDatabase.FullCommand():
-			err = newDatabase(conn)
+			msg, err = newDatabase(conn)
 		case xNewReplica.FullCommand():
-			err = newReplica(conn)
+			msg, err = newReplica(conn)
 		case xNewPool.FullCommand():
-			err = newPool(conn)
+			msg, err = newPool(conn)
 		}
 
 		conn.Close()
@@ -390,5 +396,6 @@ func main() {
 			fmt.Println(err)
 			os.Exit(1)
 		}
+		fmt.Println(msg)
 	}
 }

@@ -15,6 +15,7 @@ binfiles = [
     ("./static/css/bootstrap.min.css", "FileBootstrapMinCSS"),
     ("./static/css/font-awesome.min.css", "FileFontAwesomeMinCSS"),
     ("./static/img/siridb-large.png", "FileSiriDBLargePNG"),
+    ("./static/img/siridb-small.png", "FileSiriDBSmallPNG"),
     ("./static/fonts/FontAwesome.otf", "FileFontAwesomeOTF"),
     ("./static/fonts/fontawesome-webfont.eot", "FileFontawesomeWebfontEOT"),
     ("./static/fonts/fontawesome-webfont.svg", "FileFontawesomeWebfontSVG"),

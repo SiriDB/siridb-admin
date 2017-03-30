@@ -3,7 +3,7 @@ import Reflux from 'reflux-edge';
 import { render } from 'react-dom';
 import AuthStore from '../../Stores/AuthStore.jsx';
 import AuthActions from '../../Actions/AuthActions.jsx';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import AlertActions from '../../Actions/AlertActions.jsx';
 
 
 class Auth extends Reflux.Component {
@@ -12,9 +12,9 @@ class Auth extends Reflux.Component {
         super(props);
         this.store = AuthStore;
         this.state = {
-            server: '',
-            username: '',
-            password: ''
+            server: 'localhost',
+            username: 'sa',
+            password: 'siri'
         };
     }
 
@@ -27,21 +27,21 @@ class Auth extends Reflux.Component {
     }
 
     onServerChange(event) {
-        AuthActions.clearAuthError();
+        AlertActions.clearAlert();
         this.setState({
             server: event.target.value
         });
     }
 
     onUsernameChange(event) {
-        AuthActions.clearAuthError();
+        AlertActions.clearAlert();
         this.setState({
             username: event.target.value
         });
     }
 
     onPasswordChange(event) {
-        AuthActions.clearAuthError();
+        AlertActions.clearAlert();
         this.setState({
             password: event.target.value
         });
@@ -54,68 +54,53 @@ class Auth extends Reflux.Component {
     }
 
     render() {
-        let error = (this.state.authError !== null) ? (
-            <div className="alert alert-warning">{this.state.authError}</div>
-        ) : null;
+
 
         return (
-            <div className="container container-start">
-                <div className="row logo">
-                    <img src="/img/siridb-large.png" alt="SiriDB Logo" />
-                </div>
-                <div className="row">
-                    <div className="form">
-                        <div className="form-group">
-                            <div className="input-group input-group-sm">
-                                <input
-                                    autoFocus
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="your server... e.g. localhost:9000"
-                                    value={this.state.server}
-                                    onKeyPress={this.onKeyPress.bind(this)}
-                                    onChange={this.onServerChange.bind(this)} />
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <div className="input-group input-group-sm">
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="your username..."
-                                    value={this.state.username}
-                                    onKeyPress={this.onKeyPress.bind(this)}
-                                    onChange={this.onUsernameChange.bind(this)} />
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <div className="input-group input-group-sm">
-                                <input
-                                    type="password"
-                                    className="form-control"
-                                    placeholder="your password..."
-                                    value={this.state.password}
-                                    onKeyPress={this.onKeyPress.bind(this)}
-                                    onChange={this.onPasswordChange.bind(this)} />
-                                <span className="input-group-btn">
-                                    <button
-                                        className="btn btn-default"
-                                        type="button"
-                                        onClick={this.onLogin.bind(this)}>
-                                        <i className="fa fa-sign-in"></i>
-                                    </button>
-                                </span>
-                            </div>
+            <div className="row">
+                <div className="form">
+                    <div className="form-group">
+                        <div className="input-group input-group-sm">
+                            <input
+                                autoFocus
+                                type="text"
+                                className="form-control"
+                                placeholder="your server... e.g. localhost:9000"
+                                value={this.state.server}
+                                onKeyPress={this.onKeyPress.bind(this)}
+                                onChange={this.onServerChange.bind(this)} />
                         </div>
                     </div>
-                    <ReactCSSTransitionGroup
-                        component="div"
-                        className="alert-wrapper"
-                        transitionName="alert-animation"
-                        transitionEnterTimeout={300}
-                        transitionLeaveTimeout={500}>
-                        {error}
-                    </ReactCSSTransitionGroup>
+                    <div className="form-group">
+                        <div className="input-group input-group-sm">
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="your username..."
+                                value={this.state.username}
+                                onKeyPress={this.onKeyPress.bind(this)}
+                                onChange={this.onUsernameChange.bind(this)} />
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <div className="input-group input-group-sm">
+                            <input
+                                type="password"
+                                className="form-control"
+                                placeholder="your password..."
+                                value={this.state.password}
+                                onKeyPress={this.onKeyPress.bind(this)}
+                                onChange={this.onPasswordChange.bind(this)} />
+                            <span className="input-group-btn">
+                                <button
+                                    className="btn btn-default"
+                                    type="button"
+                                    onClick={this.onLogin.bind(this)}>
+                                    <i className="fa fa-sign-in"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         )

@@ -13,23 +13,17 @@ class JsonRequest {
         xmlhttp.setRequestHeader('Content-Type', 'application/json');
         xmlhttp.send((data === undefined || isStringified) ? data : JSON.stringify(data));
 
-        xmlhttp.onload = function (e) {
-            console.log(e);
-            console.log(xmlhttp.responseText);
+        xmlhttp.onload = (e) => {
+            var data;
+            if (e.target.status == 200) {
+                data = JSON.parse(xmlhttp.responseText);
+                this.doneCb(data);
+            } else {
+                data = xmlhttp.responseText;
+                this.failCb(e.target, data);
+            }
+            this.alwaysCb(e.target, data);
         };
-
-        // d3.request(url)
-        //     .header('Content-Type', 'application/json')
-        //     .on('error', (error) => {
-        //         let data = this._onResponse(error.target);
-        //         this.failCb(error.target, data);
-        //     })
-        //     .on('load', (xhr) => {
-        //         let data = this._onResponse(xhr);
-        //         this.doneCb(data);
-        //     })
-        //     .send(type, (data === undefined || isStringified) ?
-        //         data : JSON.stringify(data));
     }
 
     _onResponse(xhr) {
