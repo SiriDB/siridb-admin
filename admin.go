@@ -135,20 +135,24 @@ func getHostAndPort(addr string) (string, uint16, error) {
 	return addr[1 : len(addr)-1], uint16(u), err
 }
 
-func newDatabase(conn *siridb.Connection) (interface{}, error) {
+func newDatabase(
+	conn *siridb.Connection,
+	account, password, dbname, timePrecision string,
+	bufferSize int,
+	durationNum, durationLog string) (interface{}, error) {
 	var msg string
 	options := make(map[string]interface{})
 
-	options["dbname"] = *xNdDatabase
-	options["time_precision"] = *xNdTimep
-	options["buffer_size"] = *xNdBufSize
-	options["duration_num"] = *xNdDuraNum
-	options["duration_log"] = *xNdDuraLog
+	options["dbname"] = dbname
+	options["time_precision"] = timePrecision
+	options["buffer_size"] = bufferSize
+	options["duration_num"] = durationNum
+	options["duration_log"] = durationLog
 
-	_, err := conn.Manage(*xAccount, *xPassword, siridb.AdminNewDatabase, options)
+	_, err := conn.Manage(account, password, siridb.AdminNewDatabase, options)
 
 	if err == nil {
-		msg = fmt.Sprintf("successfully created database: %s\n", *xNdDatabase)
+		msg = fmt.Sprintf("successfully created database: %s\n", dbname)
 	}
 	return msg, err
 }
@@ -312,6 +316,7 @@ func initHTTP() error {
 	http.HandleFunc("/accounts/new", handlerAccountsNew)
 	http.HandleFunc("/accounts/drop", handlerAccountsDrop)
 	http.HandleFunc("/databases/fetch", handlerDatabasesFetch)
+	http.HandleFunc("/databases/new-database", handlerDatabasesNewDatabase)
 	http.HandleFunc("/auth/fetch", handlerAuthFetch)
 	http.HandleFunc("/auth/login", handlerAuthLogin)
 	http.HandleFunc("/auth/logoff", handlerAuthLogoff)
@@ -386,7 +391,7 @@ func main() {
 		case xChangeAccount.FullCommand():
 			msg, err = changePassword(conn, *xAccount, *xPassword, *xAccount, *xCaPassword)
 		case xNewDatabase.FullCommand():
-			msg, err = newDatabase(conn)
+			msg, err = newDatabase(conn, *xAccount, *xPassword, *xNdDatabase, *xNdTimep, *xNdBufSize, *xNdDuraNum, *xNdDuraLog)
 		case xNewReplica.FullCommand():
 			msg, err = newReplica(conn)
 		case xNewPool.FullCommand():

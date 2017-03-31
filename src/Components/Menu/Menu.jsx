@@ -8,6 +8,7 @@ class Menu extends React.Component {
     render() {
         return (
             <div className="row">
+                <h1>Menu</h1>
                 <ul>
                     <li><Link to="databases"><i className="fa fa-fw fa-database"></i>databases</Link></li>
                     <li><Link to="accounts"><i className="fa fa-fw fa-users"></i>service accounts</Link></li>

@@ -14,10 +14,11 @@ class Databases extends Reflux.Component {
     render() {
         let items = (this.state.databases.length) ?
             this.state.databases.map((dbname, n) => <li key={n}>{dbname}</li>) :
-            <li>no databases installed</li>;
+            <li><i>no database installed</i></li>;
 
         return (
             <div className="row">
+                <h1>Databases</h1>
                 <ul>{items}</ul>
                 <hr />
                 <ul>

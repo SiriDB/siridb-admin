@@ -42,6 +42,7 @@ class View extends Reflux.Component {
     render() {
         return (
             <div className="row">
+                <h1>Service accounts</h1>
                 <ul>
                     {
                         this.state.accounts.map((name, n) => <li key={n}><a onClick={() => this.onDrop(name)}><i className="fa fa-fw fa-trash"></i></a>{name}</li>)

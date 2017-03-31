@@ -9,6 +9,7 @@ import { hashHistory, Router, Route, IndexRoute } from 'react-router';
 import Menu from './Menu/Menu.jsx';
 import Databases from './Menu/Databases/Databases.jsx';
 import NewDatabase from './Menu/Databases/NewDatabase.jsx';
+import NewPool from './Menu/Databases/NewPool.jsx';
 import ChangePassword from './Menu/ChangePassword.jsx';
 import VersionInfo from './Menu/VersionInfo.jsx';
 import Accounts from './Menu/Accounts/Accounts.jsx';
@@ -20,6 +21,7 @@ render((
             <IndexRoute component={Menu} />
             <Route path="databases" component={Databases} />
             <Route path="databases/new-database" component={NewDatabase} />
+            <Route path="databases/new-pool" component={NewPool} />
             <Route path="accounts" component={Accounts} />
             <Route path="accounts/new" component={NewAccount} />
             <Route path="change-password" component={ChangePassword} />

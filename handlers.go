@@ -127,6 +127,69 @@ func handlerAccountsDrop(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func handlerDatabasesNewDatabase(w http.ResponseWriter, r *http.Request) {
+	b, err := ioutil.ReadAll(r.Body)
+	defer r.Body.Close()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	sess, err := globalSessions.SessionStart(w, r)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	type NewDatabase struct {
+		Dbname        string `json:"dbname"`
+		TimePrecision string `json:"timePrecision"`
+		BufferSize    int    `json:"bufferSize"`
+		DurationNum   string `json:"durationNum"`
+		DurationLog   string `json:"durationLog"`
+	}
+
+	var newDb NewDatabase
+
+	err = json.Unmarshal(b, &newDb)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	server, port, err := getHostAndPort(sess.Get("server").(string))
+
+	if err != nil {
+		msg := fmt.Sprintf(invalidServerAddress, sess.Get("server").(string))
+		http.Error(w, msg, http.StatusInternalServerError)
+		return
+	}
+
+	conn := siridb.NewConnection(server, port)
+
+	res, err := newDatabase(
+		conn,
+		sess.Get("username").(string),
+		sess.Get("password").(string),
+		newDb.Dbname,
+		newDb.TimePrecision,
+		newDb.BufferSize,
+		newDb.DurationNum,
+		newDb.DurationLog)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if b, err := json.Marshal(res); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	} else {
+		w.Write(b)
+	}
+}
+
 func handlerAccountsNew(w http.ResponseWriter, r *http.Request) {
 	b, err := ioutil.ReadAll(r.Body)
 	defer r.Body.Close()

@@ -56,6 +56,7 @@ class ChangePassword extends React.Component {
     render() {
         return (
             <div className="row">
+                <h1>Change password</h1>
                 <div className="form">
                     <div className="form-group">
                         <div className="input-group input-group-sm">
@@ -93,12 +94,12 @@ class ChangePassword extends React.Component {
                     </div>
                     <div className="form-group">
                          <div className="input-group input-group-sm">
-                            <Link className="btn btn-cancel" to="/">cancel</Link>
-                            &nbsp;
                             <button
                                 className="btn btn-default"
                                 type="button"
-                                onClick={this.onChangePassword.bind(this)}>change password</button>
+                                onClick={this.onChangePassword.bind(this)}>Ok</button>
+                            &nbsp;
+                            <Link className="btn btn-cancel" to="/">Cancel</Link>
                         </div>
                     </div>
                 </div>

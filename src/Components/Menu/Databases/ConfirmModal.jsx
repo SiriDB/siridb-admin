@@ -2,11 +2,10 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Modal } from 'react-bootstrap';
 
-class DropModal extends React.Component {
+class ConfirmModal extends React.Component {
 
     static propTypes = {
         show: React.PropTypes.bool.isRequired,
-        name: React.PropTypes.string.isRequired,
         onNo: React.PropTypes.func.isRequired,
         onYes: React.PropTypes.func.isRequired
     };
@@ -16,7 +15,8 @@ class DropModal extends React.Component {
         return  (
             <Modal show={this.props.show} onHide={this.props.onNo} bsSize="small">
                 <Modal.Body>
-                    <p>{ `Do you really want to drop service account '${this.props.name}'?` }</p>
+                    <p>WARNING: It is not possible to undo this action!</p>
+                    <p>Are you sure you want to continue?</p>
                 </Modal.Body>
                 <Modal.Footer>
                     <button onClick={this.props.onYes}type="button" className="btn btn-default">Yes</button>
@@ -27,4 +27,4 @@ class DropModal extends React.Component {
     }
 }
 
-export default DropModal;
+export default ConfirmModal;

@@ -48,6 +48,7 @@ class NewAccount extends Reflux.Component {
     render() {
         return (
             <div className="row">
+                <h1>New service account</h1>
                 <div className="form">
                     <div className="form-group">
                         <div className="input-group input-group-sm">
@@ -74,12 +75,12 @@ class NewAccount extends Reflux.Component {
                     </div>
                     <div className="form-group">
                          <div className="input-group input-group-sm">
-                            <Link className="btn btn-cancel" to="accounts">cancel</Link>
-                            &nbsp;
                             <button
                                 className="btn btn-default"
                                 type="button"
-                                onClick={this.onNewAccount.bind(this)}>save new account</button>
+                                onClick={this.onNewAccount.bind(this)}>Ok</button>
+                            &nbsp;
+                            <Link className="btn btn-cancel" to="accounts">Cancel</Link>
                         </div>
                     </div>
                 </div>

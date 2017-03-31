@@ -14,6 +14,7 @@ class VersionInfo extends Reflux.Component {
     render() {
         return (
             <div className="row">
+                <h1>Version information</h1>
                 <dl className="dl-horizontal">
                     <dt>Version:</dt>
                     <dd>{this.state.version}</dd>
