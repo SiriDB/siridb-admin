@@ -72,6 +72,118 @@ func handlerDatabasesFetch(w http.ResponseWriter, r *http.Request) {
 	fetch(w, r, getDatabases)
 }
 
+func handlerAccountsDrop(w http.ResponseWriter, r *http.Request) {
+	b, err := ioutil.ReadAll(r.Body)
+	defer r.Body.Close()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	sess, err := globalSessions.SessionStart(w, r)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	type DropAccount struct {
+		Username string `json:"username"`
+	}
+
+	var dropAccnt DropAccount
+
+	err = json.Unmarshal(b, &dropAccnt)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	server, port, err := getHostAndPort(sess.Get("server").(string))
+
+	if err != nil {
+		msg := fmt.Sprintf(invalidServerAddress, sess.Get("server").(string))
+		http.Error(w, msg, http.StatusInternalServerError)
+		return
+	}
+
+	conn := siridb.NewConnection(server, port)
+
+	res, err := dropAccount(
+		conn,
+		sess.Get("username").(string),
+		sess.Get("password").(string),
+		dropAccnt.Username)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if b, err := json.Marshal(res); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	} else {
+		w.Write(b)
+	}
+}
+
+func handlerAccountsNew(w http.ResponseWriter, r *http.Request) {
+	b, err := ioutil.ReadAll(r.Body)
+	defer r.Body.Close()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	sess, err := globalSessions.SessionStart(w, r)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	type NewAccount struct {
+		Username string `json:"username"`
+		Password string `json:"password"`
+	}
+
+	var newAccnt NewAccount
+
+	err = json.Unmarshal(b, &newAccnt)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	server, port, err := getHostAndPort(sess.Get("server").(string))
+
+	if err != nil {
+		msg := fmt.Sprintf(invalidServerAddress, sess.Get("server").(string))
+		http.Error(w, msg, http.StatusInternalServerError)
+		return
+	}
+
+	conn := siridb.NewConnection(server, port)
+
+	res, err := newAccount(
+		conn,
+		sess.Get("username").(string),
+		sess.Get("password").(string),
+		newAccnt.Username,
+		newAccnt.Password)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if b, err := json.Marshal(res); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	} else {
+		w.Write(b)
+	}
+}
+
 func handlerAuthChangePassword(w http.ResponseWriter, r *http.Request) {
 	b, err := ioutil.ReadAll(r.Body)
 	defer r.Body.Close()

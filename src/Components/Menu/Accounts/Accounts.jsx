@@ -3,16 +3,40 @@ import Reflux from 'reflux-edge';
 import { render } from 'react-dom';
 import { Link, IndexLink } from 'react-router';
 import AccountsStore from '../../../Stores/AccountsStore.jsx';
+import AccountsActions from '../../../Actions/AccountsActions.jsx';
+import DropModal from './DropModal.jsx';
 
 class View extends Reflux.Component {
 
     constructor(props) {
         super(props);
         this.store = AccountsStore;
+        this.state = {
+            showDrop: false,
+            dropName: ''
+        }
     }
 
-    onDrop() {
+    onDrop(name) {
+        this.setState({
+            showDrop: true,
+            dropName: name
+        });
+    }
 
+    onYes() {
+        this.setState({
+            showDrop: false,
+            dropName: ''
+        });
+        AccountsActions.dropAccount(this.state.dropName);
+    }
+
+    onNo() {
+        this.setState({
+            showDrop: false,
+            dropName: ''
+        });
     }
 
     render() {
@@ -20,7 +44,7 @@ class View extends Reflux.Component {
             <div className="row">
                 <ul>
                     {
-                        this.state.accounts.map((dbname, n) => <li key={n}><a onClick={this.onDrop.bind(this)}><i className="fa fa-fw fa-trash"></i></a>{dbname}</li>)
+                        this.state.accounts.map((name, n) => <li key={n}><a onClick={() => this.onDrop(name)}><i className="fa fa-fw fa-trash"></i></a>{name}</li>)
                     }
                 </ul>
                 <hr />
@@ -28,6 +52,11 @@ class View extends Reflux.Component {
                     <li><Link to="accounts/new"><i className="fa fa-fw fa-user"></i>new service account</Link></li>
                     <li><IndexLink to="/"><i className="fa fa-fw fa-arrow-left"></i>back</IndexLink></li>
                 </ul>
+                <DropModal
+                    onYes={this.onYes.bind(this)}
+                    onNo={this.onNo.bind(this)}
+                    show={this.state.showDrop}
+                    name={this.state.dropName} />
             </div>
         )
     }

@@ -1,2 +1,2 @@
 import Reflux from 'reflux-edge';
-export default Reflux.createActions(["fetch"]);
+export default Reflux.createActions(["fetch", "newAccount", "dropAccount"]);

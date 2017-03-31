@@ -64,6 +64,10 @@ func handlerSiriDBSmallPNG(w http.ResponseWriter, r *http.Request) {
 	handleFileRequest(w, "./static/img/siridb-small.png")
 }
 
+func handlerLoaderGIF(w http.ResponseWriter, r *http.Request) {
+	handleFileRequest(w, "./static/img/loader.gif")
+}
+
 func handleFileRequest(w http.ResponseWriter, fn string) {
 	b, err := ioutil.ReadFile(fn)
 	if err == nil {

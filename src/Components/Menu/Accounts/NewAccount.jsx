@@ -1,11 +1,16 @@
 import React from 'react';
+import Reflux from 'reflux-edge';
 import { render } from 'react-dom';
 import { Link } from 'react-router';
+import AlertActions from '../../../Actions/AlertActions.jsx';
+import AccountsActions from '../../../Actions/AccountsActions.jsx';
+import AccountsStore from '../../../Stores/AccountsStore.jsx';
 
-class NewAccount extends React.Component {
+class NewAccount extends Reflux.Component {
 
     constructor(props) {
         super(props);
+        this.store = AccountsStore; // required so the store will be initialized
         this.state = {
             username: '',
             password: ''
@@ -13,13 +18,17 @@ class NewAccount extends React.Component {
     }
 
     onNewAccount() {
-
+        AccountsActions.newAccount(
+            this.state.username,
+            this.state.password,
+            () => this.props.router.push('accounts')
+        );
     }
 
     onUsernameChange(event) {
         AlertActions.clearAlert();
         this.setState({
-            validate: event.target.value
+            username: event.target.value
         });
     }
 
@@ -49,7 +58,7 @@ class NewAccount extends React.Component {
                                 placeholder="service account name"
                                 value={this.state.username}
                                 onKeyPress={this.onKeyPress.bind(this)}
-                                onChange={this.onCurrentChange.bind(this)} />
+                                onChange={this.onUsernameChange.bind(this)} />
                         </div>
                     </div>
                     <div className="form-group">
@@ -65,12 +74,12 @@ class NewAccount extends React.Component {
                     </div>
                     <div className="form-group">
                          <div className="input-group input-group-sm">
-                            <Link className="btn btn-cancel" to="/">cancel</Link>
+                            <Link className="btn btn-cancel" to="accounts">cancel</Link>
                             &nbsp;
                             <button
                                 className="btn btn-default"
                                 type="button"
-                                onClick={this.onChangePassword.bind(this)}>save new account</button>
+                                onClick={this.onNewAccount.bind(this)}>save new account</button>
                         </div>
                     </div>
                 </div>

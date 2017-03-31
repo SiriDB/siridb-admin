@@ -13,7 +13,6 @@ class AlertStore extends BaseStore {
     }
 
     onSetAlert(msg, severity) {
-        console.log(msg, severity);
         this.setState({
             alert: {
                 msg: msg,

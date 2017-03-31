@@ -59,3 +59,7 @@ func handlerSiriDBLargePNG(w http.ResponseWriter, r *http.Request) {
 func handlerSiriDBSmallPNG(w http.ResponseWriter, r *http.Request) {
 	w.Write(FileSiriDBSmallPNG)
 }
+
+func handlerLoaderGIF(w http.ResponseWriter, r *http.Request) {
+	w.Write(FileLoaderGIF)
+}

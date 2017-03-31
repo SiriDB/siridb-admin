@@ -11,19 +11,24 @@ class JsonRequest {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.open(type, url);
         xmlhttp.setRequestHeader('Content-Type', 'application/json');
-        xmlhttp.send((data === undefined || isStringified) ? data : JSON.stringify(data));
 
-        xmlhttp.onload = (e) => {
-            var data;
-            if (e.target.status == 200) {
-                data = JSON.parse(xmlhttp.responseText);
-                this.doneCb(data);
-            } else {
-                data = xmlhttp.responseText;
-                this.failCb(e.target, data);
+        data = (data === undefined || isStringified) ? data : JSON.stringify(data)
+
+        xmlhttp.onreadystatechange = () => {
+            if (xmlhttp.readyState == 4) {
+                let resp;
+                if (xmlhttp.status == 200) {
+                    resp = JSON.parse(xmlhttp.responseText);
+                    this.doneCb(resp);
+                } else {
+                    resp = xmlhttp.responseText || 'failed to send request, please check if the webserver is still running';
+                    this.failCb(xmlhttp, resp);
+                }
+                this.alwaysCb(xmlhttp, resp);
             }
-            this.alwaysCb(e.target, data);
         };
+
+        xmlhttp.send(data);
     }
 
     _onResponse(xhr) {

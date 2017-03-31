@@ -229,29 +229,29 @@ func getVersion(conn *siridb.Connection, account, password string) (interface{},
 	return res, err
 }
 
-func newAccount(conn *siridb.Connection) (interface{}, error) {
+func newAccount(conn *siridb.Connection, account, password, newAccnt, newPasswd string) (interface{}, error) {
 	var msg string
 	options := make(map[string]interface{})
 
-	options["account"] = *xNaAccount
-	options["password"] = *xNaPassword
+	options["account"] = newAccnt
+	options["password"] = newPasswd
 
-	_, err := conn.Manage(*xAccount, *xPassword, siridb.AdminNewAccount, options)
+	_, err := conn.Manage(account, password, siridb.AdminNewAccount, options)
 	if err == nil {
-		msg = fmt.Sprintf("successfully created service account: %s", *xNaAccount)
+		msg = fmt.Sprintf("successfully created service account: %s", newAccnt)
 	}
 	return msg, err
 }
 
-func dropAccount(conn *siridb.Connection) (interface{}, error) {
+func dropAccount(conn *siridb.Connection, account, password, dropAccnt string) (interface{}, error) {
 	var msg string
 	options := make(map[string]interface{})
 
-	options["account"] = *xDaAccount
+	options["account"] = dropAccnt
 
-	_, err := conn.Manage(*xAccount, *xPassword, siridb.AdminDropAccount, options)
+	_, err := conn.Manage(account, password, siridb.AdminDropAccount, options)
 	if err == nil {
-		msg = fmt.Sprintf("successfully dropped service account: %s", *xDaAccount)
+		msg = fmt.Sprintf("successfully dropped service account: %s", dropAccnt)
 	}
 	return msg, err
 }
@@ -299,6 +299,7 @@ func initHTTP() error {
 	http.HandleFunc("/favicon.ico", handlerFaviconIco)
 	http.HandleFunc("/img/siridb-large.png", handlerSiriDBLargePNG)
 	http.HandleFunc("/img/siridb-small.png", handlerSiriDBSmallPNG)
+	http.HandleFunc("/img/loader.gif", handlerLoaderGIF)
 	http.HandleFunc("/css/font-awesome.min.css", handlerFontAwesomeMinCSS)
 	http.HandleFunc("/fonts/FontAwesome.otf", handlerFontsFaOTF)
 	http.HandleFunc("/fonts/fontawesome-webfont.eot", handlerFontsFaEOT)
@@ -308,6 +309,8 @@ func initHTTP() error {
 	http.HandleFunc("/fonts/fontawesome-webfont.woff2", handlerFontsFaWOFF2)
 	http.HandleFunc("/version/fetch", handlerVersionFetch)
 	http.HandleFunc("/accounts/fetch", handlerAccountsFetch)
+	http.HandleFunc("/accounts/new", handlerAccountsNew)
+	http.HandleFunc("/accounts/drop", handlerAccountsDrop)
 	http.HandleFunc("/databases/fetch", handlerDatabasesFetch)
 	http.HandleFunc("/auth/fetch", handlerAuthFetch)
 	http.HandleFunc("/auth/login", handlerAuthLogin)
@@ -377,9 +380,9 @@ func main() {
 		case xNewReplica.FullCommand():
 			msg, err = newReplica(conn)
 		case xNewAccount.FullCommand():
-			msg, err = newAccount(conn)
+			msg, err = newAccount(conn, *xAccount, *xPassword, *xNaAccount, *xNaPassword)
 		case xDropAccount.FullCommand():
-			msg, err = dropAccount(conn)
+			msg, err = dropAccount(conn, *xAccount, *xPassword, *xDaAccount)
 		case xChangeAccount.FullCommand():
 			msg, err = changePassword(conn, *xAccount, *xPassword, *xAccount, *xCaPassword)
 		case xNewDatabase.FullCommand():

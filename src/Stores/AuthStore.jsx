@@ -11,7 +11,8 @@ class AuthStore extends BaseStore {
         super();
         this.listenables = AuthActions;
         this.state = {
-            user: null
+            user: null,
+            loading: false
         };
         AuthActions.fetch();
     }
@@ -21,20 +22,26 @@ class AuthStore extends BaseStore {
         .done((data) => {
             this.setState(data);
         })
+        .fail((err, data) => {
+            AlertActions.setAlert(data, 'danger');
+        });
     }
 
     onLogoff() {
         this.fetch('/auth/logoff')
         .done((data) => {
             this.setState({
-                user: null
+                user: null,
             });
         })
+        .fail((err, data) => {
+            AlertActions.setAlert(data, 'danger');
+        });
     }
 
     onLogin(username, password, server) {
         if (!username) {
-            AlertActions.setAlert('Username is required');
+            AlertActions.setAlert('Account name is required');
         } else if (!password) {
             AlertActions.setAlert('Password is required');
         } else if (!server) {
@@ -49,7 +56,7 @@ class AuthStore extends BaseStore {
                 this.setState(data);
             })
             .fail((error, data) => {
-                AlertActions.setAlert(data || 'Unknown error occurred');
+                AlertActions.setAlert(data, 'warning');
             });
         }
     }
@@ -68,7 +75,7 @@ class AuthStore extends BaseStore {
             })
             .done((data) => {
                 AlertActions.setAlert(data, 'success');
-                successCb()
+                successCb();
             })
             .fail((error, data) => {
                 AlertActions.setAlert(data || 'Unknown error occurred');
