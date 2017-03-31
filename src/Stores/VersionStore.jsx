@@ -1,6 +1,7 @@
 import React from 'react';
 import BaseStore from './BaseStore.jsx';
 import VersionActions from '../Actions/VersionActions.jsx';
+import AlertActions from '../Actions/AlertActions.jsx';
 
 class VersionStore extends BaseStore {
 
@@ -24,6 +25,9 @@ class VersionStore extends BaseStore {
                 date: data[2]
             });
         })
+        .fail((err, data) => {
+            AlertActions.setAlert(data, 'danger');
+        });
     }
 }
 
