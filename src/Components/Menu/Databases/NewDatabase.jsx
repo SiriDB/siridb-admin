@@ -6,6 +6,7 @@ import AlertActions from '../../../Actions/AlertActions.jsx';
 import DatabasesActions from '../../../Actions/DatabasesActions.jsx';
 import DatabasesStore from '../../../Stores/DatabasesStore.jsx';
 import ConfirmModal from './ConfirmModal.jsx';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 class NewDatabase extends Reflux.Component {
 
@@ -88,6 +89,19 @@ class NewDatabase extends Reflux.Component {
     }
 
     render() {
+        let tooltipTp = <Tooltip id="tooltip-tp" placement="top">
+            The precision used for storing timestamps in the database. This value cannot be changed so must be chosen carefully.
+            </Tooltip>;
+        let tooltipBs = <Tooltip id="tooltop-bs" placement="top">
+            Each series uses a buffer space in both memory and disk before points are actually written to shards.
+            The size for this buffer cannot be changed once the database is created.</Tooltip>
+        let tooltipDn = <Tooltip id="tooltop-dn" placement="top">
+            Points are written to shards and each shard has points for a specific time range. The size or time window
+            can be chosen but not changed once the database is created. For example: the value '1w' will create shards holding points for 1 week.</Tooltip>
+        let tooltipDl = <Tooltip id="tooltop-dl" placement="top">
+            Like numeric duration but then for log values.
+            At the moment log values are not supported by SiriDB but this will be implemented in a future release.</Tooltip>
+
         return (
             <div className="row">
                 <h1>New database</h1>
@@ -107,7 +121,14 @@ class NewDatabase extends Reflux.Component {
                         </div>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="inp-time-precision">Time precision</label>
+                        <label htmlFor="inp-time-precision">
+                            Time precision&nbsp;
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={tooltipTp}>
+                                <i className="fa fa-question-circle"></i>
+                            </OverlayTrigger>
+                        </label>
                         <div className="input-group input-group-sm">
                             <select
                                 id="inp-time-precision"
@@ -122,7 +143,14 @@ class NewDatabase extends Reflux.Component {
                         </div>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="inp-buffer-size">Buffer size</label>
+                        <label htmlFor="inp-buffer-size">
+                            Buffer size&nbsp;
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={tooltipBs}>
+                                <i className="fa fa-question-circle"></i>
+                            </OverlayTrigger>
+                        </label>
                         <div className="input-group input-group-sm">
                             <input
                                 id="inp-buffer-size"
@@ -138,7 +166,14 @@ class NewDatabase extends Reflux.Component {
                         </div>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="inp-duration-num">Sharding duration (for numeric values)</label>
+                        <label htmlFor="inp-duration-num">
+                            Sharding duration (for numeric values)&nbsp;
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={tooltipDn}>
+                                <i className="fa fa-question-circle"></i>
+                            </OverlayTrigger>
+                        </label>
                         <div className="input-group input-group-sm">
                             <input
                                 id="inp-duration-num"
@@ -151,7 +186,14 @@ class NewDatabase extends Reflux.Component {
                         </div>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="inp-duration-log">Sharding duration (for log values)</label>
+                        <label htmlFor="inp-duration-log">
+                            Sharding duration (for log values)&nbsp;
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={tooltipDl}>
+                                <i className="fa fa-question-circle"></i>
+                            </OverlayTrigger>
+                        </label>
                         <div className="input-group input-group-sm">
                             <input
                                 id="inp-duration-log"
