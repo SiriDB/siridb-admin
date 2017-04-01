@@ -157,14 +157,17 @@ func newDatabase(
 	return msg, err
 }
 
-func newPool(conn *siridb.Connection) (interface{}, error) {
+func newPool(
+	conn *siridb.Connection,
+	account, password, dbname, serveraddr, username, userpw string,
+	force bool) (interface{}, error) {
 	var msg string
-	server, port, err := getHostAndPort(*xNpServer)
+	server, port, err := getHostAndPort(serveraddr)
 	if err != nil {
-		return msg, fmt.Errorf(invalidServerAddress, *xNpServer)
+		return msg, fmt.Errorf(invalidServerAddress, serveraddr)
 	}
 
-	if !*xNpForce {
+	if !force {
 		c := askForConfirmation("WARNING: It is not possible to undo this action!\nAre you sure you want to continue?")
 		if !c {
 			return msg, fmt.Errorf("cancelled by user")
@@ -173,21 +176,24 @@ func newPool(conn *siridb.Connection) (interface{}, error) {
 
 	options := make(map[string]interface{})
 
-	options["dbname"] = *xNpDatabase
+	options["dbname"] = dbname
 	options["host"] = server
 	options["port"] = int(port)
-	options["username"] = *xNpUser
-	options["password"] = *xNpPassword
+	options["username"] = username
+	options["password"] = userpw
 
-	_, err = conn.Manage(*xAccount, *xPassword, siridb.AdminNewPool, options)
+	_, err = conn.Manage(account, password, siridb.AdminNewPool, options)
 
 	if err == nil {
-		msg = fmt.Sprintf("successfully created a pool for database: %s\n", *xNpDatabase)
+		msg = fmt.Sprintf("successfully created a pool for database: %s\n", dbname)
 	}
 	return msg, err
 }
 
-func newReplica(conn *siridb.Connection) (interface{}, error) {
+func newReplica(
+	conn *siridb.Connection,
+	account, password, dbname, serveraddr, username, userpw string,
+	pool int, force bool) (interface{}, error) {
 	var msg string
 	server, port, err := getHostAndPort(*xNrServer)
 	if err != nil {
@@ -203,17 +209,17 @@ func newReplica(conn *siridb.Connection) (interface{}, error) {
 
 	options := make(map[string]interface{})
 
-	options["dbname"] = *xNrDatabase
+	options["dbname"] = dbname
 	options["host"] = server
 	options["port"] = int(port)
-	options["username"] = *xNrUser
-	options["password"] = *xNrPassword
-	options["pool"] = *xNrPool
+	options["username"] = username
+	options["password"] = userpw
+	options["pool"] = pool
 
-	_, err = conn.Manage(*xAccount, *xPassword, siridb.AdminNewReplica, options)
+	_, err = conn.Manage(account, password, siridb.AdminNewReplica, options)
 
 	if err == nil {
-		msg = fmt.Sprintf("successfully created a replica for database: %s\n", *xNrDatabase)
+		msg = fmt.Sprintf("successfully created a replica for database: %s\n", dbname)
 	}
 	return msg, err
 }
@@ -317,6 +323,8 @@ func initHTTP() error {
 	http.HandleFunc("/accounts/drop", handlerAccountsDrop)
 	http.HandleFunc("/databases/fetch", handlerDatabasesFetch)
 	http.HandleFunc("/databases/new-database", handlerDatabasesNewDatabase)
+	http.HandleFunc("/databases/new-pool", handlerDatabasesNewPool)
+	http.HandleFunc("/databases/new-replica", handlerDatabasesNewReplica)
 	http.HandleFunc("/auth/fetch", handlerAuthFetch)
 	http.HandleFunc("/auth/login", handlerAuthLogin)
 	http.HandleFunc("/auth/logoff", handlerAuthLogoff)
@@ -382,8 +390,6 @@ func main() {
 			msg, err = getAccounts(conn, *xAccount, *xPassword)
 		case xGetDatabases.FullCommand():
 			msg, err = getDatabases(conn, *xAccount, *xPassword)
-		case xNewReplica.FullCommand():
-			msg, err = newReplica(conn)
 		case xNewAccount.FullCommand():
 			msg, err = newAccount(conn, *xAccount, *xPassword, *xNaAccount, *xNaPassword)
 		case xDropAccount.FullCommand():
@@ -392,10 +398,10 @@ func main() {
 			msg, err = changePassword(conn, *xAccount, *xPassword, *xAccount, *xCaPassword)
 		case xNewDatabase.FullCommand():
 			msg, err = newDatabase(conn, *xAccount, *xPassword, *xNdDatabase, *xNdTimep, *xNdBufSize, *xNdDuraNum, *xNdDuraLog)
-		case xNewReplica.FullCommand():
-			msg, err = newReplica(conn)
 		case xNewPool.FullCommand():
-			msg, err = newPool(conn)
+			msg, err = newPool(conn, *xAccount, *xPassword, *xNpDatabase, *xNpServer, *xNpUser, *xNpPassword, *xNpForce)
+		case xNewReplica.FullCommand():
+			msg, err = newReplica(conn, *xAccount, *xPassword, *xNrDatabase, *xNrServer, *xNrUser, *xNrPassword, *xNrPool, *xNpForce)
 		}
 
 		conn.Close()

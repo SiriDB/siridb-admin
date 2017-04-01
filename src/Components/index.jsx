@@ -10,6 +10,7 @@ import Menu from './Menu/Menu.jsx';
 import Databases from './Menu/Databases/Databases.jsx';
 import NewDatabase from './Menu/Databases/NewDatabase.jsx';
 import NewPool from './Menu/Databases/NewPool.jsx';
+import NewReplica from './Menu/Databases/NewReplica.jsx';
 import ChangePassword from './Menu/ChangePassword.jsx';
 import VersionInfo from './Menu/VersionInfo.jsx';
 import Accounts from './Menu/Accounts/Accounts.jsx';
@@ -22,6 +23,7 @@ render((
             <Route path="databases" component={Databases} />
             <Route path="databases/new-database" component={NewDatabase} />
             <Route path="databases/new-pool" component={NewPool} />
+            <Route path="databases/new-replica" component={NewReplica} />
             <Route path="accounts" component={Accounts} />
             <Route path="accounts/new" component={NewAccount} />
             <Route path="change-password" component={ChangePassword} />

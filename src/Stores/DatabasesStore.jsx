@@ -24,33 +24,42 @@ class DatabasesStore extends BaseStore {
     }
 
     onNewDatabase(dbname, timePrecision, bufferSize, durationNum, durationLog, successCb) {
-        if (!dbname) {
-            AlertActions.setAlert('Database name is required', 'warning');
-        } else if (!bufferSize) {
-            AlertActions.setAlert('Buffer size should be a multilple of 512. (default: 1024)', 'warning');
-        } else if (!durationNum) {
-            AlertActions.setAlert('Numeric duration is required. (default: 1w)', 'warning');
-        } else if (!durationLog) {
-            AlertActions.setAlert('Log duration is required. (default: 1d)', 'warning');
-        } else {
-            this.post('/databases/new-database', {
-                dbname: dbname,
-                timePrecision: timePrecision,
-                bufferSize: parseInt(bufferSize),
-                durationNum: durationNum,
-                durationLog: durationLog
-            })
-            .done((data) => {
-                this.setState({
-                    databases: [...this.state.databases, dbname]
-                });
-                AlertActions.setAlert(data, 'success');
-                successCb();
-            })
-            .fail((err, data) => {
-                AlertActions.setAlert(data, 'warning');
+        this.post('/databases/new-database', {
+            dbname: dbname,
+            timePrecision: timePrecision,
+            bufferSize: parseInt(bufferSize),
+            durationNum: durationNum,
+            durationLog: durationLog
+        })
+        .done((data) => {
+            this.setState({
+                databases: [...this.state.databases, dbname]
             });
-        }
+            AlertActions.setAlert(data, 'success');
+            successCb();
+        })
+        .fail((err, data) => {
+            AlertActions.setAlert(data, 'warning');
+        });
+    }
+
+    onNewPool(dbname, server, username, password, successCb) {
+        this.post('/databases/new-pool', {
+            dbname: dbname,
+            server: server,
+            username: username,
+            password: password
+        })
+        .done((data) => {
+            this.setState({
+                databases: [...this.state.databases, dbname]
+            });
+            AlertActions.setAlert(data, 'success');
+            successCb();
+        })
+        .fail((err, data) => {
+            AlertActions.setAlert(data, 'warning');
+        });
     }
 }
 

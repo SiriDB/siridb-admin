@@ -35,7 +35,17 @@ class NewDatabase extends Reflux.Component {
     }
 
     onSave() {
-        this.setState({showConfirm: true});
+        if (!this.state.dbname) {
+            AlertActions.setAlert('Database name is required', 'warning');
+        } else if (!this.state.bufferSize) {
+            AlertActions.setAlert('Buffer size should be a multilple of 512. (default: 1024)', 'warning');
+        } else if (!this.state.durationNum) {
+            AlertActions.setAlert('Numeric duration is required. (default: 1w)', 'warning');
+        } else if (!this.state.durationLog) {
+            AlertActions.setAlert('Log duration is required. (default: 1d)', 'warning');
+        } else {
+            this.setState({showConfirm: true});
+        }
     }
 
     onYes() {

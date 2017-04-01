@@ -8,7 +8,7 @@ import DatabasesStore from '../../../Stores/DatabasesStore.jsx';
 import ConfirmModal from './ConfirmModal.jsx';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
-class NewPool extends Reflux.Component {
+class NewReplica extends Reflux.Component {
 
     constructor(props) {
         super(props);
@@ -18,16 +18,18 @@ class NewPool extends Reflux.Component {
             server: '',
             username: '',
             password: '',
+            pool: 0,
             showConfirm: false
         };
     }
 
-    onNewPool() {
-        DatabasesActions.newPool(
+    onNewReplica() {
+        DatabasesActions.newNewReplica(
             this.state.dbname,
             this.state.server,
             this.state.username,
             this.state.password,
+            this.state.pool,
             () => this.props.router.push('databases')
         );
     }
@@ -47,7 +49,7 @@ class NewPool extends Reflux.Component {
     }
 
     onYes() {
-        this.onNewPool();
+        this.onNewReplica();
         this.setState({showConfirm: false});
     }
 
@@ -83,15 +85,22 @@ class NewPool extends Reflux.Component {
         });
     }
 
+    onPoolChange(event) {
+        AlertActions.clearAlert();
+        this.setState({
+            pool: event.target.value
+        });
+    }
+
     onKeyPress(event) {
         if (event.key == 'Enter') {
-            this.onNewPool();
+            this.onNewReplica();
         }
     }
 
     render() {
         let tooltipDn = <Tooltip id="tooltip-dn" placement="top">
-            Database name which you want to extend with a new pool.
+            Database name which you want to extend with a new replica.
             </Tooltip>;
         let tooltipSn = <Tooltip id="tooltip-sn" placement="top">
             Address of a SiriDB server hosting the database. If the database already has more than one server, just choose one.
@@ -101,7 +110,7 @@ class NewPool extends Reflux.Component {
             </Tooltip>;
         return (
             <div className="row">
-                <h1>New pool</h1>
+                <h1>New replica</h1>
                 <div className="form">
                     <div className="form-group">
                         <label htmlFor="inp-dbname">Database name&nbsp;
@@ -175,6 +184,22 @@ class NewPool extends Reflux.Component {
                         </div>
                     </div>
                     <div className="form-group">
+                        <label htmlFor="inp-pool">Replica for pool</label>
+                        <div className="input-group input-group-sm">
+                            <input
+                                id="inp-password"
+                                type="number"
+                                min="0"
+                                max="1000"
+                                step="1"
+                                className="form-control"
+                                placeholder="replica for pool number..."
+                                value={this.state.pool}
+                                onKeyPress={this.onKeyPress.bind(this)}
+                                onChange={this.onPoolChange.bind(this)} />
+                        </div>
+                    </div>
+                    <div className="form-group">
                         <div className="input-group input-group-sm">
                             <button
                                 className="btn btn-default"
@@ -194,4 +219,4 @@ class NewPool extends Reflux.Component {
     }
 }
 
-export default NewPool;
+export default NewReplica;
