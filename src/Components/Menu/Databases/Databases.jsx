@@ -3,12 +3,14 @@ import Reflux from 'reflux-edge';
 import { render } from 'react-dom';
 import { Link, IndexLink } from 'react-router';
 import DatabasesStore from '../../../Stores/DatabasesStore.jsx';
+import DatabasesActions from '../../../Actions/DatabasesActions.jsx';
 
 class Databases extends Reflux.Component {
 
     constructor(props) {
         super(props);
         this.store = DatabasesStore;
+        DatabasesActions.fetch();
     }
 
     render() {

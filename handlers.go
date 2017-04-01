@@ -46,6 +46,7 @@ func fetch(w http.ResponseWriter, r *http.Request, fn fetchFunc) {
 	}
 
 	conn := siridb.NewConnection(server, port)
+	conn.LogCh = *logChannel
 
 	res, err := fn(conn, sess.Get("username").(string), sess.Get("password").(string))
 	if err != nil {
@@ -108,6 +109,7 @@ func handlerAccountsDrop(w http.ResponseWriter, r *http.Request) {
 	}
 
 	conn := siridb.NewConnection(server, port)
+	conn.LogCh = *logChannel
 
 	res, err := dropAccount(
 		conn,
@@ -167,6 +169,7 @@ func handlerDatabasesNewReplica(w http.ResponseWriter, r *http.Request) {
 	}
 
 	conn := siridb.NewConnection(server, port)
+	conn.LogCh = *logChannel
 
 	res, err := newReplica(
 		conn,
@@ -230,6 +233,7 @@ func handlerDatabasesNewPool(w http.ResponseWriter, r *http.Request) {
 	}
 
 	conn := siridb.NewConnection(server, port)
+	conn.LogCh = *logChannel
 
 	res, err := newPool(
 		conn,
@@ -293,6 +297,7 @@ func handlerDatabasesNewDatabase(w http.ResponseWriter, r *http.Request) {
 	}
 
 	conn := siridb.NewConnection(server, port)
+	conn.LogCh = *logChannel
 
 	res, err := newDatabase(
 		conn,
@@ -353,6 +358,7 @@ func handlerAccountsNew(w http.ResponseWriter, r *http.Request) {
 	}
 
 	conn := siridb.NewConnection(server, port)
+	conn.LogCh = *logChannel
 
 	res, err := newAccount(
 		conn,
@@ -410,6 +416,7 @@ func handlerAuthChangePassword(w http.ResponseWriter, r *http.Request) {
 	}
 
 	conn := siridb.NewConnection(server, port)
+	conn.LogCh = *logChannel
 
 	res, err := changePassword(
 		conn,
@@ -487,6 +494,7 @@ func handlerAuthLogin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	conn := siridb.NewConnection(server, port)
+	conn.LogCh = *logChannel
 
 	_, err = getVersion(conn, login.Username, login.Password)
 

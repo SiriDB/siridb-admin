@@ -8,6 +8,16 @@ import DatabasesStore from '../../../Stores/DatabasesStore.jsx';
 import ConfirmModal from './ConfirmModal.jsx';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
+const tooltipDn = <Tooltip id="tooltip-dn" placement="top">
+    Database name which you want to extend with a new pool.
+    </Tooltip>;
+const tooltipSn = <Tooltip id="tooltip-sn" placement="top">
+    Address of a SiriDB server hosting the database. If the database already has more than one server, just choose one.
+    </Tooltip>;
+const tooltipUn = <Tooltip id="tooltip-un" placement="top">
+    Username with full privileges to the database. Note: do not confuse a database user with a service account.
+    </Tooltip>;
+
 class NewPool extends Reflux.Component {
 
     constructor(props) {
@@ -35,11 +45,11 @@ class NewPool extends Reflux.Component {
     onSave() {
         if (!this.state.dbname) {
             AlertActions.setAlert('Database name is required', 'warning');
-        } if (!this.state.server) {
+        } else if (!this.state.server) {
             AlertActions.setAlert('Server address is required', 'warning');
-        } if (!this.state.username) {
+        } else if (!this.state.username) {
             AlertActions.setAlert('Username is required', 'warning');
-        } if (!this.state.password) {
+        } else if (!this.state.password) {
             AlertActions.setAlert('Password is required', 'warning');
         } else {
             this.setState({showConfirm: true});
@@ -85,21 +95,12 @@ class NewPool extends Reflux.Component {
 
     onKeyPress(event) {
         if (event.key == 'Enter') {
-            this.onNewPool();
+            this.onSave();
         }
     }
 
     render() {
-        let tooltipDn = <Tooltip id="tooltip-dn" placement="top">
-            Database name which you want to extend with a new pool.
-            </Tooltip>;
-        let tooltipSn = <Tooltip id="tooltip-sn" placement="top">
-            Address of a SiriDB server hosting the database. If the database already has more than one server, just choose one.
-            </Tooltip>;
-        let tooltipUn = <Tooltip id="tooltip-un" placement="top">
-            Username with full privileges to the database. Note: do not confuse a database user with a service account.
-            </Tooltip>;
-        return (
+        return this.state.loading ? <img src="/img/loader.gif" alt="loading..." /> : (
             <div className="row">
                 <h1>New pool</h1>
                 <div className="form">

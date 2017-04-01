@@ -10,6 +10,7 @@ class DatabasesStore extends BaseStore {
         this.listenables = DatabasesActions;
         this.state = {
             databases: [],
+            loading: false
         };
         DatabasesActions.fetch();
     }
@@ -24,6 +25,7 @@ class DatabasesStore extends BaseStore {
     }
 
     onNewDatabase(dbname, timePrecision, bufferSize, durationNum, durationLog, successCb) {
+        this.setState({loading: true});
         this.post('/databases/new-database', {
             dbname: dbname,
             timePrecision: timePrecision,
@@ -33,17 +35,20 @@ class DatabasesStore extends BaseStore {
         })
         .done((data) => {
             this.setState({
-                databases: [...this.state.databases, dbname]
+                databases: [...this.state.databases, dbname],
+                loading: false
             });
             AlertActions.setAlert(data, 'success');
             successCb();
         })
         .fail((err, data) => {
             AlertActions.setAlert(data, 'warning');
+            this.setState({loading: false});
         });
     }
 
     onNewPool(dbname, server, username, password, successCb) {
+        this.setState({loading: true});
         this.post('/databases/new-pool', {
             dbname: dbname,
             server: server,
@@ -52,13 +57,38 @@ class DatabasesStore extends BaseStore {
         })
         .done((data) => {
             this.setState({
-                databases: [...this.state.databases, dbname]
+                databases: [...this.state.databases, dbname],
+                loading: false
             });
             AlertActions.setAlert(data, 'success');
             successCb();
         })
         .fail((err, data) => {
             AlertActions.setAlert(data, 'warning');
+            this.setState({loading: false});
+        });
+    }
+
+    onNewReplica(dbname, server, username, password, pool, successCb) {
+        this.setState({loading: true});
+        this.post('/databases/new-replica', {
+            dbname: dbname,
+            server: server,
+            username: username,
+            password: password,
+            pool: parseInt(pool)
+        })
+        .done((data) => {
+            this.setState({
+                databases: [...this.state.databases, dbname],
+                loading: false
+            });
+            AlertActions.setAlert(data, 'success');
+            successCb();
+        })
+        .fail((err, data) => {
+            AlertActions.setAlert(data, 'warning');
+            this.setState({loading: false});
         });
     }
 }

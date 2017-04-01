@@ -195,12 +195,12 @@ func newReplica(
 	account, password, dbname, serveraddr, username, userpw string,
 	pool int, force bool) (interface{}, error) {
 	var msg string
-	server, port, err := getHostAndPort(*xNrServer)
+	server, port, err := getHostAndPort(serveraddr)
 	if err != nil {
-		return msg, fmt.Errorf(invalidServerAddress, *xNrServer)
+		return msg, fmt.Errorf(invalidServerAddress, serveraddr)
 	}
 
-	if !*xNpForce {
+	if !force {
 		c := askForConfirmation("WARNING: It is not possible to undo this action!\nAre you sure you want to continue?")
 		if !c {
 			return msg, fmt.Errorf("cancelled by user")
@@ -332,6 +332,8 @@ func initHTTP() error {
 	return nil
 }
 
+var logChannel *chan string
+
 func main() {
 	var server, args string
 	var err error
@@ -343,6 +345,13 @@ func main() {
 	if *xVersion {
 		fmt.Printf("Version: %s\n", AppVersion)
 		os.Exit(0)
+	}
+
+	if !*xVerbose {
+		// suppress logging if not in verbose mode
+		logCh := make(chan string)
+		go logHandle(logCh)
+		logChannel = &logCh
 	}
 
 	if *xHTTP {
@@ -374,12 +383,7 @@ func main() {
 		}
 
 		conn := siridb.NewConnection(server, port)
-		if !*xVerbose {
-			// suppress logging if not in verbose mode
-			logCh := make(chan string)
-			go logHandle(logCh)
-			conn.LogCh = logCh
-		}
+		conn.LogCh = *logChannel
 
 		var msg interface{}
 

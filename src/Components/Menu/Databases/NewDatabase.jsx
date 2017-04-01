@@ -8,6 +8,21 @@ import DatabasesStore from '../../../Stores/DatabasesStore.jsx';
 import ConfirmModal from './ConfirmModal.jsx';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
+
+const tooltipTp = <Tooltip id="tooltip-tp" placement="top">
+    Precision used for storing timestamps in the database. This value cannot be changed once the database is created.
+    </Tooltip>;
+const tooltipBs = <Tooltip id="tooltop-bs" placement="top">
+    Each series uses a buffer space in both memory and disk before points are actually written to shards.
+    The size for this buffer cannot be changed once the database is created.</Tooltip>
+const tooltipDn = <Tooltip id="tooltop-dn" placement="top">
+    Points are written to shards and each shard has points for a specific time range. The size or time window
+    can be chosen but not changed once the database is created. For example: the value '1w' will create shards holding points for 1 week.</Tooltip>
+const tooltipDl = <Tooltip id="tooltop-dl" placement="top">
+    Like numeric duration but then for log values.
+    At the moment log values are not supported by SiriDB but this will be implemented in a future release.</Tooltip>
+
+
 class NewDatabase extends Reflux.Component {
 
     constructor(props) {
@@ -94,25 +109,12 @@ class NewDatabase extends Reflux.Component {
 
     onKeyPress(event) {
         if (event.key == 'Enter') {
-            this.onNewDatabase();
+            this.onSave();
         }
     }
 
     render() {
-        let tooltipTp = <Tooltip id="tooltip-tp" placement="top">
-            The precision used for storing timestamps in the database. This value cannot be changed so must be chosen carefully.
-            </Tooltip>;
-        let tooltipBs = <Tooltip id="tooltop-bs" placement="top">
-            Each series uses a buffer space in both memory and disk before points are actually written to shards.
-            The size for this buffer cannot be changed once the database is created.</Tooltip>
-        let tooltipDn = <Tooltip id="tooltop-dn" placement="top">
-            Points are written to shards and each shard has points for a specific time range. The size or time window
-            can be chosen but not changed once the database is created. For example: the value '1w' will create shards holding points for 1 week.</Tooltip>
-        let tooltipDl = <Tooltip id="tooltop-dl" placement="top">
-            Like numeric duration but then for log values.
-            At the moment log values are not supported by SiriDB but this will be implemented in a future release.</Tooltip>
-
-        return (
+        return this.state.loading ? <img src="/img/loader.gif" alt="loading..." /> : (
             <div className="row">
                 <h1>New database</h1>
                 <div className="form">

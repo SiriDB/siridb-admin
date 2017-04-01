@@ -15,6 +15,7 @@ class View extends Reflux.Component {
             showDrop: false,
             dropName: ''
         }
+        AccountsActions.fetch();
     }
 
     onDrop(name) {
