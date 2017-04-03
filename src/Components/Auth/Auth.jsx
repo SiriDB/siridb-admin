@@ -9,9 +9,9 @@ class Auth extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            server: 'localhost',
-            username: 'sa',
-            password: 'siri'
+            server: '',
+            username: '',
+            password: ''
         };
     }
 
@@ -21,6 +21,7 @@ class Auth extends React.Component {
             this.state.password,
             this.state.server
         );
+        AlertActions.clearAlert();
     }
 
     onServerChange(event) {

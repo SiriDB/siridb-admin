@@ -30,6 +30,7 @@ class NewPool extends Reflux.Component {
             password: '',
             showConfirm: false
         };
+        AlertActions.clearAlert();
     }
 
     onNewPool() {

@@ -33,6 +33,7 @@ class AuthStore extends BaseStore {
             this.setState({
                 user: null,
             });
+            AlertActions.clearAlert();
         })
         .fail((err, data) => {
             AlertActions.setAlert(data, 'danger');

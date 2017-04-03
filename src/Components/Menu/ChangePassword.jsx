@@ -15,6 +15,7 @@ class ChangePassword extends React.Component {
             password: '',
             validate: ''
         };
+        AlertActions.clearAlert();
     }
 
     onChangePassword() {

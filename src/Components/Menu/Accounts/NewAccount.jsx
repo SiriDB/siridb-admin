@@ -15,6 +15,7 @@ class NewAccount extends Reflux.Component {
             username: '',
             password: ''
         };
+        AlertActions.clearAlert();
     }
 
     onNewAccount() {

@@ -31,6 +31,7 @@ class NewReplica extends Reflux.Component {
             pool: 0,
             showConfirm: false
         };
+        AlertActions.clearAlert();
     }
 
     onNewReplica() {
