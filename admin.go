@@ -19,7 +19,7 @@ import (
 )
 
 // AppVersion exposes version information
-const AppVersion = "1.1.0"
+const AppVersion = "1.1.1"
 
 var (
 	xApp      = kingpin.New("siridb-admin", "Tool for creating and expanding SiriDB databases.")
@@ -282,7 +282,10 @@ func changePassword(conn *siridb.Connection, account, password, changeAccount, n
 
 func logHandle(logCh chan string) {
 	for {
-		<-logCh // ignore logs when not in verbose mode
+		msg := <-logCh
+		if *xVerbose {
+			println(msg)
+		}
 	}
 }
 
@@ -347,12 +350,10 @@ func main() {
 		os.Exit(0)
 	}
 
-	if !*xVerbose {
-		// suppress logging if not in verbose mode
-		logCh := make(chan string)
-		go logHandle(logCh)
-		logChannel = &logCh
-	}
+	// suppress logging if not in verbose mode
+	logCh := make(chan string)
+	go logHandle(logCh)
+	logChannel = &logCh
 
 	if *xHTTP {
 		if err != nil && strings.Compare(err.Error(), "required flag --user not provided") != 0 {

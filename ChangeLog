@@ -1,3 +1,7 @@
+2017.04.06, Version 1.1.1
+
+  * Fixed verbose logging. (issue #1)
+
 2017.04.06, Version 1.1.0
 
   * Renamed some command line arguments.
