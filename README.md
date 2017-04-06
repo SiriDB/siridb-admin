@@ -70,7 +70,7 @@ This will open a webserver listening on port 8080. You can now access the graphi
 
 Possible you want to use a different port for the webserver. This can be done using the `-O` or `--port` argument. For example:
 ```
-siridb-admin --http -O 5050
+siridb-admin --http --port 5050
 ```  
 This will start the web-server on port 5050 and you can now use url http://localhost:5050 for the graphical interface.
 
