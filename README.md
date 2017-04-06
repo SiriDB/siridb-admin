@@ -8,6 +8,7 @@ Tool for managing SiriDB service accounts and databases. SiriDB-Adnin can be use
   * [Graphical Web Interface](#graphical-web-interface)
   * [Command-line arguments](#command-line-arguments)
     * [Service accounts](#service-accounts)
+      * [List service accounts](#list-service-accounts)
       * [New service account](#new-service-account)
       * [Change password](#change-password)
       * [Remove service account](#remove-service-account)
@@ -50,7 +51,7 @@ $ ./gobuild.py --go
 ```
 Or, in case you only want to use the debug/development version its enough to generate empty binary files which can be done with:
 ```
-$ ./gobuild.py --empty
+$ ./gobuild.py --go-empty
 ```
 Now you can build the actual SiriDB admin tool. In case you want to build a production version:
 ```
@@ -90,6 +91,12 @@ It is also possible to use an IPv4 or IPv6 address instead of a hostname. In cas
 
 ### Service accounts
 Service accounts are used for managing databases. A service account is a user on a SiriDB server and never has access to a SiriDB database. We call users with access to a database 'database users'. We keep this accounts seperate because database accounts exist in a database which possible extends over multiple SiriDB servers.
+
+### List service accounts
+Get all service accounts on siridb01.foo.local using service account sa with password siri:
+```
+siridb-admin -u sa -p siri -s siridb01.foo.local get-accounts
+```
 
 #### New service account
 A new service account can be created using the command below.
