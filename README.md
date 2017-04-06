@@ -112,14 +112,14 @@ A password can be changed using the following command:
 ```
 siridb-admin -u sa -p siri -s siridb01.foo.local:9000 change-password newpassw0rd
 ```
-This will change the password for the **sa** service account on SiriDB server **siridb01.foo.local** from **siri** to **newpassw0rd**.
+This will change the password for the `sa` service account on SiriDB server `siridb01.foo.local` from `siri` to `newpassw0rd`.
 
 #### Remove service account
 Service accounts can be removed using the following command:
 ```
 siridb-admin -u sa -p siri -s siridb01.foo.local drop-account bob
 ```
-This command will remove service account **bob** from SiriDB server **siridb01.foo.local**.
+This command will remove service account `bob` from SiriDB server `siridb01.foo.local`.
 
 ### Databases
 SiriDB Admin can be used to create a new database or extend an existing database with a new pool or replica. Note that databases can not be removed with this tool. As long as a database exists only on one SiriDB server you can remove the database by stopping the siridb-server process and then remove the database directory. All database directories can be found in the database path which can be configured in the siridb configuration file.
@@ -146,5 +146,40 @@ For example:
 ```
 siridb-admin -u sa -p siri -s siridb01.foo.local new-database -d dbexample -t=s
 ```
-This will create database **dbexamle**
+This will create database `dbexamle` on SiriDB server `siridb01.foo.local` with a *second* time precision.
  
+### New replica
+The following syntax can be used to create a new replica:
+```
+siridb-admin -u <service_account> [flags] new-replica
+  -d, --db-name=DB-NAME          Database name where you want to add the new replica to.
+  -U, --db-user=DB-USER          User with full privileges to the database.
+  -P, --db-password=DB-PASSWORD  Password for the database user.
+  -S, --db-server=DB-SERVER      SiriDB server address[:port]. Can be any server from the database you want to add a new
+                                 replica to.
+  -o, --pool=POOL                Pool number which you want to create the replica for.
+  -f, --force                    Suppress warning message.
+```
+For example:
+```
+siridb-admin -u sa -p siri -s siridb02.foo.local new-replica -d dbexample -U iris -P siri -S siridb01.foo.local -o 0 --force
+```
+This will create a replica on SiriDB server `siridb02.foo.local` for pool `0` in database `dbexample`.
+
+### New pool
+The following syntax can be used to create a new pool:
+```
+siridb-admin -u <service_account> [flags] new-pool
+  -d, --db-name=DB-NAME          Database name where you want to add the new pool to.
+  -U, --db-user=DB-USER          User with full privileges to the database.
+  -P, --db-password=DB-PASSWORD  Password for the database user.
+  -S, --db-server=DB-SERVER      SiriDB server address[:port]. Can be any server from the database you want to add a new
+                                 pool to.
+  -f, --force                    Suppress warning message.
+```
+For example:
+```
+siridb-admin -u sa -p siri -s siridb03.foo.local new-replica -d dbexample -U iris -P siri -S siridb01.foo.local -o 0 --force
+```
+This will create a new pool on SiriDB server `siridb03.foo.local` for database `dbexample`. Pool id's will be incremented automatically so if the database only had pool `0` then the new pool will have id `1`.
+
