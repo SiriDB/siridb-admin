@@ -139,13 +139,13 @@ siridb-admin -u sa -p siri -s siridb01.foo.local get-databases
 A new database can be created with the following syntax:
 ```
 siridb-admin -u <service_account> [flags] new-database
-  -d, --db-name=DB-NAME         Database name. (Must be at least 2 and at most 20 characters. Fist
-                                character must be a letter. Last character must be a letter or number.
-                                In between letters, numbers, hyphen and underscores are allowed)
-  -t, --time-precision="ms"     Time precision for the new database.
-  -b, --buffer-size=1024        Buffer size for the new database.
-  -N, --duration-num="1w"       Number duration for the new database.
-  -L, --duration-log="1d"       Log duration for the new database.
+  -d, --db-name=DB-NAME        Database name. (Must be at least 2 and at most 20 characters. Fist
+                               character must be a letter. Last character must be a letter or number.
+                               In between letters, numbers, hyphen and underscores are allowed)
+  -t, --time-precision="ms"    Time precision for the new database.
+  -b, --buffer-size=1024       Buffer size for the new database.
+  -N, --duration-num="1w"      Number duration for the new database.
+  -L, --duration-log="1d"      Log duration for the new database.
 
 ```
 For example:
