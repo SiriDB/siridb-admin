@@ -139,13 +139,13 @@ siridb-admin -u sa -p siri -s siridb01.foo.local get-databases
 A new database can be created with the following syntax:
 ```
 siridb-admin -u <service_account> [flags] new-database
-  -d, --db-name=DB-NAME          Database name. (Must be at least 2 and at most 20 characters. Fist
-                                 character must be a letter. Last character must be a letter or number. 
-                                 In between letters, numbers, hyphen and underscores are allowed)
-  -t, --time-precision="ms"      Time precision for the new database.
-  -b, --buffer-size=1024         Buffer size for the new database.
-  -N, --duration-num="1w"        Number duration for the new database.
-  -L, --duration-log="1d"        Log duration for the new database.
+  -d, --db-name=DB-NAME         Database name. (Must be at least 2 and at most 20 characters. Fist
+                                character must be a letter. Last character must be a letter or number.
+                                In between letters, numbers, hyphen and underscores are allowed)
+  -t, --time-precision="ms"     Time precision for the new database.
+  -b, --buffer-size=1024        Buffer size for the new database.
+  -N, --duration-num="1w"       Number duration for the new database.
+  -L, --duration-log="1d"       Log duration for the new database.
 
 ```
 For example:
@@ -161,8 +161,8 @@ siridb-admin -u <service_account> [flags] new-replica
   -d, --db-name=DB-NAME          Database name where you want to add the new replica to.
   -U, --db-user=DB-USER          User with full privileges to the database.
   -P, --db-password=DB-PASSWORD  Password for the database user.
-  -S, --db-server=DB-SERVER      SiriDB server address[:port]. Can be any server from the database you
-                                 want to add a new replica to.
+  -S, --db-server=DB-SERVER      SiriDB server address[:port]. Can be any server from the database
+                                 you want to add a new replica to.
   -o, --pool=POOL                Pool number which you want to create the replica for.
   -f, --force                    Suppress warning message.
 ```
@@ -179,8 +179,8 @@ siridb-admin -u <service_account> [flags] new-pool
   -d, --db-name=DB-NAME          Database name where you want to add the new pool to.
   -U, --db-user=DB-USER          User with full privileges to the database.
   -P, --db-password=DB-PASSWORD  Password for the database user.
-  -S, --db-server=DB-SERVER      SiriDB server address[:port]. Can be any server from the database you
-                                 want to add a new pool to.
+  -S, --db-server=DB-SERVER      SiriDB server address[:port]. Can be any server from the database
+                                 you want to add a new pool to.
   -f, --force                    Suppress warning message.
 ```
 For example:
