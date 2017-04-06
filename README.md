@@ -62,13 +62,13 @@ $ go build --tags debug
 ```
 
 ## Graphical Web Interface
-A web interface can be stated with the sollowing command:
+A web interface can be started with the following command:
 ```  
 siridb-admin --http
 ```
-This will open a webserver lisening on port 8080 by default. You can now access the graphical interface by opening a web-browser and opening thu url http://localhost:8080.
+This will open a webserver listening on port 8080. You can now access the graphical interface by opening url http://localhost:8080 in your favorite web-browser.
 
-Possible you want to use a different port for the webserver. This can be done using the `-O` argument. For example:
+Possible you want to use a different port for the webserver. This can be done using the `-O` or `--port` argument. For example:
 ```
 siridb-admin --http -O 5050
 ```  
