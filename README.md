@@ -19,7 +19,7 @@ SiriDB Admin Tool can be compiled from source or for most systems you can simple
 
 ### Pre-compiled
 Go to https://github.com/transceptor-technology/siridb-admin/releases/latest and download the binary for your system.
-In this manual we refer to the binary as `siridb-admin`. On linux it can be preferred to copy the binary to /usr/bin and create a symlink like this:
+In this documentation we refer to the binary as `siridb-admin`. On linux it can be preferred to copy the binary to /usr/bin and create a symlink like this:
 ```
 $ sudo cp siridb-admin_X.Y.Z_OS_ARCH.bin /usr/bin/
 $ sudo ln -s /usr/bin/siridb-admin_X.Y.Z_OS_ARCH.bin /usr/bin/siridb-admin
@@ -121,4 +121,21 @@ siridb-admin -u sa -p siri -s siridb01.foo.local drop-account bob
 ```
 This command will remove service account `bob` from SiriDB server `siridb01.foo.local`.
 
+### Databases
+SiriDB Admin can be used to create a new database or extend an existing database with a new pool or replica. Note that databases can not be removed with this tool. As long as a database exists only on one SiriDB server you can remove the database by stopping the siridb-server process and then remove the database directory. All database directories can be found in the database path which can be configured in the siridb configuration file.
 
+### List existing databases
+Get all existing databases on a SiriDB server siridb01.foo.local using service account sa with password siri:
+```
+siridb-admin -u sa -p siri -s siridb01.foo.local get-databases
+```
+
+### New database
+A new database can be created with the following syntax:
+```
+siridb-admin ... new-database -d <db-name> [-t <time-precision=ms>  -b <buffer-size=1024> -N <duration-num=1w> -L <duration-log=1d>
+```
+
+**-d (--db-name)**: Required argument. Name for the new database. The name should have at least 2 characters and at most 20. The first charater should be a letter and the last character must be a number or letter. Character in between can be letters, numbers, hyphen or underscores.
+**-t (--time-precision)**: Optional argument. 
+ 
