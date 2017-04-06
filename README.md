@@ -1,6 +1,16 @@
 # SiriDB Admin Tool
 Tool for managing SiriDB service accounts and databases. SiriDB-Adnin can be used both by command-line arguments but also supplies a graphical web-inteface.
 
+---------------------------------------
+  * [Graphical Web Interface](#graphical-web-interface)
+  * [Command-line arguments](#command-line-arguments)
+    * [Service accounts](#service-accounts)
+      * [New service account](#create-a-new-service-account)
+      * [Change password](#change-a-service-account-password)
+      * [Remove service account](#remove-a-service-account)
+
+---------------------------------------
+
 ## Graphical Web Interface
 A web interface can be stated with the sollowing command:
 ```  
