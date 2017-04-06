@@ -4,6 +4,7 @@
 Tool for managing SiriDB service accounts and databases. SiriDB-Admin can be used both by command-line arguments and a graphical web-inteface.
 
 ---------------------------------------
+  * [Requirements](#requirements)
   * [Installation](#installation)
     * [Pre-compiled](#pre-compiled)
     * [Compile from source](#compile-from-source)
@@ -21,6 +22,9 @@ Tool for managing SiriDB service accounts and databases. SiriDB-Admin can be use
       * [New pool](#new-pool)
       
 ---------------------------------------
+## Requirements
+SiriDB Admin only works with SiriDB version 2.0.16 and higher. For older version of SiriDB the manage tool is required and can be found at https://github.com/transceptor-technology/siridb-manage
+
 ## Installation
 SiriDB Admin Tool can be compiled from source or for most systems you can simple download a pre-compiled binary.
 
