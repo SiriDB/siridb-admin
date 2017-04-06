@@ -112,14 +112,14 @@ A password can be changed using the following command:
 ```
 siridb-admin -u sa -p siri -s siridb01.foo.local:9000 change-password newpassw0rd
 ```
-This will change the password for the `sa` service account on SiriDB server `siridb01.foo.local` from `siri` to `newpassw0rd`.
+This will change the password for the **sa** service account on SiriDB server **siridb01.foo.local** from **siri** to **newpassw0rd**.
 
 #### Remove service account
 Service accounts can be removed using the following command:
 ```
 siridb-admin -u sa -p siri -s siridb01.foo.local drop-account bob
 ```
-This command will remove service account `bob` from SiriDB server `siridb01.foo.local`.
+This command will remove service account **bob** from SiriDB server **siridb01.foo.local**.
 
 ### Databases
 SiriDB Admin can be used to create a new database or extend an existing database with a new pool or replica. Note that databases can not be removed with this tool. As long as a database exists only on one SiriDB server you can remove the database by stopping the siridb-server process and then remove the database directory. All database directories can be found in the database path which can be configured in the siridb configuration file.
@@ -133,9 +133,18 @@ siridb-admin -u sa -p siri -s siridb01.foo.local get-databases
 ### New database
 A new database can be created with the following syntax:
 ```
-siridb-admin ... new-database -d <db-name> [-t <time-precision=ms>  -b <buffer-size=1024> -N <duration-num=1w> -L <duration-log=1d>
-```
+siridb-admin -u <service_account> [flags] new-database
+  -d, --db-name=DB-NAME          Database name. (Must be at least 2 and at most 20 characters. Fist character must be a
+                                 letter. Last character must be a letter or number. In between letters, numbers, hyphen and                                  underscores are allowed)
+  -t, --time-precision="ms"      Time precision for the new database.
+  -b, --buffer-size=1024         Buffer size for the new database.
+  -N, --duration-num="1w"        Number duration for the new database.
+  -L, --duration-log="1d"        Log duration for the new database.
 
-**-d (--db-name)**: Required argument. Name for the new database. The name should have at least 2 characters and at most 20. The first charater should be a letter and the last character must be a number or letter. Character in between can be letters, numbers, hyphen or underscores.
-**-t (--time-precision)**: Optional argument. 
+```
+For example:
+```
+siridb-admin -u sa -p siri -s siridb01.foo.local new-database -d dbexample -t=s
+```
+This will create database **dbexamle**
  
