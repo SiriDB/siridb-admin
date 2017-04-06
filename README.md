@@ -1,4 +1,6 @@
 # SiriDB Admin Tool
+![alt SiriDB Admin](/siridb-admin.png?raw=true)
+
 Tool for managing SiriDB service accounts and databases. SiriDB-Adnin can be used both by command-line arguments but also supplies a graphical web-inteface.
 
 ---------------------------------------
