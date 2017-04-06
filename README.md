@@ -81,13 +81,15 @@ All commands start with the following arguments:
 ```
 siridb-admin -u <service_account> [-p <password>] [-s <siridb_server>] <command> ...
 ```
-The service account is a required argument. By default the `sa` user with password `siri` is installed on a SiriDB server. 
+The service account is a required argument. By default the `sa` user with password `siri` is installed on a SiriDB server and this account will be used in most examples in this documentation. 
 
 If the `-p` flag with the service account password is not given, the tool will ask for the service account password.
 
 The other optional argument flag `-s` can be used to provide a SiriDB server address and optional port. If not given then the default `localhost:9000` is used. If we for example have installed SiriDB on a server with hostname `siridb01.foo.local`, we can simple use argument `-s siridb01.foo.local`. Note that adding `:9000` is not required since port 9000 is the default port.
 
 It is also possible to use an IPv4 or IPv6 address instead of a hostname. In case you want to use both an IPv6 address and use an alternative port then do not forget to put the IPv6 address between braces. For example: `[::1]:5050` is a valid IPv6 address and port.
+
+If something goes wrong you should usually get an error message with some information. More information can be printed when the `--verbose` flag is used. The `--verbose` flag works together with all arguments including the `--http` argument.
 
 ### Service accounts
 Service accounts are used for managing databases. A service account is a user on a SiriDB server and never has access to a SiriDB database. We call users with access to a database 'database users'. We keep this accounts seperate because database accounts exist in a database which possible extends over multiple SiriDB servers.
