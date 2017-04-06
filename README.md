@@ -6,8 +6,8 @@ Tool for managing SiriDB service accounts and databases. SiriDB-Adnin can be use
   * [Command-line arguments](#command-line-arguments)
     * [Service accounts](#service-accounts)
       * [New service account](#new-service-account)
-      * [Change password](#change-password)
       * [Remove service account](#remove-service-account)
+      * [Change password](#change-password)
 
 ---------------------------------------
 
