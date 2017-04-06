@@ -29,9 +29,15 @@ SiriDB Admin can be used using command line arguments only. This can be useful i
 
 All commands start with the following arguments:
 ```
-siridb-admin -u <service_account> [-p <password>] -s <siridb_server> <command> ...
+siridb-admin -u <service_account> [-p <password>] [-s <siridb_server>] <command> ...
 ```
+The service account is a required argument. By default the `sa` user with password `siri` is installed on a SiriDB server. 
 
+If the `-p` flag with the service account password is not given, the tool will ask for the service account password.
+
+The other optional argument flag `-s` can be used to provide a SiriDB server address and optional port. If not given then the default `localhost:9000` is used. If we have installed SiriDB on server `siridb01.foo.local` listening to client connections on port 9000 we can simple use argument `-s siridb01.foo.local`. Note that adding `:9000` is not required since port 9000 is the default port.
+
+It is also possible to use an IPv4 or IPv6 address instead of a hostname. In case you want to use both an IPv6 address and use an alternative port then do not forget to put the IPv6 address between braces. For example: `[::1]:5050` is a valid IPv6 address and port.
 
 ### Service accounts
 Service accounts are used for managing databases. A service account is a user on a SiriDB server and never has access to a SiriDB database. We call users with access to a database 'database users'. We keep this accounts seperate because database accounts exist in a database which possible extends over multiple SiriDB servers.
@@ -42,12 +48,6 @@ A new service account can be created using the command below.
 siridb-admin -u sa -s siridb01.foo.local new-account bob passwd4bob
 ```
 This command will ask for the `sa` password and then create a service account `bob` with password `passwd4bob` on a SiriDB server with hostname `siridb01.foo.local`. 
-
-In case you do not want the tool to ask for your password it is possible to prevent this question by providing the password by using argument flag `-p <password>`.
-
-The tool asumes SiriDB server `siridb01.foo.local` is listening to client connections on port 9000. If this is not the case then an altrnative port can be supplied by adding `:<port>` to the hostname. For eample: `siridb01.foo.local:5050`. 
-
-It is also possible to use an IPv4 or IPv6 address instead of a hostname. In case you want to use both an IPv6 address and use an alternative port then do not forget to put the IPv6 address between braces. For example: `[::1]:5050` is a valid IPv6 address and port.
 
 #### Change password
 A password can be changed using the following command:
