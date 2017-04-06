@@ -56,7 +56,7 @@ siridb-admin -u sa -p siri -s siridb01.foo.local:9000 change-password newpassw0r
 ```
 This will change the password for the `sa` service account on SiriDB server `siridb01.foo.local` from `siri` to `newpassw0rd`.
 
-### Remove service account
+#### Remove service account
 Service accounts can be removed using the following command:
 ```
 siridb-admin -u sa -p siri -s siridb01.foo.local drop-account bob
