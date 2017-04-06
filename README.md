@@ -2,6 +2,9 @@
 Tool for managing SiriDB service accounts and databases. SiriDB-Adnin can be used both by command-line arguments but also supplies a graphical web-inteface.
 
 ---------------------------------------
+  * [Installation](#installation)
+    * [Pre-compiled](#pre-compiled)
+    * [Compile from source](#compile-from-source)
   * [Graphical Web Interface](#graphical-web-interface)
   * [Command-line arguments](#command-line-arguments)
     * [Service accounts](#service-accounts)
@@ -10,19 +13,65 @@ Tool for managing SiriDB service accounts and databases. SiriDB-Adnin can be use
       * [Remove service account](#remove-service-account)
 
 ---------------------------------------
+## Installation
+SiriDB Admin Tool can be compiled from source or for most systems you can simple download a pre-compiled binary.
+
+### Pre-compiled
+Go to https://github.com/transceptor-technology/siridb-admin/releases/latest and download the binary for your system.
+In this manual we refer to the binary as `siridb-admin`. On linux it can be preferred to copy the binary to /usr/bin and create a symlink like this:
+```
+$ sudo cp siridb-admin_X.Y.Z_OS_ARCH.bin /usr/bin/
+$ sudo ln -s /usr/bin/siridb-admin_X.Y.Z_OS_ARCH.bin /usr/bin/siridb-admin
+```
+Note: replace `X.Y.Z_OS_ARCH` with your binary, for example `1.1.0_linux_amd64`
+
+### Compile from source
+SiriDB Admin is written in Go and ReactJs. We asume go, npm, lessc and python are installed on your system.
+
+First you need to install the required npm packages from the `src` directory:
+```
+$ cd ./src && npm install
+```
+Within the same directory you can now build the required javascript file:
+```
+$ NODE_ENV='production' ./node_modules/.bin/webpack -p
+```
+Or in case you want to build the debug/development version:
+```
+$ ./node_modules/.bin/webpack -d
+```
+Next you should compile the less file (stylesheet):
+```
+$ cd .. && ./gobuild.py --less
+```
+SiriDB Admin includes all required files in the binary, unless when build using the `debug` tag. To build the binary files from the source files you should run:
+```
+$ ./gobuild.py --go
+```
+Or, in case you only want to use the debug/development version its enough to generate empty binary files which can be done with:
+```
+$ ./gobuild.py --empty
+```
+Now you can build the actual SiriDB admin tool. In case you want to build a production version:
+```
+$ go build
+```
+Or, for the debug/development version:
+```
+$ go build --tags debug
+```
 
 ## Graphical Web Interface
-A web interface can be stated with the sollowing command:
+A web interface can be started with the following command:
 ```  
 siridb-admin --http
 ```
-This will open a webserver lisening on port 8080 by default. You can now access the graphical interface by opening a web-browser and opening thu url http://localhost:8080.
+This will open a webserver listening on port 8080. You can now access the graphical interface by opening url http://localhost:8080 in your favorite web-browser.
 
-Possible you want to use a different port for the webserver. This can be done using the `-O` argument. For example:
+Possible you want to use a different port for the webserver. This can be done using the `-O` or `--port` argument. For example:
 ```
-siridb-admin --http -O 5050
+siridb-admin --http --port 5050
 ```  
-This will start the web-server on port 5050 and you can now use url http://localhost:5050 for the graphical interface.
 
 ## Command-line arguments
 SiriDB Admin can be used using command line arguments only. This can be useful in case you want to create and extend a SiriDB database using a script. 
