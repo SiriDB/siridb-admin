@@ -168,9 +168,9 @@ siridb-admin -u <service_account> [flags] new-replica
 ```
 For example:
 ```
-siridb-admin -u sa -p siri -s siridb02.foo.local new-replica -d dbexample -U iris -P siri -S siridb01.foo.local -o 0 --force
+siridb-admin -u sa -p siri -s siridb02.foo.local new-replica -d dbexample -U iris -P siri -S siridb01.foo.local --pool 0
 ```
-This will create a replica on SiriDB server `siridb02.foo.local` for pool `0` in database `dbexample`.
+This will ask for confirmation and then create a replica on SiriDB server `siridb02.foo.local` for pool `0` in database `dbexample`.
 
 ### New pool
 The following syntax can be used to create a new pool:
@@ -185,7 +185,7 @@ siridb-admin -u <service_account> [flags] new-pool
 ```
 For example:
 ```
-siridb-admin -u sa -p siri -s siridb03.foo.local new-replica -d dbexample -U iris -P siri -S siridb01.foo.local -o 0 --force
+siridb-admin -u sa -p siri -s siridb03.foo.local new-replica -d dbexample -U iris -P siri -S siridb01.foo.local
 ```
-This will create a new pool on SiriDB server `siridb03.foo.local` for database `dbexample`. Pool id's will be incremented automatically so if the database only had pool `0` then the new pool will have id `1`.
+This will ask for confirmation and then create a new pool on SiriDB server `siridb03.foo.local` for database `dbexample`. Pool id's will be incremented automatically so if the database only had pool `0` then the new pool will have id `1`.
 
