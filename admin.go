@@ -408,7 +408,7 @@ func main() {
 		case xNewPool.FullCommand():
 			msg, err = newPool(conn, *xAccount, *xPassword, *xNpDatabase, *xNpServer, *xNpUser, *xNpPassword, *xNpForce)
 		case xNewReplica.FullCommand():
-			msg, err = newReplica(conn, *xAccount, *xPassword, *xNrDatabase, *xNrServer, *xNrUser, *xNrPassword, *xNrPool, *xNpForce)
+			msg, err = newReplica(conn, *xAccount, *xPassword, *xNrDatabase, *xNrServer, *xNrUser, *xNrPassword, *xNrPool, *xNrForce)
 		}
 
 		conn.Close()

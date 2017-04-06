@@ -2,6 +2,8 @@
 
   * Fixed verbose logging. (issue #1)
 
+  * Fixed honoring the force argument when creating a new replica. (issue #2)
+
 2017.04.06, Version 1.1.0
 
   * Renamed some command line arguments.
