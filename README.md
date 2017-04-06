@@ -35,7 +35,7 @@ The service account is a required argument. By default the `sa` user with passwo
 
 If the `-p` flag with the service account password is not given, the tool will ask for the service account password.
 
-The other optional argument flag `-s` can be used to provide a SiriDB server address and optional port. If not given then the default `localhost:9000` is used. If we have installed SiriDB on server `siridb01.foo.local` listening to client connections on port 9000 we can simple use argument `-s siridb01.foo.local`. Note that adding `:9000` is not required since port 9000 is the default port.
+The other optional argument flag `-s` can be used to provide a SiriDB server address and optional port. If not given then the default `localhost:9000` is used. If we for example have installed SiriDB on a server with hostname `siridb01.foo.local`, we can simple use argument `-s siridb01.foo.local`. Note that adding `:9000` is not required since port 9000 is the default port.
 
 It is also possible to use an IPv4 or IPv6 address instead of a hostname. In case you want to use both an IPv6 address and use an alternative port then do not forget to put the IPv6 address between braces. For example: `[::1]:5050` is a valid IPv6 address and port.
 
