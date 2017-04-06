@@ -19,7 +19,7 @@ import (
 )
 
 // AppVersion exposes version information
-const AppVersion = "1.0.0"
+const AppVersion = "1.1.0"
 
 var (
 	xApp      = kingpin.New("siridb-admin", "Tool for creating and expanding SiriDB databases.")
@@ -47,7 +47,7 @@ var (
 
 	xNewDatabase = xApp.Command("new-database", "Create a new SiriDB database.")
 	xNdDatabase  = xNewDatabase.Flag(
-		"dbname", "Database name. (Must be at least 2 and at most 20 characters. "+
+		"db-name", "Database name. (Must be at least 2 and at most 20 characters. "+
 			"Fist character must be a letter. "+
 			"Last character must be a letter or number. "+
 			"In between letters, numbers, hyphen and underscores are allowed)").Short('d').Required().String()
@@ -57,17 +57,17 @@ var (
 	xNdDuraLog = xNewDatabase.Flag("duration-log", "Log duration for the new database.").Short('L').Default("1d").String()
 
 	xNewPool    = xApp.Command("new-pool", "Expand a SiriDB database with a new pool.")
-	xNpServer   = xNewPool.Flag("address", "SiriDB server address[:port]. Can be any server from the database you want to add a new pool to.").Short('a').Required().String()
-	xNpDatabase = xNewPool.Flag("dbname", "Database name where you want to add the new pool to.").Short('d').Required().String()
-	xNpUser     = xNewPool.Flag("database-user", "User with full privileges to the database.").Short('U').Required().String()
-	xNpPassword = xNewPool.Flag("database-password", "Password for the database user.").Short('P').Required().String()
+	xNpDatabase = xNewPool.Flag("db-name", "Database name where you want to add the new pool to.").Short('d').Required().String()
+	xNpUser     = xNewPool.Flag("db-user", "User with full privileges to the database.").Short('U').Required().String()
+	xNpPassword = xNewPool.Flag("db-password", "Password for the database user.").Short('P').Required().String()
+	xNpServer   = xNewPool.Flag("db-server", "SiriDB server address[:port]. Can be any server from the database you want to add a new pool to.").Short('S').Required().String()
 	xNpForce    = xNewPool.Flag("force", "Suppress warning message.").Short('f').Bool()
 
 	xNewReplica = xApp.Command("new-replica", "Expand a SiriDB database with a new pool.")
-	xNrServer   = xNewReplica.Flag("address", "SiriDB server address[:port]. Can be any server from the database you want to add a new replica to.").Short('a').Required().String()
-	xNrDatabase = xNewReplica.Flag("dbname", "Database name where you want to add the new replica to.").Short('d').Required().String()
-	xNrUser     = xNewReplica.Flag("database-user", "User with full privileges to the database.").Short('U').Required().String()
-	xNrPassword = xNewReplica.Flag("database-password", "Password for the database user.").Short('P').Required().String()
+	xNrDatabase = xNewReplica.Flag("db-name", "Database name where you want to add the new replica to.").Short('d').Required().String()
+	xNrUser     = xNewReplica.Flag("db-user", "User with full privileges to the database.").Short('U').Required().String()
+	xNrPassword = xNewReplica.Flag("db-password", "Password for the database user.").Short('P').Required().String()
+	xNrServer   = xNewReplica.Flag("db-server", "SiriDB server address[:port]. Can be any server from the database you want to add a new replica to.").Short('S').Required().String()
 	xNrPool     = xNewReplica.Flag("pool", "Pool number which you want to create the replica for.").Short('o').Required().Int()
 	xNrForce    = xNewReplica.Flag("force", "Suppress warning message.").Short('f').Bool()
 )
@@ -363,7 +363,9 @@ func main() {
 		initHTTP()
 
 		fmt.Printf("Serving a graphical user interface on: http://0.0.0.0:%d\nPress CTRL+C to quit\n", *xHTTPPort)
-		http.ListenAndServe(fmt.Sprintf(":%d", *xHTTPPort), nil)
+		if err = http.ListenAndServe(fmt.Sprintf(":%d", *xHTTPPort), nil); err != nil {
+			fmt.Printf("error: %s\n", err)
+		}
 	} else {
 		if err != nil {
 			fmt.Printf("%s\n", err)
