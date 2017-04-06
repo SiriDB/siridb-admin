@@ -12,7 +12,12 @@ Tool for managing SiriDB service accounts and databases. SiriDB-Adnin can be use
       * [New service account](#new-service-account)
       * [Change password](#change-password)
       * [Remove service account](#remove-service-account)
-
+    * [Databases](#databases)
+      * [List databases](#list-databases)
+      * [New database](#new-database)
+      * [New replica](#new-replica)
+      * [New pool](#new-pool)
+      
 ---------------------------------------
 ## Installation
 SiriDB Admin Tool can be compiled from source or for most systems you can simple download a pre-compiled binary.
