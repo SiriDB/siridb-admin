@@ -72,7 +72,6 @@ Possible you want to use a different port for the webserver. This can be done us
 ```
 siridb-admin --http --port 5050
 ```  
-This will start the web-server on port 5050 and you can now use url http://localhost:5050 for the graphical interface.
 
 ## Command-line arguments
 SiriDB Admin can be used using command line arguments only. This can be useful in case you want to create and extend a SiriDB database using a script. 
