@@ -5,9 +5,9 @@ Tool for managing SiriDB service accounts and databases. SiriDB-Adnin can be use
   * [Graphical Web Interface](#graphical-web-interface)
   * [Command-line arguments](#command-line-arguments)
     * [Service accounts](#service-accounts)
-      * [New service account](#create-a-new-service-account)
-      * [Change password](#change-a-service-account-password)
-      * [Remove service account](#remove-a-service-account)
+      * [New service account](#new-service-account)
+      * [Change password](#change-password)
+      * [Remove service account](#remove-service-account)
 
 ---------------------------------------
 
@@ -36,7 +36,7 @@ siridb-admin -u <service_account> [-p <password>] -s <siridb_server> <command> .
 ### Service accounts
 Service accounts are used for managing databases. A service account is a user on a SiriDB server and never has access to a SiriDB database. We call users with access to a database 'database users'. We keep this accounts seperate because database accounts exist in a database which possible extends over multiple SiriDB servers.
 
-#### Create a new service account
+#### New service account
 A new service account can be created using the command below.
 ```
 siridb-admin -u sa -s siridb01.foo.local new-account bob passwd4bob
@@ -49,14 +49,14 @@ The tool asumes SiriDB server `siridb01.foo.local` is listening to client connec
 
 It is also possible to use an IPv4 or IPv6 address instead of a hostname. In case you want to use both an IPv6 address and use an alternative port then do not forget to put the IPv6 address between braces. For example: `[::1]:5050` is a valid IPv6 address and port.
 
-#### Change a service account password
+#### Change password
 A password can be changed using the following command:
 ```
 siridb-admin -u sa -p siri -s siridb01.foo.local:9000 change-password newpassw0rd
 ```
 This will change the password for the `sa` service account on SiriDB server `siridb01.foo.local` from `siri` to `newpassw0rd`.
 
-### Remove a service account
+### Remove service account
 Service accounts can be removed using the following command:
 ```
 siridb-admin -u sa -p siri -s siridb01.foo.local drop-account bob
