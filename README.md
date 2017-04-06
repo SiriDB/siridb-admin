@@ -20,8 +20,8 @@ SiriDB Admin Tool can be compiled from source or for most systems you can simple
 Go to https://github.com/transceptor-technology/siridb-admin/releases/latest and download the binary for your system.
 In this manual we refer to the binary as `siridb-admin`. On linux it can be preferred to copy the binary to /usr/bin and create a symlink like this:
 ```
-$ sudo cp siridb-admin_X.Y.Z_OS_ARCH.bin /usr/bin
-$ sudo ln -s /usr/bin/siridb-admin /usr/bin/siridb-admin_X.Y.Z_OS_ARCH.bin
+$ sudo cp siridb-admin_X.Y.Z_OS_ARCH.bin /usr/bin/
+$ sudo ln -s /usr/bin/siridb-admin_X.Y.Z_OS_ARCH.bin /usr/bin/siridb-admin
 ```
 Note: replace `X.Y.Z_OS_ARCH` with your binary, for example `1.1.0_linux_amd64`
 
