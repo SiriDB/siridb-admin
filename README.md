@@ -148,10 +148,21 @@ siridb-admin -u <service_account> [flags] new-database
   -d, --db-name=DB-NAME        Database name. (Must be at least 2 and at most 20 characters. Fist
                                character must be a letter. Last character must be a letter or number.
                                In between letters, numbers, hyphen and underscores are allowed)
-  -t, --time-precision="ms"    Time precision for the new database.
-  -b, --buffer-size=1024       Buffer size for the new database.
-  -N, --duration-num="1w"      Number duration for the new database.
-  -L, --duration-log="1d"      Log duration for the new database.
+  -t, --time-precision="ms"    Time precision for the new database. Supported time precessions are
+                               s (second), ms (millisecond), us (microsecond) and ns (nanosecond).
+                               This value cannot be changed once the database is created.
+  -b, --buffer-size=1024       Buffer size for the new database. Each series uses a buffer space in 
+                               both memory and disk before points are actually written to shards.
+                               This value cannot be changed once the database is created.
+  -N, --duration-num="1w"      Number duration for the new database. Points are written to shards and
+                               each shard has points for a specific time range. The size or time 
+                               window can be chosen but not changed once the database is created. For 
+                               example: the value '1w' will create shards holding points for 1 week.
+                               This value cannot be changed once the database is created.
+  -L, --duration-log="1d"      Log duration for the new database. Like numeric duration but then for 
+                               log values. At the moment log values are not supported by SiriDB but 
+                               this will be implemented in a future release.
+                               This value cannot be changed once the database is created.
 
 ```
 For example:
