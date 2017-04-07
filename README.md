@@ -156,11 +156,11 @@ siridb-admin -u <service_account> [flags] new-database
                                This value cannot be changed once the database is created.
   -N, --duration-num="1w"      Number duration for the new database. Points are written to shards and
                                each shard has points for a specific time range. The size or time 
-                               window can be chosen but not changed once the database is created. For 
+                               window can be chosen but not changed once the database is created. For
                                example: the value '1w' will create shards holding points for 1 week.
                                This value cannot be changed once the database is created.
-  -L, --duration-log="1d"      Log duration for the new database. Like numeric duration but then for 
-                               log values. At the moment log values are not supported by SiriDB but 
+  -L, --duration-log="1d"      Log duration for the new database. Like numeric duration but then for
+                               log values. At the moment log values are not supported by SiriDB but
                                this will be implemented in a future release.
                                This value cannot be changed once the database is created.
 
