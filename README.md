@@ -200,7 +200,7 @@ siridb-admin -u <service_account> [flags] new-pool
 ```
 For example:
 ```
-siridb-admin -u sa -p siri -s siridb03.foo.local new-replica -d dbexample -U iris -P siri -S siridb01.foo.local
+siridb-admin -u sa -p siri -s siridb03.foo.local new-pool -d dbexample -U iris -P siri -S siridb01.foo.local
 ```
 This will ask for confirmation and then create a new pool on SiriDB server `siridb03.foo.local` for database `dbexample`. Pool id's will be incremented automatically so if the database only had pool `0` then the new pool will have id `1`.
 
