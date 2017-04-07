@@ -165,7 +165,7 @@ siridb-admin -u <service_account> [flags] new-database
 ```
 For example:
 ```
-siridb-admin -u sa -p siri -s siridb01.foo.local new-database -d dbexample -t=s
+siridb-admin -u sa -p siri -s siridb01.foo.local new-database -d dbexample -t s
 ```
 This will create database `dbexamle` on SiriDB server `siridb01.foo.local` with a *second* time precision.
  
