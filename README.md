@@ -135,7 +135,7 @@ This command will remove service account `bob` from SiriDB server `siridb01.foo.
 ### Databases
 SiriDB Admin can be used to create a new database or extend an existing database with a new pool or replica. Note that databases can not be removed with this tool. As long as a database exists only on one SiriDB server you can remove the database by stopping the siridb-server process and then remove the database directory. All database directories can be found in the database path which can be configured in the siridb configuration file.
 
-### List existing databases
+### List databases
 Get all existing databases on a SiriDB server siridb01.foo.local using service account sa with password siri:
 ```
 siridb-admin -u sa -p siri -s siridb01.foo.local get-databases
