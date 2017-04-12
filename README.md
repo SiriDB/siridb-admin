@@ -35,7 +35,7 @@ In this documentation we refer to the binary as `siridb-admin`. On linux it can 
 $ sudo cp siridb-admin_X.Y.Z_OS_ARCH.bin /usr/bin/
 $ sudo ln -s /usr/bin/siridb-admin_X.Y.Z_OS_ARCH.bin /usr/bin/siridb-admin
 ```
-Note: replace `X.Y.Z_OS_ARCH` with your binary, for example `1.1.0_linux_amd64`
+Note: replace `X.Y.Z_OS_ARCH` with your binary, for example `1.1.1_linux_amd64`
 
 ### Compile from source
 SiriDB Admin is written in Go and ReactJs. We asume go, npm, lessc and python are installed on your system.
