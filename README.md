@@ -23,10 +23,10 @@ Tool for managing SiriDB service accounts and databases. SiriDB-Admin can be use
       
 ---------------------------------------
 ## Requirements
-SiriDB Admin only works with SiriDB version 2.0.16 and higher. For older version of SiriDB the manage tool is required and can be found at https://github.com/transceptor-technology/siridb-manage
+SiriDB Admin only works with SiriDB version 2.0.16 and higher. For older versions of SiriDB the manage tool is required and can be found at https://github.com/transceptor-technology/siridb-manage
 
 ## Installation
-SiriDB Admin Tool can be compiled from source or for most systems you can simple download a pre-compiled binary.
+SiriDB Admin Tool can be compiled from source or, for most systems, you can simply download a pre-compiled binary.
 
 ### Pre-compiled
 Go to https://github.com/transceptor-technology/siridb-admin/releases/latest and download the binary for your system.
@@ -60,7 +60,7 @@ SiriDB Admin includes all required files in the binary, unless when build using 
 ```
 $ ./gobuild.py --go
 ```
-Or, in case you only want to use the debug/development version its enough to generate empty binary files which can be done with:
+Or, in case you only want to use the debug/development version it's enough to generate empty binary files which can be done with:
 ```
 $ ./gobuild.py --go-empty
 ```
@@ -86,7 +86,7 @@ siridb-admin --http --port 5050
 ```  
 
 ## Command-line arguments
-SiriDB Admin can be used using command line arguments only. This can be useful in case you want to create and extend a SiriDB database using a script. 
+SiriDB Admin can be used by using command line arguments only. This can be useful in case you want to create and extend a SiriDB database using a script. 
 
 All commands start with the following arguments:
 ```
@@ -96,14 +96,14 @@ The service account is a required argument. By default the `sa` user with passwo
 
 If the `-p` flag with the service account password is not given, the tool will ask for the service account password.
 
-The other optional argument flag `-s` can be used to provide a SiriDB server address and optional port. If not given then the default `localhost:9000` is used. If we for example have installed SiriDB on a server with hostname `siridb01.foo.local`, we can simple use argument `-s siridb01.foo.local`. Note that adding `:9000` is not required since port 9000 is the default port.
+The other optional argument flag `-s` can be used to provide a SiriDB server address and optional port. If not given then the default `localhost:9000` is used. If we, for example, have installed SiriDB on a server with hostname `siridb01.foo.local`, we can simply use argument `-s siridb01.foo.local`. Note that adding `:9000` is not required since port 9000 is the default port.
 
 It is also possible to use an IPv4 or IPv6 address instead of a hostname. In case you want to use both an IPv6 address and use an alternative port then do not forget to put the IPv6 address between braces. For example: `[::1]:5050` is a valid IPv6 address and port.
 
 If something goes wrong you should usually get an error message with some information. More information can be printed when the `--verbose` flag is used. The `--verbose` flag works together with all arguments including the `--http` argument.
 
 ### Service accounts
-Service accounts are used for managing databases. A service account is a user on a SiriDB server and never has access to a SiriDB database. We call users with access to a database 'database users'. We keep this accounts seperate because database accounts exist in a database which possible extends over multiple SiriDB servers.
+Service accounts are used for managing databases. A service account is a user on a SiriDB server that never has access to a SiriDB database. We call users with access to a database 'database users'. We keep these accounts seperate because database accounts exist in a database which possible extends over multiple SiriDB servers.
 
 ### List service accounts
 Get all service accounts on siridb01.foo.local using service account sa with password siri:
@@ -145,7 +145,7 @@ siridb-admin -u sa -p siri -s siridb01.foo.local get-databases
 A new database can be created with the following syntax:
 ```
 siridb-admin -u <service_account> [flags] new-database
-  -d, --db-name=DB-NAME        Database name. (Must be at least 2 and at most 20 characters. Fist
+  -d, --db-name=DB-NAME        Database name. (Must be at least 2 and at most 20 characters. First
                                character must be a letter. Last character must be a letter or number.
                                In between letters, numbers, hyphen and underscores are allowed)
   -t, --time-precision="ms"    Time precision for the new database. Supported time precessions are
