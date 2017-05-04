@@ -125,14 +125,14 @@ func getHostAndPort(addr string) (string, uint16, error) {
 	}
 	// IPv6
 	if addr[0] != '[' {
-		return addr, 9000, nil
+		return fmt.Sprintf("[%s]", addr), 9000, nil
 	}
 	if addr[len(addr)-1] == ']' {
-		return addr[1 : len(addr)-1], 9000, nil
+		return addr, 9000, nil
 	}
 	u, err := strconv.ParseUint(parts[len(parts)-1], 10, 16)
 	addr = strings.Join(parts[:len(parts)-1], ":")
-	return addr[1 : len(addr)-1], uint16(u), err
+	return addr, uint16(u), err
 }
 
 func newDatabase(

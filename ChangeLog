@@ -1,3 +1,9 @@
+2017.05.04, Version 1.1.2
+
+  * Fixed accepting IPv6 SiriDB server address from command line. (issue #5)
+
+  * Freeze npm package versions.
+
 2017.04.06, Version 1.1.1
 
   * Fixed verbose logging. (issue #1)
