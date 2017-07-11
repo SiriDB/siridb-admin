@@ -43,7 +43,7 @@ $ sudo ln -s /usr/local/bin/siridb-admin_X.Y.Z_OS_ARCH.bin /usr/local/bin/siridb
 Note: replace `X.Y.Z_OS_ARCH` with your binary, for example `1.1.1_linux_amd64`
 
 ### Compile from source
-> Before compiling from source make sure **go**, **npm** and **git** are installed and your [$GOPATH][https://github.com/golang/go/wiki/GOPATH] is set.
+> Before compiling from source make sure **go**, **npm** and **git** are installed and your [$GOPATH](https://github.com/golang/go/wiki/GOPATH) is set.
 
 Clone the project using git. (we assume git is installed)
 ```
