@@ -20,7 +20,7 @@ Tool for managing SiriDB service accounts and databases. SiriDB-Admin can be use
       * [New database](#new-database)
       * [New replica](#new-replica)
       * [New pool](#new-pool)
-      
+
 ---------------------------------------
 ## Requirements
 SiriDB Admin only works with SiriDB version 2.0.16 and higher. For older versions of SiriDB the manage tool is required and can be found at https://github.com/transceptor-technology/siridb-manage
@@ -38,44 +38,31 @@ $ sudo ln -s /usr/local/bin/siridb-admin_X.Y.Z_OS_ARCH.bin /usr/local/bin/siridb
 Note: replace `X.Y.Z_OS_ARCH` with your binary, for example `1.1.1_linux_amd64`
 
 ### Compile from source
-SiriDB Admin is written in Go and ReactJs. We asume go, npm, lessc and python are installed on your system.
+> Before compiling from source make sure **go**, **npm** and **git** are installed and your [$GOPATH][https://github.com/golang/go/wiki/GOPATH] is set.
 
-First you need to install the required npm packages from the `src` directory:
+Clone the project using git. (we assume git is installed)
 ```
-$ cd ./src && npm install
+git clone https://github.com/transceptor-technology/siridb-admin
 ```
-Within the same directory you can now build the required javascript file:
+
+Make sure less is installed:
 ```
-$ NODE_ENV='production' ./node_modules/.bin/webpack -p
+$ sudo npm install -g less less-plugin-clean-css
 ```
-Or in case you want to build the debug/development version:
+
+The gobuild.py script can be used to build the binary:
 ```
-$ ./node_modules/.bin/webpack -d
+$ ./gobuild.py -i -l -w -b -p
 ```
-Next you should compile the less file (stylesheet):
+
+Or, if you want the development version which uses original files from /build and /static instead of build-in files:
 ```
-$ cd .. && ./gobuild.py --less
-```
-SiriDB Admin includes all required files in the binary, unless when build using the `debug` tag. To build the binary files from the source files you should run:
-```
-$ ./gobuild.py --go
-```
-Or, in case you only want to use the debug/development version it's enough to generate empty binary files which can be done with:
-```
-$ ./gobuild.py --go-empty
-```
-Now you can build the actual SiriDB admin tool. In case you want to build a production version:
-```
-$ go build
-```
-Or, for the debug/development version:
-```
-$ go build --tags debug
+$ ./gobuild.py -i -l -w -b -d
 ```
 
 ## Graphical Web Interface
 A web interface can be started with the following command:
-```  
+```
 siridb-admin --http
 ```
 This will open a webserver listening on port 8080. You can now access the graphical interface by opening url http://localhost:8080 in your favorite web-browser.
@@ -83,16 +70,16 @@ This will open a webserver listening on port 8080. You can now access the graphi
 Note: you might want to use a different port for the webserver. This can be done using the `-O` or `--port` argument flag. For example:
 ```
 siridb-admin --http --port 5050
-```  
+```
 
 ## Command-line arguments
-SiriDB Admin can be used by using command line arguments only. This can be useful in case you want to create and extend a SiriDB database using a script. 
+SiriDB Admin can be used by using command line arguments only. This can be useful in case you want to create and extend a SiriDB database using a script.
 
 All commands start with the following arguments:
 ```
 siridb-admin -u <service_account> [-p <password>] [-s <siridb_server>] <command> ...
 ```
-The service account is a required argument. By default the `sa` user with password `siri` is installed on a SiriDB server and this account will be used in most examples in this documentation. 
+The service account is a required argument. By default the `sa` user with password `siri` is installed on a SiriDB server and this account will be used in most examples in this documentation.
 
 If the `-p` flag with the service account password is not given, the tool will ask for the service account password.
 
@@ -116,7 +103,7 @@ A new service account can be created using the command below.
 ```
 siridb-admin -u sa -s siridb01.foo.local new-account bob passwd4bob
 ```
-This command will ask for the `sa` password and then create a service account `bob` with password `passwd4bob` on a SiriDB server with hostname `siridb01.foo.local`. 
+This command will ask for the `sa` password and then create a service account `bob` with password `passwd4bob` on a SiriDB server with hostname `siridb01.foo.local`.
 
 #### Change password
 A password can be changed using the following command:
@@ -151,11 +138,11 @@ siridb-admin -u <service_account> [flags] new-database
   -t, --time-precision="ms"    Time precision for the new database. Supported time precessions are
                                s (second), ms (millisecond), us (microsecond) and ns (nanosecond).
                                This value cannot be changed once the database is created.
-  -b, --buffer-size=1024       Buffer size for the new database. Each series uses a buffer space in 
+  -b, --buffer-size=1024       Buffer size for the new database. Each series uses a buffer space in
                                both memory and disk before points are actually written to shards.
                                This value cannot be changed once the database is created.
   -N, --duration-num="1w"      Number duration for the new database. Points are written to shards and
-                               each shard has points for a specific time range. The size or time 
+                               each shard has points for a specific time range. The size or time
                                window can be chosen but not changed once the database is created. For
                                example: the value '1w' will create shards holding points for 1 week.
   -L, --duration-log="1d"      Log duration for the new database. Like numeric duration but then for
@@ -168,7 +155,7 @@ For example:
 siridb-admin -u sa -p siri -s siridb01.foo.local new-database -d dbexample -t s
 ```
 This will create database `dbexamle` on SiriDB server `siridb01.foo.local` with a *second* time precision.
- 
+
 ### New replica
 The following syntax can be used to create a new replica:
 ```

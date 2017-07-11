@@ -1,7 +1,9 @@
 #!/usr/bin/python3
-import argparse
 import os
+import sys
+import argparse
 import subprocess
+
 
 template = '''// +build !debug
 
@@ -62,16 +64,26 @@ binfiles = [
     ("./build/layout.min.css", "FileLayoutMinCSS"),
 ]
 
-def build_all():
+
+GOFILE = 'admin.go'
+TARGET = 'siridb-admin'
+
+
+def get_version(path):
     version = None
-    with open('admin.go', 'r') as f:
+    with open(os.path.join(path, GOFILE), 'r') as f:
         for line in f:
             if line.startswith('const AppVersion ='):
                 version = line.split('"')[1]
     if version is None:
-        raise Exception('Cannot find version in admin.go')
+        raise Exception('Cannot find version in {}'.format(GOFILE))
+    return version
 
-    outpath = os.path.join('bin', version)
+
+def build_all():
+    path = os.path.dirname(__file__)
+    version = get_version(path)
+    outpath = os.path.join(path, 'bin', version)
     if not os.path.exists(outpath):
         os.makedirs(outpath)
 
@@ -79,28 +91,83 @@ def build_all():
         tmp_env = os.environ.copy()
         tmp_env["GOOS"] = goos
         tmp_env["GOARCH"] = goarch
-        outfile = os.path.join(outpath, 'siridb-admin_{}_{}_{}.{}'.format(
-            version, goos, goarch, 'exe' if goos == 'windows' else 'bin'))
+        outfile = os.path.join(outpath, '{}_{}_{}_{}.{}'.format(
+            TARGET,
+            version,
+            goos,
+            goarch,
+            'exe' if goos == 'windows' else 'bin'))
         with subprocess.Popen(
-            ['go', 'build', '-o', outfile],
-            env=tmp_env,
-            stdout=subprocess.PIPE) as proc:
+                ['go', 'build', '-o', outfile],
+                env=tmp_env,
+                cwd=path,
+                stdout=subprocess.PIPE) as proc:
             print('Building {}/{}...'.format(goos, goarch))
 
 
-
-def compile_less():
+def build(development=True):
     path = os.path.dirname(__file__)
-    subprocess.run([
-        'lessc',
-        '--clean-css',
-        os.path.join(path, 'src', 'layout.less'),
-        os.path.join(path, 'build', 'layout.min.css')])
+    version = get_version(path)
+    outfile = os.path.join(path, '{}_{}.{}'.format(
+        TARGET, version, 'exe' if sys.platform.startswith('win') else 'bin'))
+    args = ['go', 'build', '-o', outfile]
 
-    subprocess.run([
-        'lessc',
-        os.path.join(path, 'src', 'layout.less'),
-        os.path.join(path, 'build', 'layout.css')])
+    if development:
+        args.extend(['--tags', 'debug'])
+
+    with subprocess.Popen(
+            args,
+            cwd=path,
+            stdout=subprocess.PIPE) as proc:
+        print('Building {}...'.format(outfile))
+
+
+def install_packages():
+    path = os.path.dirname(__file__)
+    with subprocess.Popen(
+            ['npm', 'install'],
+            cwd=os.path.join(path, 'src'),
+            stdout=subprocess.PIPE) as proc:
+        print(
+            'Installing required npm packages and dependencies.\n'
+            '(be patient, this can take some time)...')
+    with subprocess.Popen(
+            ['go', 'get', '-d'],
+            cwd=path,
+            stdout=subprocess.PIPE) as proc:
+        print(
+            'Downloading required go packages and dependencies.\n'
+            '(be patient, this can take some time)...')
+
+
+def webpack(development=True):
+    print('(be patient, this can take some time)...')
+    path = os.path.dirname(__file__)
+    env = os.environ
+    if not development:
+        env['NODE_ENV'] = 'production'
+    with subprocess.Popen([
+            os.path.join('.', 'node_modules', '.bin', 'webpack'),
+            '-d' if development else '-p'],
+            env=env,
+            cwd=os.path.join(path, 'src'),
+            stdout=subprocess.PIPE) as proc:
+        print(proc.stdout.read().decode('utf-8'))
+
+
+def compile_less(development=True):
+    path = os.path.dirname(__file__)
+    if development:
+        subprocess.run([
+            'lessc',
+            os.path.join(path, 'src', 'layout.less'),
+            os.path.join(path, 'build', 'layout.css')])
+    else:
+        subprocess.run([
+            'lessc',
+            '--clean-css',
+            os.path.join(path, 'src', 'layout.less'),
+            os.path.join(path, 'build', 'layout.min.css')])
 
 
 def compile(fn, variable, empty=False):
@@ -117,48 +184,123 @@ def compile(fn, variable, empty=False):
             bytes=', '.join(str(c) for c in data)
         ))
 
+
 if __name__ == '__main__':
+
     parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        '-i', '--install-packages',
+        action='store_true',
+        help='install required go and npm packages including dependencies')
 
     parser.add_argument(
         '-l', '--less',
         action='store_true',
-        help='compile less')
+        help='compile less (requires -d or -p)')
 
     parser.add_argument(
-        '-g', '--go',
+        '-w', '--webpack',
         action='store_true',
-        help='compile go')
+        help='compile webpack (requires -d or -p)')
 
     parser.add_argument(
-        '-e', '--go-empty',
+        '-p', '--production-go',
         action='store_true',
-        help='compile empty go files')
+        help='prepare go files for production')
+
+    parser.add_argument(
+        '-d', '--development-go',
+        action='store_true',
+        help='prepare placeholder go files for development')
+
+    parser.add_argument(
+        '-b', '--build',
+        action='store_true',
+        help='build binary (requires -d or -p)')
 
     parser.add_argument(
         '-a', '--build-all',
         action='store_true',
-        help='build for all goos and goarchs')
-
+        help='build production binaries for all goos and goarchs')
 
     args = parser.parse_args()
 
+    if args.production_go and args.development_go:
+        print('Cannot use -d and -p at the same time')
+        sys.exit(1)
+
+    if args.build and not args.production_go and not args.development_go:
+        print('Cannot use -b without -d or -p')
+        sys.exit(1)
+
+    if args.webpack and not args.production_go and not args.development_go:
+        print('Cannot use -w without -d or -p')
+        sys.exit(1)
+
+    if args.less and not args.production_go and not args.development_go:
+        print('Cannot use -l without -d or -p')
+        sys.exit(1)
+
+    if args.install_packages:
+        install_packages()
+        print('Finished installing required packages and dependencies!')
+
     if args.less:
-        print('Compile less...')
-        compile_less()
-        print('Finished!')
-    elif args.go:
-        print('Compile go...')
+        if args.production_go:
+            print('Compiling production css...')
+            compile_less(development=False)
+        elif args.development_go:
+            print('Compiling development css...')
+            compile_less(development=True)
+        else:
+            sys.exit('-d or -p must be used')
+        print('Finished compiling less!')
+
+    if args.webpack:
+        if args.production_go:
+            print('Compiling production js using webpack...')
+            webpack(development=False)
+        elif args.development_go:
+            print('Compiling development js using webpack...')
+            webpack(development=True)
+        else:
+            sys.exit('-d or -p must be used')
+        print('Finished compiling js using webpack...')
+
+    if args.production_go:
+        print('Create production go files...')
         for bf in binfiles:
             compile(*bf)
-        print('Finished!')
-    elif args.go_empty:
-        print('Compiled empty go files...')
+        print('Finished creating production go files!')
+
+    if args.development_go:
+        print('Create development go files...')
         for bf in binfiles:
             compile(*bf, empty=True)
-        print('Finished!')
-    elif args.build_all:
+        print('Finished creating development go files!')
+
+    if args.build:
+        if args.production_go:
+            print('Build production binary')
+            build(development=False)
+        elif args.development_go:
+            print('Build develpment binary')
+            build(development=True)
+        else:
+            sys.exit('-d or -p must be used')
+        print('Finished build!')
+
+    if args.build_all:
         build_all()
-        print('Finished!')
-    else:
+        print('Finished building binaries!')
+
+    if not any([
+            args.install_packages,
+            args.production_go,
+            args.development_go,
+            args.less,
+            args.webpack,
+            args.build,
+            args.build_all]):
         parser.print_usage()
