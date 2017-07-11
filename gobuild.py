@@ -16,6 +16,7 @@ import "encoding/base64"
 var {variable}, _ = base64.StdEncoding.DecodeString("{base64str}")
 '''
 
+
 goosarchs = [
     ('darwin', '386'),
     ('darwin', 'amd64'),
