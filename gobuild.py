@@ -3,14 +3,17 @@ import os
 import sys
 import argparse
 import subprocess
+import base64
 
 
 template = '''// +build !debug
 
 package {package}
 
+import "encoding/base64"
+
 // {variable} is a byte representation for {fn}
-var {variable} = []byte{{{bytes}}}
+var {variable}, _ = base64.StdEncoding.DecodeString("{base64str}")
 '''
 
 goosarchs = [
@@ -172,7 +175,7 @@ def compile_less(development=True):
 
 def compile(fn, variable, empty=False):
     if empty:
-        data = ''
+        data = b''
     else:
         with open(fn, 'rb') as f:
             data = f.read()
@@ -181,7 +184,7 @@ def compile(fn, variable, empty=False):
             package='main',
             fn=fn,
             variable=variable,
-            bytes=', '.join(str(c) for c in data)
+            base64str=base64.b64encode(data).decode('utf-8')
         ))
 
 
