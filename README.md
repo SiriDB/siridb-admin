@@ -78,7 +78,7 @@ siridb-admin --http --port 5050
 ```
 
 ## Command-line arguments
-SiriDB Admin can be used by using command line arguments only. This can be useful in case you want to create and extend a SiriDB database using a script.
+SiriDB Admin can be used by just using command line arguments. This can be useful in case you want to create and extend a SiriDB database using a script.
 
 All commands start with the following arguments:
 ```
