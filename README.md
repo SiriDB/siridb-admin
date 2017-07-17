@@ -70,7 +70,7 @@ A web interface can be started with the following command:
 ```
 siridb-admin --http
 ```
-This will open a webserver listening on port 8080. You can now access the graphical interface by opening url http://localhost:8080 in your favorite web-browser.
+This will start a webserver listening on port 8080. You can now access the graphical interface by opening url http://localhost:8080 in your favorite web-browser.
 
 Note: you might want to use a different port for the webserver. This can be done using the `-O` or `--port` argument flag. For example:
 ```
