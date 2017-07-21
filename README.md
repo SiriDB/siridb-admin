@@ -159,7 +159,9 @@ For example:
 ```
 siridb-admin -u sa -p siri -s siridb01.foo.local new-database -d dbexample -t s
 ```
-This will create database `dbexamle` on SiriDB server `siridb01.foo.local` with a *second* time precision.
+This will create database `dbexamle` on SiriDB server `siridb01.foo.local` with a *second* time precision. 
+
+>Note: each new database will be created with a default database user `iris` and password `siri`.
 
 ### New replica
 The following syntax can be used to create a new replica:
