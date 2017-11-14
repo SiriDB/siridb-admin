@@ -70,7 +70,7 @@ A web interface can be started with the following command:
 ```
 siridb-admin --http
 ```
-This will open a webserver listening on port 8080. You can now access the graphical interface by opening url http://localhost:8080 in your favorite web-browser.
+This will start a webserver listening on port 8080. You can now access the graphical interface by opening url http://localhost:8080 in your favorite web-browser.
 
 Note: you might want to use a different port for the webserver. This can be done using the `-O` or `--port` argument flag. For example:
 ```
@@ -78,7 +78,7 @@ siridb-admin --http --port 5050
 ```
 
 ## Command-line arguments
-SiriDB Admin can be used by using command line arguments only. This can be useful in case you want to create and extend a SiriDB database using a script.
+SiriDB Admin can be used by just using command line arguments. This can be useful in case you want to create and extend a SiriDB database using a script.
 
 All commands start with the following arguments:
 ```
@@ -159,7 +159,9 @@ For example:
 ```
 siridb-admin -u sa -p siri -s siridb01.foo.local new-database -d dbexample -t s
 ```
-This will create database `dbexamle` on SiriDB server `siridb01.foo.local` with a *second* time precision.
+This will create database `dbexamle` on SiriDB server `siridb01.foo.local` with a *second* time precision. 
+
+>Note: each new database will be created with a default database user `iris` and password `siri`.
 
 ### New replica
 The following syntax can be used to create a new replica:
