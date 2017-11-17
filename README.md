@@ -32,7 +32,7 @@ SiriDB Admin Tool can be compiled from source or, for most systems, you can simp
 Go to https://github.com/transceptor-technology/siridb-admin/releases/latest and download the binary for your system.
 In this documentation we refer to the binary as `siridb-admin`. On Linux/OSX it might be required to set the execution flag:
 ```
-$ chmod + x siridb-admin_X.Y.Z_OS_ARCH.bin
+$ chmod +x siridb-admin_X.Y.Z_OS_ARCH.bin
 ```
 
 You might want to copy the binary to /usr/local/bin and create a symlink like this:
