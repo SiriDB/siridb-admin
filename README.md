@@ -140,7 +140,7 @@ siridb-admin -u <service_account> [flags] new-database
   -d, --db-name=DB-NAME        Database name. (Must be at least 2 and at most 20 characters. First
                                character must be a letter. Last character must be a letter or number.
                                In between letters, numbers, hyphen and underscores are allowed)
-  -t, --time-precision="ms"    Time precision for the new database. Supported time precessions are
+  -t, --time-precision="ms"    Time precision for the new database. Supported time precissions are
                                s (second), ms (millisecond), us (microsecond) and ns (nanosecond).
                                This value cannot be changed once the database is created.
   -b, --buffer-size=1024       Buffer size for the new database. Each series uses a buffer space in
@@ -159,7 +159,7 @@ For example:
 ```
 siridb-admin -u sa -p siri -s siridb01.foo.local new-database -d dbexample -t s
 ```
-This will create database `dbexamle` on SiriDB server `siridb01.foo.local` with a *second* time precision. 
+This will create database `dbexample` on SiriDB server `siridb01.foo.local` with a *second* time precision. 
 
 >Note: each new database will be created with a default database user `iris` and password `siri`.
 
