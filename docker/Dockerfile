@@ -2,8 +2,8 @@ FROM golang:alpine
 MAINTAINER Transceptor Technology
 RUN apk update
 RUN apk upgrade
-RUN apk add git python3 nodejs libc-dev
-RUN npm install -g less less-plugin-clean-css
+RUN apk add git python3 nodejs-npm libc-dev
+RUN npm install -g less@2.7.2 less-plugin-clean-css
 RUN git clone https://github.com/transceptor-technology/siridb-admin.git /tmp/siridb-admin
 RUN cd /tmp/siridb-admin && ./gobuild.py -i -l -w -b -p -o siridb-admin
 
