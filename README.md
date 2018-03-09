@@ -23,13 +23,13 @@ Tool for managing SiriDB service accounts and databases. SiriDB-Admin can be use
 
 ---------------------------------------
 ## Requirements
-SiriDB Admin only works with SiriDB version 2.0.16 and higher. For older versions of SiriDB the manage tool is required and can be found at https://github.com/transceptor-technology/siridb-manage
+SiriDB Admin only works with SiriDB version 2.0.16 and higher. For older versions of SiriDB the manage tool is required and can be found at https://github.com/SiriDB/siridb-manage
 
 ## Installation
 SiriDB Admin Tool can be compiled from source or, for most systems, you can simply download a pre-compiled binary.
 
 ### Pre-compiled
-Go to https://github.com/transceptor-technology/siridb-admin/releases/latest and download the binary for your system.
+Go to https://github.com/SiriDB/siridb-admin/releases/latest and download the binary for your system.
 In this documentation we refer to the binary as `siridb-admin`. On Linux/OSX it might be required to set the execution flag:
 ```
 $ chmod +x siridb-admin_X.Y.Z_OS_ARCH.bin
@@ -47,7 +47,7 @@ Note: replace `X.Y.Z_OS_ARCH` with your binary, for example `1.1.1_linux_amd64`
 
 Clone the project using git. (we assume git is installed)
 ```
-git clone https://github.com/transceptor-technology/siridb-admin
+git clone https://github.com/SiriDB/siridb-admin
 ```
 
 Make sure less is installed:
