@@ -63,7 +63,7 @@ var (
 	xNpServer   = xNewPool.Flag("db-server", "SiriDB server address[:port]. Can be any server from the database you want to add a new pool to.").Short('S').Required().String()
 	xNpForce    = xNewPool.Flag("force", "Suppress warning message.").Short('f').Bool()
 
-	xNewReplica = xApp.Command("new-replica", "Expand a SiriDB database with a new pool.")
+	xNewReplica = xApp.Command("new-replica", "Expand a SiriDB pool with a new replica.")
 	xNrDatabase = xNewReplica.Flag("db-name", "Database name where you want to add the new replica to.").Short('d').Required().String()
 	xNrUser     = xNewReplica.Flag("db-user", "User with full privileges to the database.").Short('U').Required().String()
 	xNrPassword = xNewReplica.Flag("db-password", "Password for the database user.").Short('P').Required().String()
