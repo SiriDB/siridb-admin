@@ -168,7 +168,7 @@ class NewDatabase extends Reflux.Component {
                                 id="inp-buffer-size"
                                 type="number"
                                 min="512"
-                                max="10485760"
+                                max="1048576"
                                 step="512"
                                 className="form-control"
                                 placeholder="buffer size (multiple of 512)"
