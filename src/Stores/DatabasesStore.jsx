@@ -91,6 +91,26 @@ class DatabasesStore extends BaseStore {
             this.setState({loading: false});
         });
     }
+
+    onDropDatabase(dbname, ignoreOffline)
+    {
+        this.setState({loading: true});
+        this.post('/databases/drop', {
+            dbname: dbname,
+            ignoreOffline: ignoreOffline,
+        })
+        .done((data) => {
+            this.setState({
+                databases: this.state.databases.filter(database => database != dbname),
+                loading: false,
+            });
+            AlertActions.setAlert(data, 'success');
+        })
+        .fail((err, data) => {
+            AlertActions.setAlert(data, 'warning');
+            this.setState({loading: false});
+        });
+    }
 }
 
 export default DatabasesStore;

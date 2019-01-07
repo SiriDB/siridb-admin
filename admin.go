@@ -355,6 +355,7 @@ func initHTTP() error {
 	http.HandleFunc("/databases/new-database", handlerDatabasesNewDatabase)
 	http.HandleFunc("/databases/new-pool", handlerDatabasesNewPool)
 	http.HandleFunc("/databases/new-replica", handlerDatabasesNewReplica)
+	http.HandleFunc("/databases/drop", handlerDatabasesDrop)
 	http.HandleFunc("/auth/fetch", handlerAuthFetch)
 	http.HandleFunc("/auth/login", handlerAuthLogin)
 	http.HandleFunc("/auth/logoff", handlerAuthLogoff)

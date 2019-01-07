@@ -129,6 +129,65 @@ func handlerAccountsDrop(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func handlerDatabasesDrop(w http.ResponseWriter, r *http.Request) {
+	b, err := ioutil.ReadAll(r.Body)
+	defer r.Body.Close()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	sess, err := globalSessions.SessionStart(w, r)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	type DropDatabase struct {
+		Dbname        string `json:"dbname"`
+		IgnoreOffline bool   `json:"ignoreOffline"`
+	}
+
+	var dropDb DropDatabase
+
+	err = json.Unmarshal(b, &dropDb)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	server, port, err := getHostAndPort(sess.Get("server").(string))
+
+	if err != nil {
+		msg := fmt.Sprintf(invalidServerAddress, sess.Get("server").(string))
+		http.Error(w, msg, http.StatusInternalServerError)
+		return
+	}
+
+	conn := siridb.NewConnection(server, port)
+	conn.LogCh = *logChannel
+
+	res, err := dropDatabase(
+		conn,
+		sess.Get("username").(string),
+		sess.Get("password").(string),
+		dropDb.Dbname,
+		dropDb.IgnoreOffline,
+		true)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if b, err := json.Marshal(res); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	} else {
+		w.Write(b)
+	}
+}
+
 func handlerDatabasesNewReplica(w http.ResponseWriter, r *http.Request) {
 	b, err := ioutil.ReadAll(r.Body)
 	defer r.Body.Close()
