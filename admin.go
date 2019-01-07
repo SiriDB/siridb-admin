@@ -42,6 +42,11 @@ var (
 	xDropAccount = xApp.Command("drop-account", "Remove a service account.")
 	xDaAccount   = xDropAccount.Arg("name", "Account name which you want to drop.").Required().String()
 
+	xDropDatabase    = xApp.Command("drop-database", "Remove a database.")
+	xDdDatabase      = xDropDatabase.Flag("db-name", "Database name to drop.").Short('d').Required().String()
+	xDdIgnoreOffline = xDropDatabase.Flag("ignore-offline", "Continue even if servers are offline.").Short('i').Bool()
+	xDdForce         = xDropDatabase.Flag("force", "Suppress warning message.").Short('f').Bool()
+
 	xChangeAccount = xApp.Command("change-password", "Change password for your service account.")
 	xCaPassword    = xChangeAccount.Arg("password", "New password.").Required().String()
 
@@ -266,6 +271,28 @@ func dropAccount(conn *siridb.Connection, account, password, dropAccnt string) (
 	return msg, err
 }
 
+func dropDatabase(conn *siridb.Connection, account, password, dropDb string, ignoreOffline, force bool) (interface{}, error) {
+	var msg string
+
+	if !force {
+		c := askForConfirmation("WARNING: This will drop the database on all servers in the cluster.\n\nIt is not possible to undo this action!\nAre you sure you want to continue?")
+		if !c {
+			return msg, fmt.Errorf("cancelled by user")
+		}
+	}
+
+	options := make(map[string]interface{})
+
+	options["database"] = dropDb
+	options["ignore_offline"] = ignoreOffline
+
+	_, err := conn.Manage(account, password, siridb.AdminDropDatabase, options)
+	if err == nil {
+		msg = fmt.Sprintf("successfully dropped database: %s", dropDb)
+	}
+	return msg, err
+}
+
 func changePassword(conn *siridb.Connection, account, password, changeAccount, newPassword string) (interface{}, error) {
 	var msg string
 	options := make(map[string]interface{})
@@ -401,6 +428,8 @@ func main() {
 			msg, err = newAccount(conn, *xAccount, *xPassword, *xNaAccount, *xNaPassword)
 		case xDropAccount.FullCommand():
 			msg, err = dropAccount(conn, *xAccount, *xPassword, *xDaAccount)
+		case xDropDatabase.FullCommand():
+			msg, err = dropDatabase(conn, *xAccount, *xPassword, *xDdDatabase, *xDdIgnoreOffline, *xDdForce)
 		case xChangeAccount.FullCommand():
 			msg, err = changePassword(conn, *xAccount, *xPassword, *xAccount, *xCaPassword)
 		case xNewDatabase.FullCommand():

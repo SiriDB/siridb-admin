@@ -20,6 +20,7 @@ Tool for managing SiriDB service accounts and databases. SiriDB-Admin can be use
       * [New database](#new-database)
       * [New replica](#new-replica)
       * [New pool](#new-pool)
+      * [Drop database](#drop-database)
 
 ---------------------------------------
 ## Requirements
@@ -159,7 +160,7 @@ For example:
 ```
 siridb-admin -u sa -p siri -s siridb01.foo.local new-database -d dbexample -t s
 ```
-This will create database `dbexample` on SiriDB server `siridb01.foo.local` with a *second* time precision. 
+This will create database `dbexample` on SiriDB server `siridb01.foo.local` with a *second* time precision.
 
 >Note: each new database will be created with a default database user `iris` and password `siri`.
 
@@ -197,4 +198,20 @@ For example:
 siridb-admin -u sa -p siri -s siridb03.foo.local new-pool -d dbexample -U iris -P siri -S siridb01.foo.local
 ```
 This will ask for confirmation and then create a new pool on SiriDB server `siridb03.foo.local` for database `dbexample`. Pool id's will be incremented automatically so if the database only had pool `0` then the new pool will have id `1`.
+
+This will ask for confirmation and then create a replica on SiriDB server `siridb02.foo.local` for pool `0` in database `dbexample`.
+
+### Drop database
+The following syntax can be used to drop a database:
+```
+siridb-admin -u <service_account> [flags] drop-database
+  -d, --db-name=DB-NAME          Database name where you want to add the new pool to.
+  -i, --ignore-offline           Usually the database will be removed from all servers in the cluster and therefore an error is returned in case one or more servers are offline. This flag can be used to ignore offline servers.
+  -f, --force                    Suppress warning message.
+```
+For example:
+```
+siridb-admin -u sa -p siri -s siridb01.foo.local drop-database -d dbexample
+```
+This will ask for confirmation and then remove the database from all servers.
 
