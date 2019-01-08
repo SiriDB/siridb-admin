@@ -41,7 +41,7 @@ You might want to copy the binary to /usr/local/bin and create a symlink like th
 $ sudo cp siridb-admin_X.Y.Z_OS_ARCH.bin /usr/local/bin/
 $ sudo ln -s /usr/local/bin/siridb-admin_X.Y.Z_OS_ARCH.bin /usr/local/bin/siridb-admin
 ```
-Note: replace `X.Y.Z_OS_ARCH` with your binary, for example `1.1.1_linux_amd64`
+Note: replace `X.Y.Z_OS_ARCH` with your binary, for example `1.2.0_linux_amd64`
 
 ### Compile from source
 > Before compiling from source make sure **go**, **npm** and **git** are installed and your [$GOPATH](https://github.com/golang/go/wiki/GOPATH) is set.

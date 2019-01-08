@@ -1,6 +1,8 @@
 2019.01.07, Version 1.2.0
 
-  * Added drop database option.
+  * Added drop database option. (issue #10)
+  * Update SiriDB GO Connector
+  * Use Vlow instead of Reflux
 
 2017.11.14, Version 1.1.3
 
@@ -9,19 +11,16 @@
 2017.05.04, Version 1.1.2
 
   * Fixed accepting IPv6 SiriDB server address from command line. (issue #5)
-
   * Freeze npm package versions.
 
 2017.04.06, Version 1.1.1
 
   * Fixed verbose logging. (issue #1)
-
   * Fixed honoring the force argument when creating a new replica. (issue #2)
 
 2017.04.06, Version 1.1.0
 
   * Renamed some command line arguments.
-
   * Print error message if the web server cannot start listening.
 
 2017.04.03, Version 1.0.0
