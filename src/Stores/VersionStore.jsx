@@ -9,8 +9,6 @@ class VersionStore extends BaseStore {
         super(VersionActions);
         this.state = {
             version: "",
-            build: "",
-            date: ""
         };
         VersionActions.fetch();
     }
@@ -20,8 +18,6 @@ class VersionStore extends BaseStore {
         .done((data) => {
             this.setState({
                 version: data[0],
-                build: data[1],
-                date: data[2]
             });
         })
         .fail((err, data) => {

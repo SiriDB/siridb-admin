@@ -3,6 +3,7 @@ import Vlow from 'vlow';
 import { render } from 'react-dom';
 import { Link, IndexLink } from 'react-router';
 import DatabasesStore from '../../../Stores/DatabasesStore.jsx';
+import VersionStore from '../../../Stores/VersionStore.jsx';
 import DatabasesActions from '../../../Actions/DatabasesActions.jsx';
 import DropModal from './DropModal.jsx';
 
@@ -14,8 +15,28 @@ class Databases extends Vlow.Component {
             showDrop: false,
             dropName: ''
         }
-        this.mapStore(DatabasesStore);
+        this.mapStores([DatabasesStore, VersionStore]);
         DatabasesActions.fetch();
+    }
+
+    checkVersion = (requiredVersion) => {
+        if (this.state.version === undefined) {
+            return false;
+        }
+        let required = requiredVersion.split('.');
+        let current = this.state.version.split('.');
+        if (current.length < required.length) {
+            return false;
+        }
+
+        for (let i = 0; i < required.length; ++i) {
+            let a = parseInt(current[i]);
+            let b = parseInt(required[i]);
+            if (a < b) {
+                return false;
+            }
+        }
+        return true;
     }
 
     onYes = (ignoreOffline) => {
@@ -41,8 +62,14 @@ class Databases extends Vlow.Component {
     }
 
     render() {
+        let canDrop = this.checkVersion('2.0.31');
         let items = (this.state.databases.length) ?
-            this.state.databases.map((dbname, n) => <li key={n}><a onClick={() => this.onDrop(dbname)}><i className="fa fa-fw fa-trash"></i></a>{dbname}</li>) :
+            this.state.databases.map((dbname, n) => <li key={n}>
+                {canDrop && <a onClick={() => this.onDrop(dbname)}>
+                    <i className="fa fa-fw fa-trash" />
+                </a>}
+                {dbname}
+            </li>) :
             <li><i>no database installed</i></li>;
 
         return (

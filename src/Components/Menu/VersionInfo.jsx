@@ -18,8 +18,6 @@ class VersionInfo extends Vlow.Component {
                 <dl className="dl-horizontal">
                     <dt>Version:</dt>
                     <dd>{this.state.version}</dd>
-                    <dt>Build:</dt>
-                    <dd>{this.state.build} {this.state.date}</dd>
                 </dl>
                 <ul>
                     <li><IndexLink to="/"><i className="fa fa-fw fa-arrow-left"></i>back</IndexLink></li>
