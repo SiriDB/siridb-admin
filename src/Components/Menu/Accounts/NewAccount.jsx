@@ -1,20 +1,20 @@
 import React from 'react';
-import Reflux from 'reflux-edge';
+import Vlow from 'vlow';
 import { render } from 'react-dom';
 import { Link } from 'react-router';
 import AlertActions from '../../../Actions/AlertActions.jsx';
 import AccountsActions from '../../../Actions/AccountsActions.jsx';
 import AccountsStore from '../../../Stores/AccountsStore.jsx';
 
-class NewAccount extends Reflux.Component {
+class NewAccount extends Vlow.Component {
 
     constructor(props) {
         super(props);
-        this.store = AccountsStore; // required so the store will be initialized
         this.state = {
             username: '',
             password: ''
         };
+        this.mapStore(AccountsStore); // required so the store will be initialized
         AlertActions.clearAlert();
     }
 

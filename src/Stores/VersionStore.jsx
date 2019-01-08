@@ -6,8 +6,7 @@ import AlertActions from '../Actions/AlertActions.jsx';
 class VersionStore extends BaseStore {
 
     constructor() {
-        super();
-        this.listenables = VersionActions;
+        super(VersionActions);
         this.state = {
             version: "",
             build: "",

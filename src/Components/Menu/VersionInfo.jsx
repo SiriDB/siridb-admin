@@ -1,14 +1,14 @@
 import React from 'react';
-import Reflux from 'reflux-edge';
+import Vlow from 'vlow';
 import { render } from 'react-dom';
 import { IndexLink } from 'react-router';
 import VersionStore from '../../Stores/VersionStore.jsx';
 
-class VersionInfo extends Reflux.Component {
+class VersionInfo extends Vlow.Component {
 
     constructor(props) {
         super(props);
-        this.store = VersionStore;
+        this.mapStore(VersionStore);
     }
 
     render() {

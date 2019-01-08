@@ -8,8 +8,7 @@ import { browserHistory } from 'react-router';
 class AuthStore extends BaseStore {
 
     constructor() {
-        super();
-        this.listenables = AuthActions;
+        super(AuthActions);
         this.state = {
             user: null,
             loading: false

@@ -15,11 +15,18 @@ class DropModal extends React.Component {
         super(props);
         this.state = {
             ignoreOffline: false,
+            dbname: ''
         };
     }
 
     handleIgnoreOfflineChange = () => {
         this.setState(prevState => ({ignoreOffline: !prevState.ignoreOffline}));
+    }
+
+    onDbnameChange = ({target}) => {
+        this.setState({
+            dbname: target.value
+        });
     }
 
     render() {
@@ -28,15 +35,38 @@ class DropModal extends React.Component {
             <Modal show={this.props.show} onHide={this.props.onNo} bsSize="small">
                 <Modal.Body>
                     <p>{ `Do you really want to drop database '${this.props.dbname}'?` }</p>
-                    <div class="form-group">
+                    <div className="form-group">
+                        <label htmlFor="inp-dbname">Type database name to confirm</label>
                         <div className="input-group input-group-sm">
-                            <input type="checkbox" name="ignoreOffline" id="ignoreOffline" checked={this.state.ignoreOffline} onChange={this.handleIgnoreOfflineChange} />
-                            <label style={{marginLeft: 10}} htmlFor="ignoreOffline">{'Ignore offline servers'}</label>
+                            <input
+                                autoFocus
+                                id="inp-dbname"
+                                type="text"
+                                className="form-control"
+                                placeholder="database name"
+                                value={this.state.dbname}
+                                onChange={this.onDbnameChange} />
+                        </div>
+                    </div>
+                    <div className="alert alert-warning">
+                        {'The database will be removed from all servers in the cluster. This requires all SiriDB servers to be online. With the following option `offline` servers can be ignored'}
+                        <div className="form-group">
+                            <div className="input-group input-group-sm">
+                                <input type="checkbox" name="ignoreOffline" id="ignoreOffline" checked={this.state.ignoreOffline} onChange={this.handleIgnoreOfflineChange} />
+                                <label style={{marginLeft: 10}} htmlFor="ignoreOffline">{'Ignore offline servers'}</label>
+                            </div>
                         </div>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <button onClick={() => this.props.onYes(this.state.ignoreOffline)} type="button" className="btn btn-default">Yes</button>
+                    <button
+                        onClick={() => this.props.onYes(this.state.ignoreOffline)}
+                        type="button"
+                        disabled={this.props.dbname!==this.state.dbname}
+                        className="btn btn-default"
+                    >
+                        {'Yes'}
+                    </button>
                     <button onClick={this.props.onNo} type="button" className="btn btn-cancel">No</button>
                 </Modal.Footer>
             </Modal>

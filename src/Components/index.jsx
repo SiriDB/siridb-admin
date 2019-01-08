@@ -1,7 +1,5 @@
 import React from 'react';
-import Reflux from 'reflux-edge';
-
-Reflux.defineReact(React, Reflux);
+import Vlow from 'vlow';
 
 import { render } from 'react-dom';
 import App from './App/App.jsx';

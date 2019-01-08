@@ -1,20 +1,20 @@
 import React from 'react';
-import Reflux from 'reflux-edge';
+import Vlow from 'vlow';
 import { render } from 'react-dom';
 import { Link, IndexLink } from 'react-router';
 import AccountsStore from '../../../Stores/AccountsStore.jsx';
 import AccountsActions from '../../../Actions/AccountsActions.jsx';
 import DropModal from './DropModal.jsx';
 
-class View extends Reflux.Component {
+class View extends Vlow.Component {
 
     constructor(props) {
         super(props);
-        this.store = AccountsStore;
         this.state = {
             showDrop: false,
             dropName: ''
         }
+        this.mapStore(AccountsStore);
         AccountsActions.fetch();
     }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import Reflux from 'reflux-edge';
+import Vlow from 'vlow';
 import { render } from 'react-dom';
 import AuthStore from '../../Stores/AuthStore.jsx';
 import AlertStore from '../../Stores/AlertStore.jsx';
@@ -8,11 +8,11 @@ import Auth from '../Auth/Auth.jsx';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 
-class App extends Reflux.Component {
+class App extends Vlow.Component {
 
     constructor(props) {
         super(props);
-        this.stores = [AuthStore, AlertStore];
+        this.mapStores([AuthStore, AlertStore]);
     }
 
     render() {

@@ -1,5 +1,5 @@
 import React from 'react';
-import Reflux from 'reflux-edge';
+import Vlow from 'vlow';
 import { render } from 'react-dom';
 import { Link } from 'react-router';
 import AlertActions from '../../../Actions/AlertActions.jsx';
@@ -18,11 +18,11 @@ const tooltipUn = <Tooltip id="tooltip-un" placement="top">
     Username with full privileges to the database. Note: do not confuse a database user with a service account.
     </Tooltip>;
 
-class NewReplica extends Reflux.Component {
+class NewReplica extends Vlow.Component {
 
     constructor(props) {
         super(props);
-        this.store = DatabasesStore; // required so the store will be initialized
+        this.mapStore(DatabasesStore); // required so the store will be initialized
         this.state = {
             dbname: '',
             server: '',

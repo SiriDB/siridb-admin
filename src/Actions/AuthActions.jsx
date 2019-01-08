@@ -1,2 +1,2 @@
-import Reflux from 'reflux-edge';
-export default Reflux.createActions(["login", "fetch", "logoff", "changePassword"]);
+import Vlow from 'vlow';
+export default Vlow.createActions(["login", "fetch", "logoff", "changePassword"]);

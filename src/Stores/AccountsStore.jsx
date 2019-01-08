@@ -6,8 +6,7 @@ import AlertActions from '../Actions/AlertActions.jsx';
 class AccountsStore extends BaseStore {
 
     constructor() {
-        super();
-        this.listenables = AccountsActions;
+        super(AccountsActions);
         this.state = {
             accounts: [],
         };

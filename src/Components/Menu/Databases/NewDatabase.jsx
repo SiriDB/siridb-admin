@@ -1,5 +1,5 @@
 import React from 'react';
-import Reflux from 'reflux-edge';
+import Vlow from 'vlow';
 import { render } from 'react-dom';
 import { Link } from 'react-router';
 import AlertActions from '../../../Actions/AlertActions.jsx';
@@ -23,11 +23,10 @@ const tooltipDl = <Tooltip id="tooltop-dl" placement="top">
     At the moment log values are not supported by SiriDB but this will be implemented in a future release.</Tooltip>
 
 
-class NewDatabase extends Reflux.Component {
+class NewDatabase extends Vlow.Component {
 
     constructor(props) {
         super(props);
-        this.store = DatabasesStore; // required so the store will be initialized
         this.state = {
             dbname: '',
             timePrecision: 'ms',
@@ -36,6 +35,7 @@ class NewDatabase extends Reflux.Component {
             durationLog: '1d',
             showConfirm: false
         };
+        this.mapStore(DatabasesStore); // required so the store will be initialized
     }
 
     onNewDatabase() {

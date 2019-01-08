@@ -1,20 +1,20 @@
 import React from 'react';
-import Reflux from 'reflux-edge';
+import Vlow from 'vlow';
 import { render } from 'react-dom';
 import { Link, IndexLink } from 'react-router';
 import DatabasesStore from '../../../Stores/DatabasesStore.jsx';
 import DatabasesActions from '../../../Actions/DatabasesActions.jsx';
 import DropModal from './DropModal.jsx';
 
-class Databases extends Reflux.Component {
+class Databases extends Vlow.Component {
 
     constructor(props) {
         super(props);
-        this.store = DatabasesStore;
         this.state = {
             showDrop: false,
             dropName: ''
         }
+        this.mapStore(DatabasesStore);
         DatabasesActions.fetch();
     }
 

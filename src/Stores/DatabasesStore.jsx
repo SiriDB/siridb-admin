@@ -6,8 +6,7 @@ import AlertActions from '../Actions/AlertActions.jsx';
 class DatabasesStore extends BaseStore {
 
     constructor() {
-        super();
-        this.listenables = DatabasesActions;
+        super(DatabasesActions);
         this.state = {
             databases: [],
             loading: false

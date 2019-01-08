@@ -1,2 +1,2 @@
-import Reflux from 'reflux-edge';
-export default Reflux.createActions(["fetch", "newAccount", "dropAccount"]);
+import Vlow from 'vlow';
+export default Vlow.createActions(["fetch", "newAccount", "dropAccount"]);
