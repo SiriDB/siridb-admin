@@ -22,7 +22,6 @@ class NewReplica extends Vlow.Component {
 
     constructor(props) {
         super(props);
-        this.mapStore(DatabasesStore); // required so the store will be initialized
         this.state = {
             dbname: '',
             server: '',
@@ -31,7 +30,7 @@ class NewReplica extends Vlow.Component {
             pool: 0,
             showConfirm: false
         };
-        AlertActions.clearAlert();
+        this.mapStore(DatabasesStore); // required so the store will be initialized
     }
 
     onNewReplica() {

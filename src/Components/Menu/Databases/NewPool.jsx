@@ -30,7 +30,6 @@ class NewPool extends Vlow.Component {
             showConfirm: false
         };
         this.mapStore(DatabasesStore); // required so the store will be initialized
-        AlertActions.clearAlert();
     }
 
     onNewPool() {
