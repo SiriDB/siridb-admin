@@ -208,7 +208,10 @@ The following syntax can be used to drop a database:
 ```
 siridb-admin -u <service_account> [flags] drop-database
   -d, --db-name=DB-NAME          Database name where you want to add the new pool to.
-  -i, --ignore-offline           Usually the database will be removed from all servers in the cluster and therefore an error is returned in case one or more servers are offline. This flag can be used to ignore offline servers.
+  -i, --ignore-offline           Usually the database will be removed from all servers in the
+                                 cluster and therefore an error is returned in case one or more
+                                 servers are offline. This flag can be used to ignore offline
+                                 servers.
   -f, --force                    Suppress warning message.
 ```
 For example:
