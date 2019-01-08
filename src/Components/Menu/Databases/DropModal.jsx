@@ -1,6 +1,14 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Modal } from 'react-bootstrap';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+
+
+const tooltip = (
+    <Tooltip id="tooltop-os" placement="top">
+        {'By default this action requires all SiriDB servers to be online but with this option enabled `offline` servers will be ignored'}
+    </Tooltip>
+);
 
 class DropModal extends React.Component {
 
@@ -39,7 +47,7 @@ class DropModal extends React.Component {
                         <p>{'The database will be removed from all servers in the cluster and cannot be undone!!'}</p>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="inp-dbname">Type database name to confirm</label>
+                        <label htmlFor="inp-dbname">Type the database name to confirm</label>
                         <div className="input-group input-group-sm">
                             <input
                                 autoFocus
@@ -51,11 +59,19 @@ class DropModal extends React.Component {
                                 onChange={this.onDbnameChange} />
                         </div>
                     </div>
-                    <p>{'By default this action requires all SiriDB servers to be online but with the following option `offline` servers can be ignored'}</p>
+                    <p></p>
                     <div className="form-group">
                         <div className="input-group input-group-sm">
                             <input type="checkbox" name="ignoreOffline" id="ignoreOffline" checked={this.state.ignoreOffline} onChange={this.handleIgnoreOfflineChange} />
-                            <label style={{marginLeft: 10}} htmlFor="ignoreOffline">{'Ignore offline servers'}</label>
+                            <label style={{marginLeft: 10}} htmlFor="ignoreOffline">
+                            {'Ignore offline servers '}
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={tooltip}>
+                                <i className="fa fa-question-circle"></i>
+                            </OverlayTrigger>
+                        </label>
+
                         </div>
                     </div>
                     <p>{ `Do you really want to drop database '${this.props.dbname}'?` }</p>
