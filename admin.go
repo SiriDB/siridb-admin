@@ -9,9 +9,9 @@ import (
 	"os"
 	"strconv"
 
+	siridb "github.com/SiriDB/go-siridb-connector"
 	"github.com/astaxie/beego/session"
 	"github.com/howeyc/gopass"
-	siridb "github.com/transceptor-technology/go-siridb-connector"
 
 	"strings"
 

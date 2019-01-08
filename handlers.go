@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	siridb "github.com/transceptor-technology/go-siridb-connector"
+	siridb "github.com/SiriDB/go-siridb-connector"
 )
 
 func respError(w http.ResponseWriter, r *http.Request) {

@@ -4,7 +4,7 @@ RUN apk update
 RUN apk upgrade
 RUN apk add git python3 nodejs-npm libc-dev
 RUN npm install -g less@2.7.2 less-plugin-clean-css
-RUN git clone https://github.com/transceptor-technology/siridb-admin.git /tmp/siridb-admin
+RUN git clone https://github.com/SiriDB/siridb-admin.git /tmp/siridb-admin
 RUN cd /tmp/siridb-admin && ./gobuild.py -i -l -w -b -p -o siridb-admin
 
 FROM alpine:latest
