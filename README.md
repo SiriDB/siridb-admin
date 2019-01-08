@@ -203,6 +203,7 @@ This will ask for confirmation and then create a replica on SiriDB server `sirid
 
 ### Drop database
 >Note: requires at least SiriDB version 2.0.31
+
 The following syntax can be used to drop a database:
 ```
 siridb-admin -u <service_account> [flags] drop-database
