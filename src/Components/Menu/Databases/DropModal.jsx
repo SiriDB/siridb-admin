@@ -28,7 +28,12 @@ class DropModal extends React.Component {
             <Modal show={this.props.show} onHide={this.props.onNo} bsSize="small">
                 <Modal.Body>
                     <p>{ `Do you really want to drop database '${this.props.dbname}'?` }</p>
-                    <p>{'Ignore offline servers '}<input type="checkbox" name="ignoreOffline" checked={this.state.ignoreOffline} onChange={this.handleIgnoreOfflineChange} /></p>
+                    <div class="form-group">
+                        <div className="input-group input-group-sm">
+                            <input type="checkbox" name="ignoreOffline" id="ignoreOffline" checked={this.state.ignoreOffline} onChange={this.handleIgnoreOfflineChange} />
+                            <label style={{marginLeft: 10}} htmlFor="ignoreOffline">{'Ignore offline servers'}</label>
+                        </div>
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <button onClick={() => this.props.onYes(this.state.ignoreOffline)} type="button" className="btn btn-default">Yes</button>
