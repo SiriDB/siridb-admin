@@ -5,6 +5,7 @@ import { Link, IndexLink } from 'react-router';
 import DatabasesStore from '../../../Stores/DatabasesStore.jsx';
 import VersionStore from '../../../Stores/VersionStore.jsx';
 import DatabasesActions from '../../../Actions/DatabasesActions.jsx';
+import AlertActions from '../../../Actions/AlertActions.jsx';
 import DropModal from './DropModal.jsx';
 
 class Databases extends Vlow.Component {
@@ -55,6 +56,7 @@ class Databases extends Vlow.Component {
     }
 
     onDrop(dbname) {
+        AlertActions.clearAlert();
         this.setState({
             showDrop: true,
             dropName: dbname
@@ -72,7 +74,7 @@ class Databases extends Vlow.Component {
             </li>) :
             <li><i>no database installed</i></li>;
 
-        return (
+        return this.state.loading ? <img src="/img/loader.gif" alt="loading..." /> : (
             <div className="row">
                 <h1>Databases</h1>
                 <ul>{items}</ul>
@@ -89,7 +91,7 @@ class Databases extends Vlow.Component {
                     show={this.state.showDrop}
                     dbname={this.state.dropName} />
             </div>
-        )
+        );
     }
 }
 

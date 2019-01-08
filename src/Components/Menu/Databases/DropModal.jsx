@@ -34,7 +34,10 @@ class DropModal extends React.Component {
         return  (
             <Modal show={this.props.show} onHide={this.props.onNo} bsSize="small">
                 <Modal.Body>
-                    <p>{ `Do you really want to drop database '${this.props.dbname}'?` }</p>
+                    <div className="alert alert-warning">
+                        <strong>{'WARNING:'}</strong>
+                        <p>{'The database will be removed from all servers in the cluster and cannot be undone!!'}</p>
+                    </div>
                     <div className="form-group">
                         <label htmlFor="inp-dbname">Type database name to confirm</label>
                         <div className="input-group input-group-sm">
@@ -48,15 +51,14 @@ class DropModal extends React.Component {
                                 onChange={this.onDbnameChange} />
                         </div>
                     </div>
-                    <div className="alert alert-warning">
-                        {'The database will be removed from all servers in the cluster. This requires all SiriDB servers to be online. With the following option `offline` servers can be ignored'}
-                        <div className="form-group">
-                            <div className="input-group input-group-sm">
-                                <input type="checkbox" name="ignoreOffline" id="ignoreOffline" checked={this.state.ignoreOffline} onChange={this.handleIgnoreOfflineChange} />
-                                <label style={{marginLeft: 10}} htmlFor="ignoreOffline">{'Ignore offline servers'}</label>
-                            </div>
+                    <p>{'By default this action requires all SiriDB servers to be online but with the following option `offline` servers can be ignored'}</p>
+                    <div className="form-group">
+                        <div className="input-group input-group-sm">
+                            <input type="checkbox" name="ignoreOffline" id="ignoreOffline" checked={this.state.ignoreOffline} onChange={this.handleIgnoreOfflineChange} />
+                            <label style={{marginLeft: 10}} htmlFor="ignoreOffline">{'Ignore offline servers'}</label>
                         </div>
                     </div>
+                    <p>{ `Do you really want to drop database '${this.props.dbname}'?` }</p>
                 </Modal.Body>
                 <Modal.Footer>
                     <button
