@@ -202,6 +202,7 @@ This will ask for confirmation and then create a new pool on SiriDB server `siri
 This will ask for confirmation and then create a replica on SiriDB server `siridb02.foo.local` for pool `0` in database `dbexample`.
 
 ### Drop database
+>Note: requires at least SiriDB version 2.0.31
 The following syntax can be used to drop a database:
 ```
 siridb-admin -u <service_account> [flags] drop-database
