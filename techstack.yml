@@ -1,0 +1,335 @@
+repo_name: SiriDB/siridb-admin
+report_id: 244dc4dc06e62c8cfb06abee4adba15d
+version: 0.1
+repo_type: Public
+timestamp: '2023-12-27T20:00:47+00:00'
+requested_by: robbm1
+provider: github
+branch: master
+detected_tools_count: 25
+tools:
+- name: Golang
+  description: An open source programming language that makes it easy to build simple,
+    reliable, and efficient software
+  website_url: http://golang.org/
+  license: BSD-3-Clause
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/1005/O6AczwfV_400x400.png
+  detection_source: Repo Metadata
+- name: JavaScript
+  description: Lightweight, interpreted, object-oriented language with first-class
+    functions
+  website_url: https://developer.mozilla.org/en-US/docs/Web/JavaScript
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/1209/javascript.jpeg
+  detection_source: Repo Metadata
+- name: Python
+  description: A clear and powerful object-oriented programming language, comparable
+    to Perl, Ruby, Scheme, or Java.
+  website_url: https://www.python.org
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/993/pUBY5pVj.png
+  detection_source: Repo Metadata
+- name: Bootstrap
+  description: Simple and flexible HTML, CSS, and JS for popular UI components and
+    interactions
+  website_url: http://getbootstrap.com/
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Front-End Frameworks
+  image_url: https://img.stackshare.io/service/1101/C9QJ7V3X.png
+  detection_source: src/package.json
+  last_updated_by: Jeroen van der Heijden
+  last_updated_on: 2017-05-04 20:46:59.000000000 Z
+- name: React
+  description: A JavaScript library for building user interfaces
+  website_url: https://reactjs.org/
+  version: 15.4.2
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Javascript UI Libraries
+  image_url: https://img.stackshare.io/service/1020/OYIaJ1KK.png
+  detection_source_url: https://github.com/SiriDB/siridb-admin/blob/master/src/package.json
+  detection_source: src/Actions/AccountsActions.jsx
+  last_updated_by: Jeroen van der Heijden
+  last_updated_on: 2019-01-08 08:28:20.000000000 Z
+- name: Babel
+  description: Use next generation JavaScript, today.
+  website_url: http://babeljs.io/
+  version: 7.0.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: JavaScript Compilers
+  image_url: https://img.stackshare.io/service/2739/-1wfGjNw.png
+  detection_source_url: https://github.com/SiriDB/siridb-admin/blob/master/src/package.json
+  detection_source: src/.babelrc
+  last_updated_by: Jeroen van der Heijden
+  last_updated_on: 2019-01-08 08:28:20.000000000 Z
+- name: Docker
+  description: Enterprise Container Platform for High-Velocity Innovation.
+  website_url: https://www.docker.com/
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Virtual Machine Platforms & Containers
+  image_url: https://img.stackshare.io/service/586/n4u37v9t_400x400.png
+  detection_source: Repo Metadata
+- name: ESLint
+  description: The fully pluggable JavaScript code quality tool
+  website_url: http://eslint.org/
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Code Review
+  image_url: https://img.stackshare.io/service/3337/Q4L7Jncy.jpg
+  detection_source: src/package.json
+  last_updated_by: Jeroen van der Heijden
+  last_updated_on: 2017-03-27 18:49:05.000000000 Z
+- name: Git
+  description: Fast, scalable, distributed revision control system
+  website_url: http://git-scm.com/
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Version Control System
+  image_url: https://img.stackshare.io/service/1046/git.png
+  detection_source: Repo Metadata
+- name: Webpack
+  description: A bundler for javascript and friends
+  website_url: http://webpack.js.org
+  version: 2.3.2
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: JS Build Tools / JS Task Runners
+  image_url: https://img.stackshare.io/service/1682/IMG_4636.PNG
+  detection_source_url: https://github.com/SiriDB/siridb-admin/blob/master/src/package.json
+  detection_source: src/package.json
+  last_updated_by: Jeroen van der Heijden
+  last_updated_on: 2017-05-04 20:46:59.000000000 Z
+- name: npm
+  description: The package manager for JavaScript.
+  website_url: https://www.npmjs.com/
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Front End Package Manager
+  image_url: https://img.stackshare.io/service/1120/lejvzrnlpb308aftn31u.png
+  detection_source: src/package.json
+  last_updated_by: Jeroen van der Heijden
+  last_updated_on: 2017-03-27 18:49:05.000000000 Z
+- name: "@babel/core"
+  description: Babel compiler core
+  package_url: https://www.npmjs.com/@babel/core
+  version: 7.0.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15810/default_004658cda9b38934f2871435e9dc15608c86e8be.png
+  detection_source_url: https://github.com/SiriDB/siridb-admin/blob/master/src/package.json
+  detection_source: src/package.json
+  last_updated_by: Jeroen van der Heijden
+  last_updated_on: 2019-01-08 08:28:20.000000000 Z
+- name: "@babel/plugin-proposal-class-properties"
+  description: This plugin transforms static class properties as well as properties
+    declared with the property initializer syntax
+  package_url: https://www.npmjs.com/@babel/plugin-proposal-class-properties
+  version: 7.0.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15903/default_3af1504b6f77c55205ba630fe08c472f43b95f6e.png
+  detection_source_url: https://github.com/SiriDB/siridb-admin/blob/master/src/package.json
+  detection_source: src/package.json
+  last_updated_by: Jeroen van der Heijden
+  last_updated_on: 2019-01-08 08:28:20.000000000 Z
+- name: "@babel/plugin-transform-object-assign"
+  description: Replace Object.assign with an inline helper
+  package_url: https://www.npmjs.com/@babel/plugin-transform-object-assign
+  version: 7.0.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/16888/default_627f05e6a07ce29fc9f119417270f38e8aa5c5e2.png
+  detection_source_url: https://github.com/SiriDB/siridb-admin/blob/master/src/package.json
+  detection_source: src/package.json
+  last_updated_by: Jeroen van der Heijden
+  last_updated_on: 2019-01-08 08:28:20.000000000 Z
+- name: "@babel/plugin-transform-runtime"
+  description: Externalise references to helpers and builtins
+  package_url: https://www.npmjs.com/@babel/plugin-transform-runtime
+  version: 7.1.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15952/default_4040fefea2f98006727f63d042275b96a275ab2d.png
+  detection_source_url: https://github.com/SiriDB/siridb-admin/blob/master/src/package.json
+  detection_source: src/package.json
+  last_updated_by: Jeroen van der Heijden
+  last_updated_on: 2019-01-08 08:28:20.000000000 Z
+- name: "@babel/preset-env"
+  description: A Babel preset for each environment
+  package_url: https://www.npmjs.com/@babel/preset-env
+  version: 7.0.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15819/default_98aa227f51aa9d787815ec3fd98d0ab2bfebbb91.png
+  detection_source_url: https://github.com/SiriDB/siridb-admin/blob/master/src/package.json
+  detection_source: src/package.json
+  last_updated_by: Jeroen van der Heijden
+  last_updated_on: 2019-01-08 08:28:20.000000000 Z
+- name: "@babel/preset-react"
+  description: Babel preset for all React plugins
+  package_url: https://www.npmjs.com/@babel/preset-react
+  version: 7.0.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15890/default_6743ba96cf149a3c3c68a185199f9705d6eff80e.png
+  detection_source_url: https://github.com/SiriDB/siridb-admin/blob/master/src/package.json
+  detection_source: src/package.json
+  last_updated_by: Jeroen van der Heijden
+  last_updated_on: 2019-01-08 08:28:20.000000000 Z
+- name: "@babel/register"
+  description: Babel require hook
+  package_url: https://www.npmjs.com/@babel/register
+  version: 7.0.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/16014/default_7a465bc85b23fd837cbc038fd1d504632c41a884.png
+  detection_source_url: https://github.com/SiriDB/siridb-admin/blob/master/src/package.json
+  detection_source: src/package.json
+  last_updated_by: Jeroen van der Heijden
+  last_updated_on: 2019-01-08 08:28:20.000000000 Z
+- name: "@babel/runtime"
+  description: Babel's modular runtime helpers
+  package_url: https://www.npmjs.com/@babel/runtime
+  version: 7.0.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15934/default_54b691c123fc8979741e800e4dcd3936c0f3b246.png
+  detection_source_url: https://github.com/SiriDB/siridb-admin/blob/master/src/package.json
+  detection_source: src/package.json
+  last_updated_by: Jeroen van der Heijden
+  last_updated_on: 2019-01-08 08:28:20.000000000 Z
+- name: babel-loader
+  description: Babel module loader for webpack
+  package_url: https://www.npmjs.com/babel-loader
+  version: 8.0.2
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15800/default_4acafe585186b4157fa23322ae7ca89e24b5cdef.png
+  detection_source_url: https://github.com/SiriDB/siridb-admin/blob/master/src/package.json
+  detection_source: src/package.json
+  last_updated_by: Jeroen van der Heijden
+  last_updated_on: 2019-01-08 08:28:20.000000000 Z
+- name: history
+  description: Manage session history with JavaScript
+  package_url: https://www.npmjs.com/history
+  version: 4.6.1
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/16209/default_dc80ff0a17bac19253430a4f0f586714841116db.png
+  detection_source_url: https://github.com/SiriDB/siridb-admin/blob/master/src/package.json
+  detection_source: src/package.json
+  last_updated_by: Jeroen van der Heijden
+  last_updated_on: 2017-05-04 20:46:59.000000000 Z
+- name: react-addons-css-transition-group
+  description: The code in this package has moved
+  package_url: https://www.npmjs.com/react-addons-css-transition-group
+  version: 15.4.2
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/16654/default_bfa6d5d12cc0af739d6b3d4c69dddc66832b1d34.png
+  detection_source_url: https://github.com/SiriDB/siridb-admin/blob/master/src/package.json
+  detection_source: src/package.json
+  last_updated_by: Jeroen van der Heijden
+  last_updated_on: 2019-01-08 08:28:20.000000000 Z
+- name: react-bootstrap
+  description: Bootstrap 3 components built with React
+  package_url: https://www.npmjs.com/react-bootstrap
+  version: 0.30.8
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/16383/default_92302d1bbf4c0f67b862869662b4f69002c94aad.png
+  detection_source_url: https://github.com/SiriDB/siridb-admin/blob/master/src/package.json
+  detection_source: src/package.json
+  last_updated_by: Jeroen van der Heijden
+  last_updated_on: 2019-01-08 08:28:20.000000000 Z
+- name: react-dom
+  description: React package for working with the DOM
+  package_url: https://www.npmjs.com/react-dom
+  version: 15.4.2
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15808/default_14fd11531839d935f920b6d55bd6f3528c890ad7.png
+  detection_source_url: https://github.com/SiriDB/siridb-admin/blob/master/src/package.json
+  detection_source: src/package.json
+  last_updated_by: Jeroen van der Heijden
+  last_updated_on: 2019-01-08 08:28:20.000000000 Z
+- name: react-router
+  description: A complete routing library for React
+  package_url: https://www.npmjs.com/react-router
+  version: 3.0.2
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/16058/default_261820f5687b4c88a3e8f95c71b5e8dccd34c1d7.png
+  detection_source_url: https://github.com/SiriDB/siridb-admin/blob/master/src/package.json
+  detection_source: src/package.json
+  last_updated_by: Jeroen van der Heijden
+  last_updated_on: 2019-01-08 08:28:20.000000000 Z
